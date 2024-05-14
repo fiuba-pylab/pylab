@@ -1,0 +1,12 @@
+<div  class="mainContainer">
+    <h1 class="title">
+      Seleccione un tema...
+    </h1>
+    <div class="containerCards">
+      <div *ngFor="let card of cards; let i=index" class="card">
+        <label for="">
+          {{card}}
+        </label>
+      </div>
+    </div>
+  </div>
