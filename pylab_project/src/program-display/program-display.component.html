@@ -6,7 +6,7 @@
     </div>
     <div class="display-container">
         <div class="display-component">
-            <div *ngFor="let line of lines; let i=index" style="display: flex; flex-direction: row;align-items: center;">
+            <div *ngFor="let line of lines; let i=index" class="display-content">
                 <mat-icon *ngIf="index_pointer == i" style="margin-top: 10px;" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward"></mat-icon>
                 <div class="line">
                     <label style="color:gray;margin-right: 20px;">{{i}}</label>
@@ -15,10 +15,18 @@
             </div>
         </div>
         <div class="display-component">
-
+            <div *ngFor="let desc of code_descriptions; let i=index" class="display-content">
+                <div *ngIf="index_pointer == i" class="line">
+                    <label>{{desc}}</label>
+                </div>
+            </div>
         </div>
         <div class="display-component">
-
+            <div *ngFor="let desc of text_descriptions; let i=index" class="display-content">
+                <div *ngIf="index_pointer == i" class="line">
+                    <label>{{desc}}</label>
+                </div>
+            </div>
         </div>
     </div>
     <div class="title-container" style="margin-top: 30px;">

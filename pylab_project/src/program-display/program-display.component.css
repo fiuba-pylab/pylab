@@ -42,3 +42,9 @@
 .icon{
     cursor: pointer;
 }
+
+.display-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

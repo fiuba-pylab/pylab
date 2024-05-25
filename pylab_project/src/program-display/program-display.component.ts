@@ -26,6 +26,40 @@ export class ProgramDisplayComponent {
     'corto = e1',
     'lmín = le1',
     'suma = largo.copy()'
+  ];
+
+  code_descriptions:string[] = [
+    'def suma(e1, e2):',
+    'le1 = 5',
+    'le2 = 6',
+    'condición le1 mayor o igual le2:',
+    'largo = e1',
+    'lmáx = 5',
+    'corto = e2',
+    'lmín = 6',
+    'else:',
+    'largo = e2',
+    'lmáx = 6',
+    'corto = e1',
+    'lmín = 5',
+    'suma = e2'
+  ]
+
+  text_descriptions:string[] = [
+    'Definición de la función suma',
+    'Asignación de variable le1',
+    'Asignación de variable le2',
+    'Condición entre variables le1, le2:',
+    'Asignación de variable largo',
+    'lmáx = 5',
+    'Asignación de variable corto',
+    'Asignación de variable lmín',
+    'Si no se cuumple la condición',
+    'Asignación de variable largo',
+    'Asignación de variable lmax',
+    'Asignación de variable corto',
+    'Asignación de variable lmín',
+    'Resultado de suma'
   ]
 
   next_index(){
