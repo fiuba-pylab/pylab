@@ -1,0 +1,28 @@
+<div class="general-container">
+    <div class="title-container">
+        <h1>
+            Programa 1
+        </h1>
+    </div>
+    <div class="display-container">
+        <div class="display-component">
+            <div *ngFor="let line of lines; let i=index" style="display: flex; flex-direction: row;align-items: center;">
+                <mat-icon *ngIf="index_pointer == i" style="margin-top: 10px;" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward"></mat-icon>
+                <div class="line">
+                    <label style="color:gray;margin-right: 20px;">{{i}}</label>
+                    <label>{{line}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="display-component">
+
+        </div>
+        <div class="display-component">
+
+        </div>
+    </div>
+    <div class="title-container" style="margin-top: 30px;">
+        <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_back_ios" (click)="previous_index()"></mat-icon>
+        <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward_ios" (click)="next_index()"></mat-icon>
+    </div>
+</div>
