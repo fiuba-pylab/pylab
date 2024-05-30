@@ -1,7 +1,20 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
+    { 
+        path: '', 
+        loadComponent: () => import('./layout/layout.component').then((m) => m.LayoutComponent),
+        children: [
+            { 
+                path: 'home', 
+                loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
+            },
+        ]
+
+    },
+    { 
+        path: '**',
+        redirectTo: 'home'
+    }
 ];
 
