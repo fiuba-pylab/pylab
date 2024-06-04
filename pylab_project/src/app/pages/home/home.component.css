@@ -1,0 +1,43 @@
+.title{
+    margin:15px;
+}
+
+.containerCards{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+
+}
+
+.home-card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+    mat-card-header{
+        margin-bottom: 10px;
+        justify-content: center;
+        text-align: center;
+
+        mat-card-title{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    mat-card-content p{
+        margin: 0px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: small;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    mat-card-title a{
+        text-decoration: none;
+    }
+}

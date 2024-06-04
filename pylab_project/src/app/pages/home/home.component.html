@@ -1,0 +1,17 @@
+<div  class="mainContainer">
+    <h1 class="title">
+      Seleccione un tema...
+    </h1>
+    <div class="containerCards">
+      <div *ngFor="let card of cards; let i=index">
+        <mat-card class="home-card">
+          <mat-card-header>
+            <mat-card-title>{{ card }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-actions align="end">
+            <button mat-button>VER</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>

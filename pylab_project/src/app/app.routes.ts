@@ -1,9 +1,24 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../home/home.component';
-import { ProgramDisplayComponent } from '../program-display/program-display.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
-    { path: 'display', component: ProgramDisplayComponent },
+    { 
+        path: '', 
+        loadComponent: () => import('./layout/layout.component').then((m) => m.LayoutComponent),
+        children: [
+            { 
+                path: 'home', 
+                loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
+            },
+            {
+                path: 'display', 
+                loadComponent: () => import('./pages/program-display/program-display.component').then((m) => m.DisplayComponent)
+            }
+        ]
+
+    },
+    { 
+        path: '**',
+        redirectTo: 'home'
+    }
 ];
 
