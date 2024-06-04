@@ -11,7 +11,7 @@ export const routes: Routes = [
             },
             {
                 path: 'display', 
-                loadComponent: () => import('./pages/program-display/program-display.component').then((m) => m.DisplayComponent)
+                loadComponent: () => import('./pages/program-display/program-display.component').then((m) => m.ProgramDisplayComponent)
             }
         ]
 
