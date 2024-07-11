@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,5 +13,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  constructor(private router: Router) { }
   cards: string[] = ['Introducción', 'Selección simple', 'Selección múltiple', 'Iteraciones','Funciones','Tuplas y listas', 'Conjuntos y diccionarios'];
+
+  goToDisplay(){
+    this.router.navigate(['/display']);
+  }
+
 }

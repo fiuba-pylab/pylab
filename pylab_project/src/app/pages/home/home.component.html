@@ -4,7 +4,7 @@
     </h1>
     <div class="containerCards">
       <div *ngFor="let card of cards; let i=index">
-        <mat-card class="home-card">
+        <mat-card class="home-card" (click)="goToDisplay()">
           <mat-card-header>
             <mat-card-title>{{ card }}</mat-card-title>
           </mat-card-header>
