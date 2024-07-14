@@ -2,7 +2,7 @@
 
 @include mat.core();
 
-$pylab-primary: (
+/* $pylab-primary: (
     50 : #e0eef8,
     100 : #b3d4ee,
     200 : #80b7e3,
@@ -33,9 +33,42 @@ $pylab-primary: (
         A400 : #000000,
         A700 : #000000,
     )
+); */
+
+$pylab-primary: (
+    50 : #e1f1f9,
+    100 : #b3dbf1,
+    200 : #81c4e8,
+    300 : #4eacdf,
+    400 : #289ad8,
+    500 : #0288d1,
+    600 : #0280cc,
+    700 : #0175c6,
+    800 : #016bc0,
+    900 : #0158b5,
+    A100 : #deecff,
+    A200 : #abceff,
+    A400 : #78b1ff,
+    A700 : #5ea2ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
 );
 
-$pylab-accent: (
+/* $pylab-accent: (
     50 : #e5efff,
     100 : #bfd7ff,
     200 : #94bcff,
@@ -65,6 +98,31 @@ $pylab-accent: (
         A200 : #000000,
         A400 : #000000,
         A700 : #000000,
+    )
+); */
+
+$pylab-accent: (
+    50 : #e8e8e8,
+    100 : #c6c6c5,
+    200 : #a0a09f,
+    300 : #797979,
+    400 : #5d5d5c,
+    500 : #40403f,
+    600 : #3a3a39,
+    700 : #323231,
+    800 : #2a2a29,
+    900 : #1c1c1b,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
     )
 );
 
@@ -118,3 +176,41 @@ $pylab_project-theme: mat.define-light-theme((
 
 @include mat.all-component-themes($pylab_project-theme);
 
+:root{
+  --pylab-primary: #0288d1;
+  --pylab-primary-rgb: 2, 136, 209;
+  --pylab-accent: #40403f;
+  
+}
+
+@font-face {
+    font-family: 'lb-regular';
+    src: url('/assets/fonts/LibreBaskerville-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'lb-bold';
+    src: url('/assets/fonts/LibreBaskerville-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'lb-italic';
+    src: url('/assets/fonts/LibreBaskerville-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+  }
+
+* {
+    font-family: 'lb-regular', sans-serif !important;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.material-icons {
+    font-family: 'Material Icons' !important;
+}
