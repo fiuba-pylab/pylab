@@ -1,9 +1,7 @@
 <div class="general-container">
-    <div class="title-container">
         <h1>
             Programa 1
         </h1>
-    </div>
     <div class="display-container">
         <div class="display-component">
             <div *ngFor="let line of lines; let i=index" class="display-content">
@@ -29,7 +27,7 @@
             </div>
         </div> -->
     </div>
-    <div class="title-container" style="margin-top: 30px;">
+    <div class="buttons-container">
         <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_back_ios" (click)="previous_index()"></mat-icon>
         <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward_ios" (click)="next_index()"></mat-icon>
     </div>

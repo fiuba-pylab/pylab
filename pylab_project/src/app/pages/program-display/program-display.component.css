@@ -1,4 +1,4 @@
-.display-container{
+.display-container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -6,13 +6,12 @@
     min-height: 65%;
 }
 
-.title-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+h1 {
+    margin: 15px;
+    color: var(--pylab-accent);
 }
 
-.display-component{
+.display-component {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -21,20 +20,29 @@
     border-color: black;
     min-width: 700px;
     margin: 10px;
+    padding: 10px;
 }
 
-.line{
+.line {
     display: flex;
     flex-direction: row;
     margin: 10px 15px 0px 20px;
 }
 
-.icon{
+.icon {
     cursor: pointer;
 }
 
-.display-content{
+.display-content {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0px;
 }

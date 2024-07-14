@@ -12,8 +12,11 @@ import {MatIconModule} from '@angular/material/icon';
 export class ProgramDisplayComponent {
   index_pointer = 0;
   lines:string[] = [
-    'def suma(e1, e2):',
-    'le1 = len(e1)',
+    'def programa(param):',
+    '',
+    '',
+    ''
+    /* 'le1 = len(e1)',
     'le2 = len(e2)',
     'if le1>=le2:',
     'largo = e1',
@@ -25,12 +28,12 @@ export class ProgramDisplayComponent {
     'lmáx = le2',
     'corto = e1',
     'lmín = le1',
-    'suma = largo.copy()'
+    'suma = largo.copy()' */
   ];
 
   code_descriptions:string[] = [
-    'def suma(e1, e2):',
-    'le1 = 5',
+    'Definición de la función programa',
+    /* 'le1 = 5',
     'le2 = 6',
     'condición le1 mayor o igual le2:',
     'largo = e1',
@@ -42,7 +45,7 @@ export class ProgramDisplayComponent {
     'lmáx = 6',
     'corto = e1',
     'lmín = 5',
-    'suma = e2'
+    'suma = e2' */
   ]
 
   text_descriptions:string[] = [
