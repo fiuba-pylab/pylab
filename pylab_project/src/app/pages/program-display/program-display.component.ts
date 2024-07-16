@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
+import { CodeViewComponent } from '../../components/code-view/code-view.component';
 
 @Component({
   selector: 'app-program-display',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, CodeViewComponent],
   templateUrl: './program-display.component.html',
   styleUrl: './program-display.component.css'
 })
 export class ProgramDisplayComponent {
+  code: string = `function x() {
+    console.log("Hello world!");
+    console.log("Another line");
+    console.log("Yet another line");
+  }`;
+  highlightLine: number | null = 1;
   index_pointer = 0;
   lines:string[] = [
     'def programa(param):',
@@ -73,6 +80,14 @@ export class ProgramDisplayComponent {
   previous_index(){
     if(this.index_pointer > 0){
       this.index_pointer--;
+    }
+  }
+
+  nextLine() {
+    console.log("app "+this.highlightLine);
+    
+    if (this.highlightLine !== null) {
+      this.highlightLine = this.highlightLine < 4 ? this.highlightLine + 1 : 1;
     }
   }
 }

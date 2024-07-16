@@ -4,13 +4,8 @@
         </h1>
     <div class="display-container">
         <div class="display-component">
-            <div *ngFor="let line of lines; let i=index" class="display-content">
-                <mat-icon *ngIf="index_pointer == i" style="margin-top: 10px;" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward"></mat-icon>
-                <div class="line">
-                    <label style="color:gray;margin-right: 20px;">{{i}}</label>
-                    <label>{{line}}</label>
-                </div>
-            </div>
+            <app-code-view [code]="code" [language]="'python'" [highlightLine]="highlightLine"></app-code-view>
+            <button (click)="nextLine()">Next Line</button>
         </div>
         <div class="display-component">
             <div *ngFor="let desc of code_descriptions; let i=index" class="display-content">
@@ -28,7 +23,8 @@
         </div> -->
     </div>
     <div class="buttons-container">
-        <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_back_ios" (click)="previous_index()"></mat-icon>
+        <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_back_ios" (click)="nextLine()"></mat-icon>
         <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward_ios" (click)="next_index()"></mat-icon>
     </div>
 </div>
+
