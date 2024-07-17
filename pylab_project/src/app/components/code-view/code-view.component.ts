@@ -16,7 +16,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   constructor() { }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void {    
     this.initEditor();
   }
 
@@ -51,13 +51,14 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
       console.log("code: "+this.highlightLine);
       
       const newDecorations = this.highlightLine !== null ? [{
-        range: new monaco.Range(this.highlightLine, 1, this.highlightLine, this.editor.getModel()?.getLineMaxColumn(this.highlightLine) ?? 1),
+        range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
           isWholeLine: true,
-          inlineClassName: 'myLineDecoration'
+          inlineClassName: 'selected-line'
         }
       }] : [];
       console.log(newDecorations);
+      this.decorationsCollection.clear()
       this.decorationsCollection.set(newDecorations)
     }
   }

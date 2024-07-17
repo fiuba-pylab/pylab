@@ -19,9 +19,20 @@ export class ProgramDisplayComponent {
   highlightLine: number = 1;
 
   nextLine() {
-    if (this.highlightLine !== null) {
-      this.highlightLine = this.highlightLine < 4 ? this.highlightLine + 1 : 1;
+    if (this.highlightLine !== null ) { // TODO: agregar condicion que sea menor a la cantidad de lineas del codigo q tenemos
+      this.highlightLine = this.highlightLine + 1;
+    }else{
+      this.highlightLine = 1;
     }
-    console.log("app "+this.highlightLine);
+  }
+
+  previousLine(){
+    if(this.highlightLine == 1){
+      return
+    }
+    
+    if(this.highlightLine !== null){
+      this.highlightLine = this.highlightLine - 1;
+    }
   }
 }
