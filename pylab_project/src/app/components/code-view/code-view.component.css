@@ -1,7 +1,8 @@
 #editor-container {
-    height: 500px;
+    height: 100px;
 }
   
-.myLineDecoration {
-    background-color: black
+.view-overlays .myLineDecoration {
+    background-color: yellow !important;
+    font-size: 80px;
 }
