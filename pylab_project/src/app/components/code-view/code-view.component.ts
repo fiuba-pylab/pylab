@@ -10,7 +10,7 @@ import * as monaco from 'monaco-editor';
 export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() code: string = '';
   @Input() language: string = 'python';
-  @Input() highlightLine: number | null = null;
+  @Input() highlightLine: number = 0;
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
 
@@ -30,15 +30,17 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
     });
 
     this.decorationsCollection = this.editor.createDecorationsCollection();
-    console.log("decor init: "+this.decorationsCollection);
     
     this.updateDecorations();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.editor) {
+      if (changes['code']) {
+        this.editor.setValue(this.code);
+      }
+    }
     if (this.editor && changes['highlightLine']) {
-      console.log("entro a change");
-      
       if (this.decorationsCollection) {
         this.updateDecorations();
       }
@@ -46,10 +48,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   private updateDecorations(): void {
-    if (this.editor && this.decorationsCollection) {
-      console.log("entro a update");
-      console.log("code: "+this.highlightLine);
-      
+    if (this.editor && this.decorationsCollection) {      
       const newDecorations = this.highlightLine !== null ? [{
         range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
@@ -57,7 +56,6 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
           inlineClassName: 'selected-line'
         }
       }] : [];
-      console.log(newDecorations);
       this.decorationsCollection.clear()
       this.decorationsCollection.set(newDecorations)
     }
