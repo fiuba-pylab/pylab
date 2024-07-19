@@ -30,6 +30,13 @@
 mat-card-header {
     padding: 5px;
     margin: 0px 15px;
+    min-width: 10rem;
+    max-width: 10rem;
+}
+
+mat-card-content{
+    min-width: 16rem;
+    max-width: 16rem;
 }
 
 .stars {

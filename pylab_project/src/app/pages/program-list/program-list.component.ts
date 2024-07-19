@@ -7,12 +7,15 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { FileService } from '../../services/file.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Program } from '../../classes/program';
+import { lastValueFrom } from 'rxjs';
+import { of } from 'rxjs';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 
 @Component({
   selector: 'app-program-list',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule],
+  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule, SpinnerComponent],
   templateUrl: './program-list.component.html',
   styleUrl: './program-list.component.scss',
   animations: [
@@ -24,54 +27,40 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
         ),
         query(':leave',
           animate('200ms', style({ opacity: 0 })),
-          { optional: true}
+          { optional: true }
         )
       ])
     ])
   ]
 })
-export class ProgramListComponent implements OnInit{
-  // @Input() programs: any[] = [];
-  programs = [
-    { titulo: 'Program 1', dificultad: 2 },
-    { titulo: 'Program 2', dificultad: 3 },
-    { titulo: 'Program 3', dificultad: 5 }
-  ];
+export class ProgramListComponent implements OnInit {
+  programs: Program[] = [];
   private type: string = "";
+  loadingList: boolean = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.type = this.route.snapshot.paramMap.get('type') ?? "";
-   // this.loadFiles()
+    await this.loadFiles();
   }
 
-  loadFiles(): void {
-    this.fileService.getFileNames(this.type)
-      .subscribe(
-        (files: any) => {
-          this.programs = files;
-        },
-        (error) => {
-          console.error('Error loading files:', error);
-          // Handle the error here, for example:
-          // - Display an error message to the user
-          // - Set a loading state to 'failed'
-          // - Retry the request after some delay
-        }
-      );
+  async loadFiles() {
+    this.loadingList = true;
+    await lastValueFrom(of(this.fileService.getList(this.type)))
+    .then((programs: Program[]) => {
+      this.loadingList = false;
+      this.programs = programs;
+    })
+    .catch((error: any) => {
+      console.error('Error al cargar los programas:', error);
+    })
   }
-  
 
   goToDisplay(program: string) {
     const navigationExtras: NavigationExtras = {
-      state: { program: "ej2" }
+      state: { program }
     };
     this.router.navigate(['/display', this.type], navigationExtras);
-  }
-
-  verEjemplo(program: any) {
-    // Lógica para manejar el clic en "Ver Ejemplo"
-    console.log('Ver ejemplo de:', program);
   }
 }
