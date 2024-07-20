@@ -58,9 +58,6 @@ export class ProgramListComponent implements OnInit {
   }
 
   goToDisplay(program: string) {
-    const navigationExtras: NavigationExtras = {
-      state: { program }
-    };
-    this.router.navigate(['/display', this.type], navigationExtras);
+    this.router.navigate(['/display', this.type, program]);
   }
 }

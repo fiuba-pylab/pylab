@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
 import * as monaco from 'monaco-editor';
 
 @Component({
@@ -11,6 +11,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() code: string = '';
   @Input() language: string = 'python';
   @Input() highlightLine: number = 0;
+  @Output() variablesChanged = new EventEmitter<any>();
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
 
@@ -43,9 +44,40 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
     if (this.editor && changes['highlightLine']) {
       if (this.decorationsCollection) {
         this.updateDecorations();
+        this.executeCodeUpToLine(this.highlightLine);
       }
     }
   }
+
+  private executeCodeUpToLine(lineNumber: number): void {
+    const codeUpToLine = this.code.split('\n').slice(0, lineNumber).join('\n');
+    const variables = this.simulateExecution(codeUpToLine);
+    this.variablesChanged.emit(variables);
+  }
+
+  simulateExecution(code: string): any {
+    const lines = code.split('\n');
+    const variables: any = {};
+  
+    lines.forEach(line => {
+      const variableDeclaration = line.match(/(\w+)\s*=\s*(.+)/);
+      if (variableDeclaration) {
+        const varName = variableDeclaration[1];
+        const varValue = variableDeclaration[2];
+        try {
+          const evalContext = { ...variables }; // Copy current variables to evaluation context
+          const evaluatedValue = new Function('context', `with(context) { return ${varValue}; }`)(evalContext);
+          variables[varName] = evaluatedValue;
+        } catch (e) {
+          // Handle any errors in evaluation
+          variables[varName] = varValue; // Fallback to the raw value if evaluation fails
+        }
+      }
+    });
+  
+    return variables;
+  }
+  
 
   private updateDecorations(): void {
     if (this.editor && this.decorationsCollection) {      
