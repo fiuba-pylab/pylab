@@ -1,78 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { CodeViewComponent } from '../../components/code-view/code-view.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FileService } from '../../services/file.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { VariableViewComponent } from '../../components/variable-view/variable-view.component';
 
 @Component({
   selector: 'app-program-display',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent],
   templateUrl: './program-display.component.html',
   styleUrl: './program-display.component.css'
 })
-export class ProgramDisplayComponent {
-  index_pointer = 0;
-  lines:string[] = [
-    'def programa(param):',
-    '',
-    '',
-    ''
-    /* 'le1 = len(e1)',
-    'le2 = len(e2)',
-    'if le1>=le2:',
-    'largo = e1',
-    'lmáx = le1',
-    'corto = e2',
-    'lmín = le2',
-    'else:',
-    'largo = e2',
-    'lmáx = le2',
-    'corto = e1',
-    'lmín = le1',
-    'suma = largo.copy()' */
-  ];
+export class ProgramDisplayComponent implements OnInit {
+  code: string = "";
+  highlightLine: number = 0;
+  private type: string = "";
+  private program: string = "";
+  variables: any = {};
 
-  code_descriptions:string[] = [
-    'Definición de la función programa',
-    /* 'le1 = 5',
-    'le2 = 6',
-    'condición le1 mayor o igual le2:',
-    'largo = e1',
-    'lmáx = 5',
-    'corto = e2',
-    'lmín = 6',
-    'else:',
-    'largo = e2',
-    'lmáx = 6',
-    'corto = e1',
-    'lmín = 5',
-    'suma = e2' */
-  ]
+  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private snackBar: MatSnackBar) { }
 
-  text_descriptions:string[] = [
-    'Definición de la función suma',
-    'Asignación de variable le1',
-    'Asignación de variable le2',
-    'Condición entre variables le1, le2:',
-    'Asignación de variable largo',
-    'lmáx = 5',
-    'Asignación de variable corto',
-    'Asignación de variable lmín',
-    'Si no se cuumple la condición',
-    'Asignación de variable largo',
-    'Asignación de variable lmax',
-    'Asignación de variable corto',
-    'Asignación de variable lmín',
-    'Resultado de suma'
-  ]
+  ngOnInit(): void {
+    this.type = this.route.snapshot.paramMap.get('type') ?? "";
+    this.program = this.route.snapshot.paramMap.get('id') ?? "";
 
-  next_index(){
-    if(this.index_pointer < this.lines.length-1){
-      this.index_pointer++;
+    this.fileService.readFile(this.type, this.program).subscribe(
+      (code: any) => {
+        this.code = code
+      },
+      (error) => {
+        console.error('Error loading code:', error)
+        const snackbarRef = this.snackBar.open('Error loading code', 'Close', { duration: 3000, panelClass: ['red-snackbar'] });
+        snackbarRef.onAction().subscribe(() => {
+          this.router.navigate(['/list', this.type]);  // La ruta a la que quieres navegar
+        });
+      });
+  }
+
+  onVariablesChanged(newVariables: any): void {
+    this.variables = newVariables;
+  }
+
+  openSnackBar(text: string, success = true) {
+    const panelClass: string = success ? 'green-snackbar' : 'red-snackbar';
+    this.snackBar.open(text, undefined, { duration: 3000, panelClass: [panelClass] });
+  }
+
+  nextLine() {
+    if (this.highlightLine !== null && this.highlightLine < this.code.length) {
+      this.highlightLine = this.highlightLine + 1;
+    } else {
+      this.highlightLine = 1;
     }
   }
-  previous_index(){
-    if(this.index_pointer > 0){
-      this.index_pointer--;
+
+  previousLine() {
+    if (this.highlightLine == 1) {
+      return
+    }
+
+    if (this.highlightLine !== null) {
+      this.highlightLine = this.highlightLine - 1;
     }
   }
 }

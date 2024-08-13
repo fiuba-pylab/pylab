@@ -1,7 +1,7 @@
 .display-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: left;
     align-items: center;
     min-height: 65%;
 }
@@ -9,6 +9,9 @@
 h1 {
     margin: 15px;
     color: var(--pylab-accent);
+}
+.myLineDecoration {
+    background-color: yellow !important
 }
 
 .display-component {

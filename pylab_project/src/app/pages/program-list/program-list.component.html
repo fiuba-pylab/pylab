@@ -1,20 +1,21 @@
+@if (!loadingList){
 <div class="program-list-container">
     <div class="cards-container">
-        <ng-container *ngFor="let program of programs; let i=index"  >
-            <mat-card class="program-card" (click)="goToDisplay()" >
+        <ng-container *ngFor="let program of programs; let i=index">
+            <mat-card class="program-card">
                 <mat-card-header>
-                    <mat-card-title>{{ program.titulo }}</mat-card-title>
+                    <mat-card-title>{{ program.title }}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <div class="stars">
                         <span style="margin-right: 5px;">Dificultad:</span>
                         <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-                            <mat-icon *ngIf="star <= program.dificultad">star</mat-icon>
-                            <mat-icon *ngIf="star > program.dificultad">star_border</mat-icon>
+                            <mat-icon *ngIf="star <= program.difficulty">star</mat-icon>
+                            <mat-icon *ngIf="star > program.difficulty">star_border</mat-icon>
                         </ng-container>
                     </div>
                 </mat-card-content>
-                <button mat-flat-button color="primary" (click)="verEjemplo(program)">Ver Ejemplo</button>
+                <button mat-flat-button color="primary" (click)="goToDisplay(program.id)">Ver Ejemplo</button>
             </mat-card>
         </ng-container>
     </div>
@@ -22,3 +23,6 @@
     <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
     </mat-paginator>
 </div>
+} @else {
+<app-spinner [loading]="loadingList"></app-spinner>
+}

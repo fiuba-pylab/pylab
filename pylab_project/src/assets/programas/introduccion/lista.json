@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "title": "Variables",
+        "description": "Variables y tipos de datos en Python",
+        "difficulty": 2
+    },
+    {
+        "id": 2,
+        "title": "Operadores",
+        "description": "Operadores aritméticos, lógicos y de comparación en Python",
+        "difficulty": 3
+    }
+]

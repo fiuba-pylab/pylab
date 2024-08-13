@@ -10,11 +10,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
             },
             {
-                path: 'list', 
+                path: 'list/:type', 
                 loadComponent: () => import('./pages/program-list/program-list.component').then((m) => m.ProgramListComponent)
             },
             {
-                path: 'display', 
+                path: 'display/:type/:id', 
                 loadComponent: () => import('./pages/program-display/program-display.component').then((m) => m.ProgramDisplayComponent)
             }
         ]

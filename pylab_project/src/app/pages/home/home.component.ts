@@ -16,17 +16,17 @@ import { SvgComponent } from '../../components/svg/svg.component';
 export class HomeComponent {
   constructor(private router: Router) { }
   cards: any[] = [
-    {titulo: 'Introducción', imagen: 'introduccion.png'},
-    {titulo: 'Selección simple', imagen: 'seleccion_simple1.png'},
-    {titulo: 'Selección múltiple', imagen: 'seleccion_multiple1.png'},
-    {titulo: 'Iteraciones', imagen: 'iteraciones.png'},
-    {titulo: 'Funciones', imagen: 'funciones.png'},
-    {titulo: 'Tuplas y listas', imagen: 'tuplas_listas.png'},
-    {titulo: 'Conjuntos y diccionarios', imagen: 'conjuntos_diccionarios.png'},
+    {titulo: 'Introducción', imagen: 'introduccion.png', tipo: 'introduccion'},
+    {titulo: 'Selección simple', imagen: 'seleccion_simple1.png', tipo: 'seleccion-simple'},
+    {titulo: 'Selección múltiple', imagen: 'seleccion_multiple1.png', tipo: 'seleccion-multiple'},
+    {titulo: 'Iteraciones', imagen: 'iteraciones.png', tipo: 'iteraciones'},
+    {titulo: 'Funciones', imagen: 'funciones.png', tipo: 'funciones'},
+    {titulo: 'Tuplas y listas', imagen: 'tuplas_listas.png', tipo: 'tuplas-listas'},
+    {titulo: 'Conjuntos y diccionarios', imagen: 'conjuntos_diccionarios.png', tipo: 'conjuntos-diccionarios'},
   ]
 
-  listPrograms(){
-    this.router.navigate(['/list']);
+  listPrograms(tipo: string){
+    this.router.navigate(['/list', tipo]);
   }
 
 }

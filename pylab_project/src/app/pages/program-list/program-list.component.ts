@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { FileService } from '../../services/file.service';
+import { Program } from '../../classes/program';
+import { lastValueFrom } from 'rxjs';
+import { of } from 'rxjs';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 
 @Component({
   selector: 'app-program-list',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule],
+  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule, SpinnerComponent],
   templateUrl: './program-list.component.html',
   styleUrl: './program-list.component.scss',
   animations: [
@@ -23,29 +27,37 @@ import { Router } from '@angular/router';
         ),
         query(':leave',
           animate('200ms', style({ opacity: 0 })),
-          { optional: true}
+          { optional: true }
         )
       ])
     ])
   ]
 })
-export class ProgramListComponent {
-  //@Input() programs: any[] = [];
-  programs = [
-    { titulo: 'Program 1', dificultad: 2 },
-    { titulo: 'Program 2', dificultad: 3 },
-    { titulo: 'Program 3', dificultad: 5 }
-  ];
+export class ProgramListComponent implements OnInit {
+  programs: Program[] = [];
+  private type: string = "";
+  loadingList: boolean = true;
 
+  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService) { }
 
-  constructor(private router: Router) {}
-
-  goToDisplay(){
-    this.router.navigate(['/display']);
+  async ngOnInit() {
+    this.type = this.route.snapshot.paramMap.get('type') ?? "";
+    await this.loadFiles();
   }
 
-  verEjemplo(program: any) {
-    // Lógica para manejar el clic en "Ver Ejemplo"
-    console.log('Ver ejemplo de:', program);
+  async loadFiles() {
+    this.loadingList = true;
+    await lastValueFrom(of(this.fileService.getList(this.type)))
+    .then((programs: Program[]) => {
+      this.loadingList = false;
+      this.programs = programs;
+    })
+    .catch((error: any) => {
+      console.error('Error al cargar los programas:', error);
+    })
+  }
+
+  goToDisplay(program: string) {
+    this.router.navigate(['/display', this.type, program]);
   }
 }
