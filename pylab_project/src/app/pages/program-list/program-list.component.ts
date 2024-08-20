@@ -66,13 +66,14 @@ export class ProgramListComponent implements OnInit {
   openDialog(program:Program) {
     const dialogRef = this.dialog.open(ProgramIntroModalComponent,{
       data: {
-        introduction: program.introduction,
+        program,
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-      this.goToDisplay(program.id)
+      if(result)
+        this.goToDisplay(program.id)
     });
   }
 }
