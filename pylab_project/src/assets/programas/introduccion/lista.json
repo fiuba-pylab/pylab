@@ -10,6 +10,7 @@
         "id": 2,
         "title": "Operadores",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
-        "difficulty": 3
+        "difficulty": 3,
+        "introduction": "Este es un programa tipo que describe el funcionamiento de los operadores"
     }
 ]
