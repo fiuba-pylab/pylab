@@ -71,7 +71,7 @@ export class ProgramListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${JSON.stringify(result)}`);
       if(result)
         this.goToDisplay(program.id)
     });
