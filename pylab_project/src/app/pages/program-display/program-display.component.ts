@@ -16,7 +16,6 @@ import { VariableViewComponent } from '../../components/variable-view/variable-v
 })
 export class ProgramDisplayComponent implements OnInit {
   code: string = "";
-  highlightLine: number = 0;
   private type: string = "";
   private program: string = "";
   variables: any = {};
@@ -49,21 +48,4 @@ export class ProgramDisplayComponent implements OnInit {
     this.snackBar.open(text, undefined, { duration: 3000, panelClass: [panelClass] });
   }
 
-  nextLine() {
-    if (this.highlightLine !== null && this.highlightLine < this.code.length) {
-      this.highlightLine = this.highlightLine + 1;
-    } else {
-      this.highlightLine = 1;
-    }
-  }
-
-  previousLine() {
-    if (this.highlightLine == 1) {
-      return
-    }
-
-    if (this.highlightLine !== null) {
-      this.highlightLine = this.highlightLine - 1;
-    }
-  }
 }

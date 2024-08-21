@@ -1,17 +1,20 @@
 import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import * as monaco from 'monaco-editor';
+import { StructureFactory } from '../../classes/structure-factory';
 
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.css'],
+  imports: [MatIcon],
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() code: string = '';
   @Input() language: string = 'python';
-  @Input() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
+  private highlightLine: number = 0;
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
 
@@ -41,12 +44,12 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
         this.editor.setValue(this.code);
       }
     }
-    if (this.editor && changes['highlightLine']) {
+    /* if (this.editor && changes['highlightLine']) {
       if (this.decorationsCollection) {
         this.updateDecorations();
         this.executeCodeUpToLine(this.highlightLine);
       }
-    }
+    } */
   }
 
   private executeCodeUpToLine(lineNumber: number): void {
@@ -90,6 +93,43 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
       }] : [];
       this.decorationsCollection.clear()
       this.decorationsCollection.set(newDecorations)
+    }
+  }
+
+  nextLine() {
+    if (this.highlightLine !== null && this.highlightLine < this.code.length) {
+      this.highlightLine = this.highlightLine + 1;
+    } else {
+      this.highlightLine = 1;
+    }
+    if (this.decorationsCollection) {
+      this.updateDecorations();
+      this.executeCodeUpToLine(this.highlightLine);
+      this.analizeLine();
+    }
+  }
+
+  previousLine() {
+    if (this.highlightLine == 1) {
+      return
+    }
+
+    if (this.highlightLine !== null) {
+      this.highlightLine = this.highlightLine - 1;
+    }
+    if (this.decorationsCollection) {
+      this.updateDecorations();
+      this.executeCodeUpToLine(this.highlightLine);
+      this.analizeLine();
+    }
+  }
+
+  analizeLine(){
+    const model = this.editor?.getModel(); 
+    if (model) {
+      const lineContent = model.getLineContent(this.highlightLine);
+      const structure = StructureFactory.analize(lineContent);
+      
     }
   }
 
