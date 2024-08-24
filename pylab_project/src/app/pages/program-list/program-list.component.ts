@@ -59,8 +59,8 @@ export class ProgramListComponent implements OnInit {
     })
   }
 
-  goToDisplay(program: string) {
-    this.router.navigate(['/display', this.type, program]);
+  goToDisplay(program: Program) {
+    this.router.navigate(['/display', this.type, program.id],{state:{inputs:program.inputs}});
   }
 
   openDialog(program:Program) {
@@ -73,7 +73,7 @@ export class ProgramListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${JSON.stringify(result)}`);
       if(result)
-        this.goToDisplay(program.id)
+        this.goToDisplay(program)
     });
   }
 }

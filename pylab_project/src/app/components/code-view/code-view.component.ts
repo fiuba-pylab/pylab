@@ -1,21 +1,34 @@
-import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
 
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.css'],
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
   standalone: true
 })
-export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @Input() code: string = '';
   @Input() language: string = 'python';
+  @Input() inputs:any = []
   @Input() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
+  forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
 
   constructor() { }
+
+  ngOnInit():void{
+    for(let select of this.inputs){
+      this.forms.push({name:select.name, form:new FormControl('')})
+    }
+  }
 
   ngAfterViewInit(): void {    
     this.initEditor();

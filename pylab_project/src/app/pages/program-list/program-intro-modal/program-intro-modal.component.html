@@ -1,16 +1,6 @@
 <h2 mat-dialog-title>{{data.program.title}}</h2>
 <mat-dialog-content class="mat-typography">
     {{data.program.introduction}}
-    <div style="padding: 15px;margin-top: 15px; border-style: solid; border-width: 1px; border-radius: 10px; border-color: black; height: auto;text-align: center; flex-wrap: nowrap;">
-        <div >
-            <mat-form-field *ngFor="let select of selects; let i = index" style="margin: 15px;">
-                <mat-label>{{select.name}}</mat-label>
-                <mat-select [formControl]="forms[i].form">
-                    <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-    </div>
     <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 15px;">
         <button mat-flat-button (click)="onClose()" >Cancelar</button>
         <button mat-flat-button color="primary" (click)="onContinue()" >Continuar</button>

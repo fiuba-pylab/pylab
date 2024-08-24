@@ -22,26 +22,19 @@ interface ResponseForm {
 export class ProgramIntroModalComponent implements OnInit{
   forms:ResponseForm[] = []
   data = inject(MAT_DIALOG_DATA);
-  selects = this.data.program.inputs
 
   constructor(public dialog: MatDialogRef<ProgramIntroModalComponent>){
 
   }
   ngOnInit(): void {
-    for(let select of this.selects){
-      this.forms.push({name:select.name, form:new FormControl('')})
-    }
+
   }
   onContinue(){
-    let values = []
-    for(let form of this.forms){
-      values.push({name:form.name, value:form.form.value})
-    }
-    this.dialog.close(values)
+    this.dialog.close(true)
   }
 
   onClose(){
-    this.dialog.close(null)
+    this.dialog.close(false)
   }
 
 }
