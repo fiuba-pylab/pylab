@@ -23,7 +23,7 @@ export class HeaderComponent {
 
   openHelpDialog(){
     const dialogRef = this.dialog.open(HelpDialogComponent, {
-      width: '500px',
+      width: '700px',
       height: '500px'
     });
   }
