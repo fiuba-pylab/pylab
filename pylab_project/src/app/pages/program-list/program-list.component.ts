@@ -11,6 +11,8 @@ import { Program } from '../../classes/program';
 import { lastValueFrom } from 'rxjs';
 import { of } from 'rxjs';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProgramIntroModalComponent } from './program-intro-modal/program-intro-modal.component';
 
 @Component({
   selector: 'app-program-list',
@@ -38,7 +40,7 @@ export class ProgramListComponent implements OnInit {
   private type: string = "";
   loadingList: boolean = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private dialog:MatDialog) { }
 
   async ngOnInit() {
     this.type = this.route.snapshot.paramMap.get('type') ?? "";
@@ -57,7 +59,21 @@ export class ProgramListComponent implements OnInit {
     })
   }
 
-  goToDisplay(program: string) {
-    this.router.navigate(['/display', this.type, program]);
+  goToDisplay(program: Program) {
+    this.router.navigate(['/display', this.type, program.id],{state:{inputs:program.inputs}});
+  }
+
+  openDialog(program:Program) {
+    const dialogRef = this.dialog.open(ProgramIntroModalComponent,{
+      data: {
+        program,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${JSON.stringify(result)}`);
+      if(result)
+        this.goToDisplay(program)
+    });
   }
 }

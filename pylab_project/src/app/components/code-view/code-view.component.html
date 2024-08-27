@@ -1,1 +1,9 @@
+<div style="display:flex; flex-direction: row; flex-wrap: nowrap;">
+    <mat-form-field *ngFor="let select of inputs; let i = index" style="margin: 15px;">
+        <mat-label>{{select.name}}</mat-label>
+        <mat-select [formControl]="forms[i].form">
+            <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
 <div id="editor-container"></div>
