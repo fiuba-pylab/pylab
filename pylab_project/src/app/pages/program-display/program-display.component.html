@@ -7,7 +7,12 @@
             <app-code-view [inputs]="inputs" [code]="code" [language]="'python'" [highlightLine]="highlightLine"  (variablesChanged)="onVariablesChanged($event)"></app-code-view>
         </div>
         <div class="display-component">
-            <app-variable-view [variables]="variables"></app-variable-view>
+            <div style="height: 75%" class="inner-container">
+                <app-variable-view [variables]="variables"></app-variable-view>
+            </div>
+            <div style="height: 25%" class="inner-container">
+                
+            </div>
         </div>
         <!-- <div class="display-component">
             <div *ngFor="let desc of code_descriptions; let i=index" class="display-content">
