@@ -1,16 +1,19 @@
-export class Structure{
-    variables: any[] = []; // todo: diccionario
-    constructor(){}
+import { CodeService } from "../services/code.service";
+
+export abstract class Structure{
+    variables = {}; // todo: diccionario
+    lines: any[] = [];
+    level: number; 
+    condition: string;
+    codeService: CodeService;
+    constructor(level: number, condition: string, codeService: CodeService, variables: {}){
+        this.level = level;
+        this.condition = condition;
+        this.codeService = codeService;
+        this.variables = variables;
+    }
+    abstract setScope(code: any): void;
+
+    abstract execute(): void;
 }
 
-export class IfStructure extends Structure{
-    super(){}
-}
-
-export class WhileStructure extends Structure{
-    super(){}
-}
-
-export class NullStructure extends Structure{
-    super(){}
-}
