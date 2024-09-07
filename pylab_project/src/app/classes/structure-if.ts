@@ -25,14 +25,37 @@ export class IfStructure extends Structure{
     }
 
     execute(): void{
-        var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
-        console.log("condition_replaced", condition_replaced)
-       if(eval(condition_replaced)){
-            this.entersElse = false
-            this.codeService.nextLine();
-        }else{
-            this.codeService.nextLine(this.lines.length+1);
-        }     
+        //Lógica para ejecutar if
+        if(this.category == 'if'){
+            var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
+            if(eval(condition_replaced)){
+                this.entersElse = false
+                this.codeService.nextLine();
+            }else{
+                this.codeService.nextLine(this.lines.length+1);
+            }   
+        //Lógica para ejecutar else
+        } else if(this.category == 'else'){
+            if(this.entersElse){
+                this.codeService.nextLine();
+            }else{
+                this.codeService.nextLine(this.lines.length+1);
+            }
+        //Lógica para ejecutar elif
+        } else if(this.category == 'elif'){
+            if(this.entersElse){
+                var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
+                if(eval(condition_replaced)){
+                    this.entersElse = false
+                    this.codeService.nextLine();
+                }else{
+                    this.codeService.nextLine(this.lines.length+1);
+                }   
+            }else{
+                this.codeService.nextLine(this.lines.length+1);
+            } 
+        }
+          
     }
 }
 

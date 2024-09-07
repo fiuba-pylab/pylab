@@ -1,5 +1,4 @@
 import { CodeService } from "../services/code.service";
-import { ElseStructure } from "./structure-else";
 import { IfStructure } from "./structure-if";
 import { NullStructure } from "./structure-null";
 import { WhileStructure } from "./structure-while";
@@ -23,15 +22,15 @@ export class StructureFactory {
        
         switch(first_word){
             case IF: 
+                return new IfStructure(level + extra_level, detectCondition(formatted_code), codeService, variables, 'if');
             case ELIF: 
-            return new IfStructure(level + extra_level, detectCondition(formatted_code), codeService, variables);
+                return new IfStructure(level + extra_level, detectCondition(formatted_code), codeService, variables, 'elif');
             case ELSE:
-                
-                return new ElseStructure(level + extra_level, detectCondition(formatted_code), codeService, variables);
+                return new IfStructure(level + extra_level, detectCondition(formatted_code), codeService, variables, 'else');
             case WHILE:
-                return new WhileStructure(level, detectCondition(code), codeService, variables);
+                return new WhileStructure(level, detectCondition(code), codeService, variables, 'while');
             default:
-                return new NullStructure(level, "", codeService, variables);
+                return new NullStructure(level, "", codeService, variables, '');
         }        
     }
 

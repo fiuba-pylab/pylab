@@ -6,11 +6,13 @@ export abstract class Structure{
     level: number; 
     condition: string;
     codeService: CodeService;
-    constructor(level: number, condition: string, codeService: CodeService, variables: {}){
+    category:string;
+    constructor(level: number, condition: string, codeService: CodeService, variables: {}, category:string){
         this.level = level;
         this.condition = condition;
         this.codeService = codeService;
         this.variables = variables;
+        this.category = category
     }
     abstract setScope(code: any): void;
 

@@ -5,7 +5,6 @@ import { StructureFactory } from '../../classes/structure-factory';
 import { CodeService } from '../../services/code.service';
 import { NullStructure } from '../../classes/structure-null';
 import { IfStructure } from '../../classes/structure-if';
-import { ElseStructure } from '../../classes/structure-else';
 
 const INITIAL_LEVEL = 1;
 
@@ -133,13 +132,27 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
       const lineContent = model.getLineContent(this.highlightLine);
       const structure = StructureFactory.analize(lineContent, INITIAL_LEVEL, this.codeService, this.variables);
       if (structure instanceof IfStructure) {
-        this.ifArray.push(structure)
-      }
-      if(structure instanceof ElseStructure){
         let foundIf = null
+        
+        //si encuentra una estructura if anterior del mismo nivel-> significa que no tiene un else asociado y lo reemplaza en el array 
+        if(foundIf= this.ifArray.find((ifStruct) =>(
+          ifStruct.level == structure.level && ifStruct.category == 'if' && structure.category == 'if'))){
+
+          this.ifArray.splice(this.ifArray.indexOf(foundIf), 1)
+          this.ifArray.push(structure)
+        // si es una estructura if o elif -> puede tener un else asociado y lo agrega en el array
+        } else if(structure.category == 'if' || structure.category == 'elif') {
+          this.ifArray.push(structure)
+        }
+        
+      }
+      if(structure instanceof IfStructure && (structure.category == 'else' || ( structure.category == 'elif'))){
+        let foundIf = null
+        //si hay ifs del mismo nivel en el array significa que pueden estar asociados a este else.
+        //si se ejecutó el if asociado -> saltea este else
         if(foundIf = this.ifArray.find((ifStruct) =>(ifStruct.level == structure.level && ifStruct.entersElse == false))){
           //se tiene que sacar del array esa estructura
-          this.ifArray.splice(this.ifArray.indexOf(foundIf))
+          this.ifArray.splice(this.ifArray.indexOf(foundIf), 1)
           structure.entersElse = false;
           structure.execute();
         }
