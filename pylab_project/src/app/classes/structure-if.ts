@@ -3,6 +3,8 @@ import { Structure } from "./structure";
 export class IfStructure extends Structure{
     super(){}
 
+    entersElse = true
+
     setScope(code: any){     
         const lines: any[] = code.split('\n');
         
@@ -10,7 +12,6 @@ export class IfStructure extends Structure{
             const line = lines[i];
             
             const tabs = line.match(/^\s*/)[0].length / 4;
-            
             if(tabs >= this.level){
                 this.lines.push(line);
             }
@@ -25,11 +26,9 @@ export class IfStructure extends Structure{
 
     execute(): void{
         var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
-        console.log("condicion en execute: "+condition_replaced);
-        
+        console.log("condition_replaced", condition_replaced)
        if(eval(condition_replaced)){
-            console.log("condicion verdadera");
-        
+            this.entersElse = false
             this.codeService.nextLine();
         }else{
             this.codeService.nextLine(this.lines.length+1);

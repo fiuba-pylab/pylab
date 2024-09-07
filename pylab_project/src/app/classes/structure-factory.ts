@@ -1,21 +1,33 @@
 import { CodeService } from "../services/code.service";
+import { ElseStructure } from "./structure-else";
 import { IfStructure } from "./structure-if";
 import { NullStructure } from "./structure-null";
 import { WhileStructure } from "./structure-while";
 const IF = 'if';
 const WHILE = 'while';
-const ELSE = 'else';
+const ELSE = 'else:';
 const ELIF = 'elif';
 
 export class StructureFactory {
-    
     static analize(code: string, level: number, codeService: CodeService, variables: {}){
-        const first_word = code.split(' ')[0]
+        let index_word = 0;
+        let extra_level = 0;
+
+        while(code.charAt(index_word) == ' '){
+            extra_level ++;
+            index_word = index_word + 4;
+        }
+        
+        const formatted_code = code.slice(index_word);
+        const first_word = formatted_code.split(' ')[0];
+       
         switch(first_word){
             case IF: 
             case ELIF: 
+            return new IfStructure(level + extra_level, detectCondition(formatted_code), codeService, variables);
             case ELSE:
-                return new IfStructure(level, detectCondition(code), codeService, variables);
+                
+                return new ElseStructure(level + extra_level, detectCondition(formatted_code), codeService, variables);
             case WHILE:
                 return new WhileStructure(level, detectCondition(code), codeService, variables);
             default:

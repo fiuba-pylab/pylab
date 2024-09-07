@@ -4,6 +4,8 @@ import * as monaco from 'monaco-editor';
 import { StructureFactory } from '../../classes/structure-factory';
 import { CodeService } from '../../services/code.service';
 import { NullStructure } from '../../classes/structure-null';
+import { IfStructure } from '../../classes/structure-if';
+import { ElseStructure } from '../../classes/structure-else';
 
 const INITIAL_LEVEL = 1;
 
@@ -25,6 +27,7 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
   private variables: any = {};
+  private ifArray:IfStructure[] = []
 
   constructor(private codeService: CodeService) { }
 
@@ -124,11 +127,23 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
     }
   }
 
-  analizeLine(){    
+  analizeLine(){
     const model = this.editor?.getModel(); 
     if (model) {
       const lineContent = model.getLineContent(this.highlightLine);
       const structure = StructureFactory.analize(lineContent, INITIAL_LEVEL, this.codeService, this.variables);
+      if (structure instanceof IfStructure) {
+        this.ifArray.push(structure)
+      }
+      if(structure instanceof ElseStructure){
+        let foundIf = null
+        if(foundIf = this.ifArray.find((ifStruct) =>(ifStruct.level == structure.level && ifStruct.entersElse == false))){
+          //se tiene que sacar del array esa estructura
+          this.ifArray.splice(this.ifArray.indexOf(foundIf))
+          structure.entersElse = false;
+          structure.execute();
+        }
+      }
       if (structure instanceof NullStructure) {
         const variableDeclaration = lineContent.match(/(\w+)\s*=\s*(.+)/);
         if (variableDeclaration) {
