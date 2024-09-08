@@ -1,8 +1,26 @@
 [
     {
         "id": 1,
-        "title": "Test",
-        "description": "Description test",
+        "title": "Diferencia horaria",
+        "description": "TODO",
+        "difficulty": 2
+    },
+    {
+        "id": 2,
+        "title": "Clasificación temperatura",
+        "description": "TODO",
+        "difficulty": 2
+    },
+    {
+        "id": 3,
+        "title": "Cálculo de una compra con descuento",
+        "description": "TODO",
+        "difficulty": 2
+    },
+    {
+        "id": 4,
+        "title": "TEST",
+        "description": "TODO",
         "difficulty": 2
     }
 ]
