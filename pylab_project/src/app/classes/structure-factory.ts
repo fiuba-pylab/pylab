@@ -10,11 +10,10 @@ const ELIF = 'elif';
 export class StructureFactory {
     
     static analize(code: string, level: number, codeService: CodeService, variables: {}){
-        const first_word = code.split(' ')[0]
+        const first_word = code.trim().split(' ')[0]; 
         switch(first_word){
             case IF: 
             case ELIF: 
-            case ELSE:
                 return new IfStructure(level, detectCondition(code), codeService, variables);
             case WHILE:
                 return new WhileStructure(level, detectCondition(code), codeService, variables);
@@ -26,8 +25,10 @@ export class StructureFactory {
 }
 
 function detectCondition(code: string){
-    const words = code.split(' ')
+    const words = code.trim().split(' ')
+    console.log("WORDS: "+words);
+    
     const condition = words.slice(1, words.length).join(' ').slice(0, -1);
-    console.log("condicion detectCondition: "+condition)
+    console.log("CONDITION: "+condition);
     return condition
 }

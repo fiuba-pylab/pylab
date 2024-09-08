@@ -7,8 +7,11 @@ export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 })
 export class CodeService {
     private length: number = 0;
-    behaviorSubject = new BehaviorSubject(1);
-    highlightLine = this.behaviorSubject.asObservable();
+    private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
+    private behaviorSubjectVariables = new BehaviorSubject<{ [key: string]: any }>({});
+  
+    highlightLine = this.behaviorSubjectHighlight.asObservable();
+    variables = this.behaviorSubjectVariables.asObservable();
 
     constructor() {}
 
@@ -16,16 +19,21 @@ export class CodeService {
         this.length = length;
     }
 
-    nextLine(amount: number = 1): void {
-        var highlightLine = this.behaviorSubject.value;
-        if (highlightLine !== null && highlightLine < this.length) {
-            highlightLine = highlightLine + amount;
-        }
-        this.behaviorSubject.next(highlightLine);
+    nextLine(amount: number): void {
+      var highlightLine = this.behaviorSubjectHighlight.value;
+      
+      if (highlightLine !== null && highlightLine < this.length) {
+        highlightLine = highlightLine + amount;
+      }
+      this.behaviorSubjectHighlight.next(highlightLine);
+    }
+
+    updateVariables(variables: any): void {
+      this.behaviorSubjectVariables.next(variables);
     }
 
     previousLine() {
-        var highlightLine = this.behaviorSubject.value;
+        var highlightLine = this.behaviorSubjectHighlight.value;
         if (highlightLine == 1) {
           return
         }
@@ -34,6 +42,6 @@ export class CodeService {
           highlightLine = highlightLine - 1;
         }
 
-        this.behaviorSubject.next(highlightLine);
+        this.behaviorSubjectHighlight.next(highlightLine);
     }
 }

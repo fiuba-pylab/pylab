@@ -1,11 +1,13 @@
 import { CodeService } from "../services/code.service";
+import { Coordinator } from "./coordinator";
 
 export abstract class Structure{
-    variables = {}; // todo: diccionario
+    variables: { [key: string]: any } = {};
     lines: any[] = [];
     level: number; 
     condition: string;
     codeService: CodeService;
+    coordinator: any;
     constructor(level: number, condition: string, codeService: CodeService, variables: {}){
         this.level = level;
         this.condition = condition;
@@ -14,6 +16,8 @@ export abstract class Structure{
     }
     abstract setScope(code: any): void;
 
-    abstract execute(): void;
+    execute(amountToAdd?: number): {amount: number, finish: boolean}{
+        return { amount: 1, finish: true };
+    }
 }
 
