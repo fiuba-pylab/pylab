@@ -1,5 +1,9 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, inject, AfterViewInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
 import { StructureFactory } from '../../classes/structure-factory';
 import { CodeService } from '../../services/code.service';
@@ -12,7 +16,7 @@ const INITIAL_LEVEL = 1;
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.css'],
-  imports: [MatIcon],
+  imports: [MatIcon, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
   providers: [
     CodeService,
   ],
@@ -23,6 +27,9 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
   @Input() language: string = 'python';
   @Output() variablesChanged = new EventEmitter<any>();
   private highlightLine: number = 0;
+  @Input() inputs:any = []
+  forms:any = []
+
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
   private variables: any = {};
@@ -30,7 +37,15 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   constructor(private codeService: CodeService) { }
 
-  ngAfterViewInit(): void {
+
+  ngOnInit():void{
+    if(this.inputs)
+    for(let select of this.inputs){
+      this.forms.push({name:select.name, form:new FormControl('')})
+    }
+  }
+
+  ngAfterViewInit(): void {    
     this.initEditor();
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);

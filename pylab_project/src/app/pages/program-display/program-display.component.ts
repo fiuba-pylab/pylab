@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileService } from '../../services/file.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VariableViewComponent } from '../../components/variable-view/variable-view.component';
+import { Program } from '../../classes/program';
 
 @Component({
   selector: 'app-program-display',
@@ -17,16 +18,19 @@ import { VariableViewComponent } from '../../components/variable-view/variable-v
 export class ProgramDisplayComponent implements OnInit {
   code: string = "";
   private type: string = "";
-  private program: string = "";
+  private id: string = "";
+  inputs: string = "";
   variables: any = {};
 
   constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.type = this.route.snapshot.paramMap.get('type') ?? "";
-    this.program = this.route.snapshot.paramMap.get('id') ?? "";
+    this.id = this.route.snapshot.paramMap.get('id') ?? "";
+    this.inputs = history.state.inputs
+    /* this.program = JSON.parse(program_string?program_string:""); */
 
-    this.fileService.readFile(this.type, this.program).subscribe(
+    this.fileService.readFile(this.type, this.id).subscribe(
       (code: any) => {
         this.code = code
       },

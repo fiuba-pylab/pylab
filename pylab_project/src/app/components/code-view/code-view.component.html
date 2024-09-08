@@ -1,8 +1,18 @@
-<div id="editor-container">
-    
+
+<div style="display:flex; flex-direction: row; flex-wrap: nowrap;">
+    <mat-form-field *ngFor="let select of inputs; let i = index" style="margin: 15px;">
+        <mat-label>{{select.name}}</mat-label>
+        <mat-select [formControl]="forms[i].form">
+            <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 </div>
+<div style="width:90%; height: 350px; align-self: center;" id="editor-container"></div>
+
 
 <div class="buttons-container">
     <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_back_ios" (click)="previousLine()"></mat-icon>
     <mat-icon class="icon" aria-hidden="false" aria-label="right-arrow" fontIcon="arrow_forward_ios" (click)="nextLine()"></mat-icon>
 </div>
+
+

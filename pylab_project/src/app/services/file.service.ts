@@ -27,7 +27,7 @@ export class FileService {
     let programs: Program[] = [];
     this.http.get(folderUrl, { responseType: 'json' }).subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
-        let program = new Program(data[i].id, data[i].title, data[i].description, data[i].difficulty);
+        let program = new Program(data[i].id, data[i].title, data[i].description, data[i].difficulty, data[i].introduction, data[i].inputs);
         programs.push(program);
       }
     });

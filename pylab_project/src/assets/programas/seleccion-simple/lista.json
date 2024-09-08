@@ -3,6 +3,37 @@
         "id": 1,
         "title": "Test",
         "description": "Description test",
-        "difficulty": 2
+        "difficulty": 2,
+        "introduction":"Este es un programa test para selección simple"
+    },
+    {
+        "id": 2,
+        "title": "Test elif",
+        "description": "Description test",
+        "difficulty": 2,
+        "introduction":"Este es un programa test para selección simple con elif",
+        "inputs":[
+            {
+                "name":"input0",
+                "options":[
+                    "option0-input0",
+                    "option1-input0"
+                ]
+            },
+            {
+                "name":"input1",
+                "options":[
+                    "option0-input1",
+                    "option1-input1"
+                ]
+            },
+            {
+                "name":"input2",
+                "options":[
+                    "option0-input2",
+                    "option1-input2"
+                ]
+            }
+        ]
     }
 ]
