@@ -11,4 +11,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border: 1px solid gray !important;
     position: absolute !important;
     top: 10px !important;
-  }
+}
+
+button:hover { 
+    cursor: pointer;
+}
