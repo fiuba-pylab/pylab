@@ -16,8 +16,11 @@ export class NullStructure extends Structure{
         this.lines.push(lines[0]); 
     }
 
-    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+    override execute(): {amount: number, finish: boolean}{
         this.lines[0] = this.lines[0].trim();
+        if(this.lines[0].split(' ')[0] == 'elif'){
+            return {amount: 0, finish: true};
+        }
         const variableDeclaration = this.lines[0].match(/(\w+)\s*=\s*(.+)/);
         const operations = this.lines[0].match(/(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/)
         if (variableDeclaration) {
@@ -31,6 +34,7 @@ export class NullStructure extends Structure{
             const value = operations[3];
             this.variables[variable] = applyOperation(Number(this.variables[variable]), operator, Number(value));
         }
+       
         this.codeService.updateVariables(this.variables);
         return {amount: 1, finish: true};
     }

@@ -11,6 +11,7 @@ elif angulo1 < 90 and angulo2 < 90 and angulo3 < 90:
     print("Acutángulo1")
 elif angulo1 == 90 or angulo2 == 90 or angulo3 == 90:
     print("Rectángulo")
+    print("Rectángulo1")
 else:
     print("Obtusángulo")
 print("hola")

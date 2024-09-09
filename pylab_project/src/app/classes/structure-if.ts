@@ -7,6 +7,7 @@ export class IfStructure extends Structure{
     checkElse: boolean = false;
     elifs: { condition: string, lines: any[] }[] = [];
     checkElifs: boolean = false;
+    enterElif: boolean = false;
     elifIndex: number = 0;
     hasElse: boolean = false;
     constructor(level: number, condition: string, codeService: any, variables: { [key: string]: any }) {
@@ -46,20 +47,30 @@ export class IfStructure extends Structure{
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
-        if(this.checkElifs){
+        if(this.checkElifs && !this.enterElif){
             const elif = this.elifs[this.elifIndex];
             condition_replaced = replaceOperators(replaceVariables(elif.condition, this.variables));
+            if(eval(condition_replaced)){
+                this.enterElif = true;
+                this.currentLine += 1;
+                return {amount: 1, finish: false};
+            }else{
+                this.currentLine += this.elifs[this.elifIndex].lines.length + 1;
+                this.elifIndex += 1;
+                if(this.elifIndex < this.elifs.length){
+                    return {amount: this.elifs[this.elifIndex-1].lines.length + 1, finish: false};
+                }
+            }
         }
     
         this.currentLine += amountToAdd ?? 0;
 
         if(this.checkElifs){
             var totalLength = 0;
-            for (let index = 0; index < this.elifIndex-1; index++) {
-                totalLength += this.elifs[index].lines.length + 1;
+            for (let index = 0; index < this.elifIndex; index++) {
+                totalLength += (this.elifs[index].lines.length + 1);
             }
-            if(this.currentLine > totalLength + this.lines.length && this.currentLine < this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length + 1){
-                this.currentLine += 1;
+            if(this.currentLine > totalLength + this.lines.length && this.currentLine <= this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length + 1){
                 return {amount: 0, finish: false};
             }else if(this.currentLine > this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length){ // termine de ejecutar elif que estaba
                 // sumar las length de todas las líneas de los elifs desde el indice
@@ -69,17 +80,6 @@ export class IfStructure extends Structure{
                 }
                 length += this.elseLines.length + 1;
                 return {amount: length + 1, finish: true};
-            }
-
-            if(eval(condition_replaced)){
-                this.checkElifs = false;
-                this.currentLine += 1;
-                return {amount: 1, finish: false};
-            }else{
-                this.elifIndex += 1;
-                if(this.elifIndex < this.elifs.length){
-                    return {amount: 0, finish: false};
-                }
             }
         }
 
