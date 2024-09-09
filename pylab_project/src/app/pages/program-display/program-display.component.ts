@@ -6,27 +6,32 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileService } from '../../services/file.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VariableViewComponent } from '../../components/variable-view/variable-view.component';
+import { CommentsViewComponent } from '../../components/comments-view/comments-view.component';
 
 @Component({
   selector: 'app-program-display',
   standalone: true,
-  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent],
+  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent, CommentsViewComponent],
   templateUrl: './program-display.component.html',
-  styleUrl: './program-display.component.css'
+  styleUrl: './program-display.component.scss'
 })
 export class ProgramDisplayComponent implements OnInit {
   code: string = "";
+  title: string = "";
   private type: string = "";
-  private program: string = "";
+  private id: string = "";
+  inputs: string = "";
   variables: any = {};
 
   constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.type = this.route.snapshot.paramMap.get('type') ?? "";
-    this.program = this.route.snapshot.paramMap.get('id') ?? "";
+    this.id = this.route.snapshot.paramMap.get('id') ?? "";
+    this.inputs = history.state.inputs;
+    this.title = history.state.title;
 
-    this.fileService.readFile(this.type, this.program).subscribe(
+    this.fileService.readFile(this.type, this.id).subscribe(
       (code: any) => {
         this.code = code
       },

@@ -1,28 +1,28 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, inject, AfterViewInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
-import { StructureFactory } from '../../classes/structure-factory';
 import { CodeService } from '../../services/code.service';
-import { NullStructure } from '../../classes/structure-null';
 import { Coordinator } from '../../classes/coordinator';
-
-const INITIAL_LEVEL = 1;
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
-  styleUrls: ['./code-view.component.css'],
-  imports: [MatIcon],
-  providers: [
-    CodeService,
-  ],
+  styleUrls: ['./code-view.component.scss'],
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon],
   standalone: true
 })
-export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
+export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
+
   @Input() code: string = '';
   @Input() language: string = 'python';
+  @Input() inputs:any = []
+  @Input() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
-  private highlightLine: number = 0;
+  forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
   private coordinator: any = null;
@@ -30,11 +30,28 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
   constructor(private codeService: CodeService) { }
 
   ngAfterViewInit(): void { 
+    this.initEditor();
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
     });
-    this.initEditor();
+  }
+
+  ngOnInit():void{
+    for(let select of this.inputs){
+      this.forms.push({name:select.name, form:new FormControl('')})
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.editor) {
+      if (changes['code']) {
+        this.codeService.setLength(this.code.length);
+        this.coordinator = new Coordinator(this.codeService, this.code);
+        this.editor.setValue(this.code);
+        this.updateDecorations();
+      }
+    }
   }
 
   private initEditor(): void {
@@ -49,17 +66,6 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
     });
     
     this.decorationsCollection = this.editor.createDecorationsCollection();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.editor) {
-      if (changes['code']) {
-        this.codeService.setLength(this.code.length);
-        this.coordinator = new Coordinator(this.codeService, this.code);
-        this.editor.setValue(this.code);
-        this.updateDecorations();
-      }
-    }
   }
 
   private updateDecorations(): void {
