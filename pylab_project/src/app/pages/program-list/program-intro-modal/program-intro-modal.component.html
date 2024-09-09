@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{data.program.title}}</h2>
+<mat-dialog-content class="mat-typography">
+    {{data.program.introduction}}
+    <div style="display: flex; flex-direction: row; justify-content: space-between; margin-top: 15px;">
+        <button mat-flat-button (click)="onClose()" >Cancelar</button>
+        <button mat-flat-button color="primary" (click)="onContinue()" >Continuar</button>
+    </div>
+    
+</mat-dialog-content>
