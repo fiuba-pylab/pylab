@@ -1,19 +1,16 @@
-monto = 19
-plazo = 12
-if monto <= 0 or plazo <= 0:
-    print("Monto o plazo inválido")
-if monto <= 10:
-    if plazo <= 12:
-        interes = 0.05  # 5% de interés
-    else:
-        interes = 0.07  # 7% de interés
+angulo1 = 90
+angulo2 = 30
+angulo3 = 60
+if angulo1 <= 0 or angulo2 <= 0 or angulo3 <= 0:
+    print("Ángulos no válidos")
+elif angulo1 + angulo2 + angulo3 != 180:
+    print("No es un triángulo")
+    print("No es un triángulo2")
+elif angulo1 < 90 and angulo2 < 90 and angulo3 < 90:
+    print("Acutángulo")
+    print("Acutángulo1")
+elif angulo1 == 90 or angulo2 == 90 or angulo3 == 90:
+    print("Rectángulo")
 else:
-    if plazo <= 36:
-        interes = 0.09  # 9% de interés
-    else:
-        interes = 0.11  # 11% de interés
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
+    print("Obtusángulo")
+print("hola")

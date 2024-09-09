@@ -13,7 +13,6 @@ export class StructureFactory {
         const first_word = code.trim().split(' ')[0]; 
         switch(first_word){
             case IF: 
-            case ELIF: 
                 return new IfStructure(level, detectCondition(code), codeService, variables);
             case WHILE:
                 return new WhileStructure(level, detectCondition(code), codeService, variables);
