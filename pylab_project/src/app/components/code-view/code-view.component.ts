@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
-  styleUrls: ['./code-view.component.css'],
+  styleUrls: ['./code-view.component.scss'],
   imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon],
   standalone: true
 })

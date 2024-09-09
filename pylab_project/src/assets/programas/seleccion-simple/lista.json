@@ -3,7 +3,23 @@
         "id": 1,
         "title": "Diferencia horaria",
         "description": "TODO",
-        "difficulty": 2
+        "difficulty": 2,
+        "inputs":[
+            {
+                "name":"input0",
+                "options":[
+                    "option0-input0",
+                    "option1-input0"
+                ]
+            },
+            {
+                "name":"input1",
+                "options":[
+                    "option0-input1",
+                    "option1-input1"
+                ]
+            }
+        ]
     },
     {
         "id": 2,

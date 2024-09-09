@@ -1,19 +1,13 @@
 <div class="general-container">
-        <h1>
-            Programa 1
-        </h1>
-    <div class="display-container">
-        <div class="display-component">
-            <app-code-view [inputs]="inputs" [code]="code" [language]="'python'" [highlightLine]="highlightLine"  (variablesChanged)="onVariablesChanged($event)"></app-code-view>
-        </div>
-        <div class="display-component">
-            <div style="height: 75%" class="inner-container">
-                <app-variable-view [variables]="variables"></app-variable-view>
-            </div>
-            <div style="height: 25%" class="inner-container">
-                
-            </div>
-        </div>
+    <h1>
+        {{title}}
+    </h1>
+    <div class="grid-container">
+            <app-code-view class="left" [inputs]="inputs" [code]="code" [language]="'python'"
+            (variablesChanged)="onVariablesChanged($event)"></app-code-view>
+        <section class="right">
+            <app-variable-view class="right-top" [variables]="variables"></app-variable-view>
+            <app-comments-view class="right-bottom"></app-comments-view>
+        </section>
     </div>
 </div>
-

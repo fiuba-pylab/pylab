@@ -60,7 +60,7 @@ export class ProgramListComponent implements OnInit {
   }
 
   goToDisplay(program: Program) {
-    this.router.navigate(['/display', this.type, program.id],{state:{inputs:program.inputs}});
+    this.router.navigate(['/display', this.type, program.id],{state:{inputs:program.inputs, title:program.title}});
   }
 
   openDialog(program:Program) {
