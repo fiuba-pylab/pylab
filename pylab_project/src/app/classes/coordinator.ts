@@ -24,7 +24,11 @@ export class Coordinator {
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
 
-    execute() {
+    execute(isPrevious: boolean = false) {
+        if(isPrevious){
+            this.codeService.previousLine();
+            return
+        }
         let prevAmount = 0;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){

@@ -89,16 +89,8 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   }
 
   previousLine() {
-    if (this.highlightLine == 1) {
-      return
-    }
-
-    if (this.highlightLine !== null) {
-      this.highlightLine = this.highlightLine - 1;
-    }
     if (this.decorationsCollection) {
-      this.updateDecorations();
-      this.coordinator.execute();
+      this.coordinator.execute(true);
     }
   }
 
