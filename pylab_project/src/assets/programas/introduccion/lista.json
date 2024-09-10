@@ -1,10 +1,10 @@
 [
     {
-        "id":0,
-        "title":"Ejemplo completo",
+        "id":1,
+        "title":"Raíces - ecuación cuadrática",
         "description": "Ejemplo de programa con todos los atributos",
-        "difficulty": 2,
-        "introduction": "Este es un ejemplo del programa tipo, que cuenta con todo los atributos",
+        "difficulty": 1,
+        "introduction": "Objetivo: Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.\nCasos: Sea b^2-4ac el determinante para el cálculo de soluciones:\n 1. Determinante positivo: dos soluciones reales\n 2. Determinante nulo: raiz real doble\n 3. Determinante negativo: dos soluciones complejas (conjugadas)",
         "inputs":[
             {
                 "name":"input0",
@@ -30,15 +30,15 @@
         ]
     },
     {
-        "id": 1,
-        "title": "Variables",
+        "id": 2,
+        "title": "Teorema Pitágoras",
         "description": "Variables y tipos de datos en Python",
         "difficulty": 2,
-        "introduction": "Este es un programa tipo que describe el funcionamiento de las variables"
+        "introduction": "Objetivo: solicitar al usuario valores de dos catetos de un triángulo, e informar el valor de la hipotenusa"
     },
     {
-        "id": 2,
-        "title": "Operadores",
+        "id": 3,
+        "title": "Ecuación matemática",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 3,
         "introduction": "Este es un programa tipo que describe el funcionamiento de los operadores"

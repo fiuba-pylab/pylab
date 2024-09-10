@@ -1,0 +1,60 @@
+[
+    {
+        "id":1,
+        "title":"Clasificación triángulo",
+        "description": "Recibe tres valores de distintos angulos para cierto triangulo.",
+        "difficulty": 1,
+        "introduction": "Objetivo: ",
+        "inputs":[
+            {
+                "name":"input0",
+                "options":[
+                    "option0-input0",
+                    "option1-input0"
+                ]
+            },
+            {
+                "name":"input1",
+                "options":[
+                    "option0-input1",
+                    "option1-input1"
+                ]
+            },
+            {
+                "name":"input2",
+                "options":[
+                    "option0-input2",
+                    "option1-input2"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Plazos e intereses",
+        "description": "Se recibe un monto a pagar y el plazo, en base a eso calcula los intereses.",
+        "difficulty": 2,
+        "introduction": "Objetivo: "
+    },
+    {
+        "id": 3,
+        "title": "Ventas en local",
+        "description": "Se recibe un método de pago, precio por unidad de un producto y cantidad a comprar. En base al método de pago y cantidad, se realiza un descuento o un recargo.",
+        "difficulty": 3,
+        "introduction": "Objetivo: "
+    },
+    {
+        "id": 4,
+        "title": "Números imaginarios",
+        "description": "",
+        "difficulty": 4,
+        "introduction": "Objetivo: "
+    },
+    {
+        "id": 5,
+        "title": "Números romanos",
+        "description": "Se recibe número entre 1 y 3999",
+        "difficulty": 5,
+        "introduction": "Objetivo: "
+    }
+]

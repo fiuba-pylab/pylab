@@ -1,8 +1,31 @@
 [
     {
         "id": 1,
-        "title": "Test While",
-        "description": "Variables y tipos de datos en Python",
-        "difficulty": 2
+        "title": "Decimal a binario",
+        "description": "Recibe un número decimal y lo convierte a binario.",
+        "difficulty": 1,
+        "introduction": "Objetivo: "
+    },
+    {
+        "id": 2,
+        "title": "Números romanos a decimal",
+        "description": "Recibe un número romano y lo convierte a decimal.",
+        "difficulty": 2,
+        "introduction": "Objetivo: Se recibe un string representando el número romano válido, con 1, 5, 10, 50, 100, 500, 1000 reemplazando I, V, X, L, C, D, M respectivamente"
+    },
+    {
+        "id": 3,
+        "title": "Fibonacci",
+        "description": "Recibe un número entero y devuelve el número de la serie de Fibonacci correspondiente.",
+        "difficulty": 3,
+        "introduction": "Objetivo: "
+
+    },
+    {
+        "id": 4, 
+        "title": "Números malabaristas",
+        "description": "Dado un número entero positivo e imprime en una línea de la pantalla la sucesión malabarista que lo tiene como origen:\n - si un número es par, el siguiente es la parte entera de su raíz cuadrada\n - si es impar, la parte entera de la raíz cuadrada de su cubo",
+        "difficulty": 4,
+        "introduction": "Objetivo: "
     }
 ]

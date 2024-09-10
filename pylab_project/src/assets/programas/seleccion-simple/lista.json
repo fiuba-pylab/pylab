@@ -1,9 +1,10 @@
 [
     {
-        "id": 1,
-        "title": "Diferencia horaria",
-        "description": "TODO",
-        "difficulty": 2,
+        "id":1,
+        "title":"Diferencia horaria",
+        "description": "Se recibe dos strings con números de tipo 053059 representando un horario",
+        "difficulty": 1,
+        "introduction": "Objetivo: ",
         "inputs":[
             {
                 "name":"input0",
@@ -24,19 +25,15 @@
     {
         "id": 2,
         "title": "Clasificación temperatura",
-        "description": "TODO",
-        "difficulty": 2
+        "description": "Recibe la temperatura del agua en Fahrenheit, la convierte a Celsius y devuelve el estado.",
+        "difficulty": 2,
+        "introduction": "Objetivo: "
     },
     {
         "id": 3,
         "title": "Cálculo de una compra con descuento",
-        "description": "TODO",
-        "difficulty": 2
-    },
-    {
-        "id": 4,
-        "title": "TEST",
-        "description": "TODO",
-        "difficulty": 2
+        "description": "Recibe el monto y a partir de ese valor, calcula el descuento a aplicar, devolviendo finalmente el monto con el descuento aplicado.",
+        "difficulty": 3,
+        "introduction": "Objetivo: "
     }
 ]

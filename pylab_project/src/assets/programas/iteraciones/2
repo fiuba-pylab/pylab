@@ -1,0 +1,20 @@
+nro_romano = input('Ingrese un número romano: ')
+nro_decimal = 0
+se_resto = False
+i = len(nro_romano)
+while i >= 0:
+    digito_romano = 0
+    if(i > 0):
+        if(digito_romano >= nro_romano[i - 1]):
+            if(se_resto == False): 
+                nro_decimal = nro_decimal + digito_romano + nro_romano[i - 1]
+            else: 
+                se_resto = False
+        else: 
+            nro_decimal = nro_decimal + digito_romano - nro_romano[i - 1]
+            se_resto = True
+    else:
+        if(se_resto == False):
+            nro_decimal  = nro_decimal + digito_romano
+    i -= 1
+print(nro_decimal)

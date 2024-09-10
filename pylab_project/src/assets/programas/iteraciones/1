@@ -1,7 +1,8 @@
-x = 10
-while x < 20:
-    print(x)
-    x += 1
-    if x == 11:
-        print(x)
-print(x)
+n = int(input("Ingrese un número entero: "))
+if n == 0:
+    print("0")
+    binario = ""
+while n > 0:
+    binario = str(n % 2) + binario
+    n //= 2
+print(binario)
