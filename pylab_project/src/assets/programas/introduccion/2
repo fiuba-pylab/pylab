@@ -1,5 +1,7 @@
-let x = 0;
-let y = 5;
-let z = 0;
-
-z = x + y;
+cateto1_cuadrado = cateto1 ** 2
+cateto2_cuadrado = cateto2 ** 2
+    
+suma_cuadrados = cateto1_cuadrado + cateto2_cuadrado
+hipotenusa = math.sqrt(suma_cuadrados)
+    
+print(f'\n El valor de la hipotenusa es {hipotenusa}')

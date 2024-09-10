@@ -1,2 +1,14 @@
-def ejemplo:
-    si no anda me mato
+cadena_a = input('Ingrese el coeficiente a: ')
+cadena_b = input('Ingrese el coeficiente b: ')
+cadena_c = input('Ingrese el coeficiente c: ')
+
+a = float(cadena_a)
+b = float(cadena_b)
+c = float(cadena_c)
+
+determinante = b**2 - 4.0*a*c
+
+raiz_1 = (-b + determinante**0.5) / (2.0*a)
+raiz_2 = (-b - determinante**0.5) / (2.0*a)
+
+print(f'\n Una solución es {raiz_1} otra es {raiz_2}')
