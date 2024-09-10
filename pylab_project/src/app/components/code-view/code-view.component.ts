@@ -1,18 +1,22 @@
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
+import { CodeService } from '../../services/code.service';
+import { Coordinator } from '../../classes/coordinator';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
-  styleUrls: ['./code-view.component.css'],
-  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
+  styleUrls: ['./code-view.component.scss'],
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon],
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
+
   @Input() code: string = '';
   @Input() language: string = 'python';
   @Input() inputs:any = []
@@ -21,8 +25,17 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
+  private coordinator: any = null;
 
-  constructor() { }
+  constructor(private codeService: CodeService) { }
+
+  ngAfterViewInit(): void { 
+    this.initEditor();
+    this.codeService.highlightLine.subscribe(async (value)=> {
+      this.highlightLine = Number(value);
+      this.updateDecorations();
+    });
+  }
 
   ngOnInit():void{
     for(let select of this.inputs){
@@ -30,8 +43,15 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
     }
   }
 
-  ngAfterViewInit(): void {    
-    this.initEditor();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.editor) {
+      if (changes['code']) {
+        this.codeService.setLength(this.code.length);
+        this.coordinator = new Coordinator(this.codeService, this.code);
+        this.editor.setValue(this.code);
+        this.updateDecorations();
+      }
+    }
   }
 
   private initEditor(): void {
@@ -40,60 +60,16 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
       theme: 'vs-dark',
       language: this.language,
       readOnly: true,
+      tabSize: 4,
+      insertSpaces: false,
       minimap: { enabled: false }
     });
-
-    this.decorationsCollection = this.editor.createDecorationsCollection();
     
-    this.updateDecorations();
+    this.decorationsCollection = this.editor.createDecorationsCollection();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.editor) {
-      if (changes['code']) {
-        this.editor.setValue(this.code);
-      }
-    }
-    if (this.editor && changes['highlightLine']) {
-      if (this.decorationsCollection) {
-        this.updateDecorations();
-        this.executeCodeUpToLine(this.highlightLine);
-      }
-    }
-  }
-
-  private executeCodeUpToLine(lineNumber: number): void {
-    const codeUpToLine = this.code.split('\n').slice(0, lineNumber).join('\n');
-    const variables = this.simulateExecution(codeUpToLine);
-    this.variablesChanged.emit(variables);
-  }
-
-  simulateExecution(code: string): any {
-    const lines = code.split('\n');
-    const variables: any = {};
-  
-    lines.forEach(line => {
-      const variableDeclaration = line.match(/(\w+)\s*=\s*(.+)/);
-      if (variableDeclaration) {
-        const varName = variableDeclaration[1];
-        const varValue = variableDeclaration[2];
-        try {
-          const evalContext = { ...variables }; // Copy current variables to evaluation context
-          const evaluatedValue = new Function('context', `with(context) { return ${varValue}; }`)(evalContext);
-          variables[varName] = evaluatedValue;
-        } catch (e) {
-          // Handle any errors in evaluation
-          variables[varName] = varValue; // Fallback to the raw value if evaluation fails
-        }
-      }
-    });
-  
-    return variables;
-  }
-  
 
   private updateDecorations(): void {
-    if (this.editor && this.decorationsCollection) {      
+    if (this.editor && this.decorationsCollection) {          
       const newDecorations = this.highlightLine !== null ? [{
         range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
@@ -101,8 +77,20 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
           inlineClassName: 'selected-line'
         }
       }] : [];
-      this.decorationsCollection.clear()
+      this.decorationsCollection.clear()      
       this.decorationsCollection.set(newDecorations)
+    }    
+  }
+
+  nextLine() {
+    if (this.decorationsCollection) {
+      this.coordinator.execute();
+    }    
+  }
+
+  previousLine() {
+    if (this.decorationsCollection) {
+      this.coordinator.execute(true);
     }
   }
 

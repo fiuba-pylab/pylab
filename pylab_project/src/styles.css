@@ -5,3 +5,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .selected-line{
     background-color: yellow;
 }
+
+.dropDown-seasons-panel {
+    border-radius: 10px !important;
+    border: 1px solid gray !important;
+    position: absolute !important;
+    top: 10px !important;
+}
+
+button:hover { 
+    cursor: pointer;
+}

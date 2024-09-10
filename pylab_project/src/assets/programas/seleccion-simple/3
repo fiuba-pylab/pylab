@@ -1,4 +1,4 @@
-monto_compra = int(input("ingrese el monto de la compra))
+monto_compra = int(input("ingrese el monto de la compra"))
 if monto_compra < 50: 
     descuento = 0; 
 else: 

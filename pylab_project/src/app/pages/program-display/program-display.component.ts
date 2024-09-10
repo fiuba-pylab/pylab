@@ -6,30 +6,35 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileService } from '../../services/file.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VariableViewComponent } from '../../components/variable-view/variable-view.component';
+import { CommentsViewComponent } from '../../components/comments-view/comments-view.component';
+import { ProgramIntroModalComponent } from './program-intro-modal/program-intro-modal.component';
 import { Program } from '../../classes/program';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-program-display',
   standalone: true,
-  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent],
+  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent, CommentsViewComponent],
   templateUrl: './program-display.component.html',
-  styleUrl: './program-display.component.css'
+  styleUrl: './program-display.component.scss'
 })
 export class ProgramDisplayComponent implements OnInit {
   code: string = "";
-  highlightLine: number = 0;
+  title: string = "";
   private type: string = "";
   private id: string = "";
   inputs: string = "";
   variables: any = {};
+  program: any = null;
 
-  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private snackBar: MatSnackBar) { }
+  constructor(private router: Router, private route: ActivatedRoute, private fileService: FileService, private snackBar: MatSnackBar,  private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.type = this.route.snapshot.paramMap.get('type') ?? "";
     this.id = this.route.snapshot.paramMap.get('id') ?? "";
-    this.inputs = history.state.inputs
-    /* this.program = JSON.parse(program_string?program_string:""); */
+    this.inputs = history.state.program.inputs;
+    this.title = history.state.program.title;
+    this.program = history.state.program;
 
     this.fileService.readFile(this.type, this.id).subscribe(
       (code: any) => {
@@ -41,7 +46,17 @@ export class ProgramDisplayComponent implements OnInit {
         snackbarRef.onAction().subscribe(() => {
           this.router.navigate(['/list', this.type]);  // La ruta a la que quieres navegar
         });
-      });
+      }
+    );
+    this.openDialog(this.program);
+  }
+
+  openDialog(program:Program) {
+    const dialogRef = this.dialog.open(ProgramIntroModalComponent,{
+      data: {
+        program,
+      },
+    });
   }
 
   onVariablesChanged(newVariables: any): void {
@@ -53,21 +68,4 @@ export class ProgramDisplayComponent implements OnInit {
     this.snackBar.open(text, undefined, { duration: 3000, panelClass: [panelClass] });
   }
 
-  nextLine() {
-    if (this.highlightLine !== null && this.highlightLine < this.code.length) {
-      this.highlightLine = this.highlightLine + 1;
-    } else {
-      this.highlightLine = 1;
-    }
-  }
-
-  previousLine() {
-    if (this.highlightLine == 1) {
-      return
-    }
-
-    if (this.highlightLine !== null) {
-      this.highlightLine = this.highlightLine - 1;
-    }
-  }
 }
