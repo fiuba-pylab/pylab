@@ -16,6 +16,6 @@ export abstract class Structure{
     }
     abstract setScope(code: any): void;
 
-    abstract execute(): void;
+    abstract execute(isPrevious:boolean): void;
 }
 

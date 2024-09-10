@@ -24,22 +24,22 @@ export class IfStructure extends Structure{
         console.log("ESTRUCTURA IF: \n"+this.lines);
     }
 
-    execute(): void{
+    execute(isPrevious:boolean): void{
         //Lógica para ejecutar if
         if(this.category == 'if'){
             var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
             if(eval(condition_replaced)){
                 this.entersElse = false
-                this.codeService.nextLine();
+                isPrevious?this.codeService.previousLine() :this.codeService.nextLine();
             }else{
-                this.codeService.nextLine(this.lines.length+1);
+                isPrevious?this.codeService.previousLine() :this.codeService.nextLine(this.lines.length+1);
             }   
         //Lógica para ejecutar else
         } else if(this.category == 'else'){
             if(this.entersElse){
-                this.codeService.nextLine();
+                isPrevious?this.codeService.previousLine() :this.codeService.nextLine();
             }else{
-                this.codeService.nextLine(this.lines.length+1);
+                isPrevious?this.codeService.previousLine() :this.codeService.nextLine(this.lines.length+1);
             }
         //Lógica para ejecutar elif
         } else if(this.category == 'elif'){
@@ -47,12 +47,12 @@ export class IfStructure extends Structure{
                 var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
                 if(eval(condition_replaced)){
                     this.entersElse = false
-                    this.codeService.nextLine();
+                    isPrevious?this.codeService.previousLine() :this.codeService.nextLine();
                 }else{
-                    this.codeService.nextLine(this.lines.length+1);
+                    isPrevious?this.codeService.previousLine() :this.codeService.nextLine(this.lines.length+1);
                 }   
             }else{
-                this.codeService.nextLine(this.lines.length+1);
+                isPrevious?this.codeService.previousLine() :this.codeService.nextLine(this.lines.length+1);
             } 
         }
           

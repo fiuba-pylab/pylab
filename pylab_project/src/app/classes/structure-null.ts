@@ -7,7 +7,7 @@ export class NullStructure extends Structure{
         console.log("ESTRUCTURA NULL: \n"+code);
     }
 
-    execute(): void{
-        this.codeService.nextLine();
+    execute(isPrevious:boolean): void{
+        isPrevious?this.codeService.previousLine():this.codeService.nextLine();
     }
 }

@@ -10,6 +10,10 @@ export class CodeService {
     behaviorSubject = new BehaviorSubject(1);
     highlightLine = this.behaviorSubject.asObservable();
 
+    private codepath:number[] = []
+    private codePathIndex:number = -1
+    private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
+
     constructor() {}
 
     setLength(length: number): void {
@@ -17,11 +21,25 @@ export class CodeService {
     }
 
     nextLine(amount: number = 1): void {
-        var highlightLine = this.behaviorSubject.value;
-        if (highlightLine !== null && highlightLine < this.length) {
+      
+        
+      var highlightLine = this.behaviorSubject.value;
+      if (highlightLine !== null && highlightLine < this.length) {
+          this.codePathIndex ++;
+          if(this.codePathIndex > this.maxNext){
+            this.maxNext ++;
+          }
+          if(this.maxNext >= this.codepath.length){
+            this.codepath.push(amount)
             highlightLine = highlightLine + amount;
-        }
-        this.behaviorSubject.next(highlightLine);
+          } else {
+            highlightLine = highlightLine + this.codepath[this.codePathIndex];
+            
+          }
+          
+          this.behaviorSubject.next(highlightLine);
+      }
+     
     }
 
     previousLine() {
@@ -31,9 +49,13 @@ export class CodeService {
         }
     
         if (highlightLine !== null) {
-          highlightLine = highlightLine - 1;
+          highlightLine = highlightLine - this.codepath[this.codePathIndex];
+          if(this.codePathIndex >= 0){
+            this.codePathIndex --;
+          }
+          
         }
-
+        
         this.behaviorSubject.next(highlightLine);
     }
 }

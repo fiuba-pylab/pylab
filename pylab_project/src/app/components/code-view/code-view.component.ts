@@ -70,7 +70,7 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.editor) {
       if (changes['code']) {
-        this.codeService.setLength(this.code.length);
+        this.codeService.setLength(this.code.split('\n').length);
         this.editor.setValue(this.code);
       }
     }
@@ -131,17 +131,17 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
       return
     }
 
-    if (this.highlightLine !== null) {
+    /* if (this.highlightLine !== null) {
       this.highlightLine = this.highlightLine - 1;
-    }
+    } */
     if (this.decorationsCollection) {
-      this.updateDecorations();
-      this.executeCodeUpToLine(this.highlightLine);
-      this.analizeLine();
+      /* this.updateDecorations();
+      this.executeCodeUpToLine(this.highlightLine); */
+      this.analizeLine(true);
     }
   }
 
-  analizeLine(){
+  analizeLine(isPrevious:boolean = false){
     const model = this.editor?.getModel(); 
     if (model) {
       const lineContent = model.getLineContent(this.highlightLine);
@@ -169,7 +169,6 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
           //se tiene que sacar del array esa estructura
           this.ifArray.splice(this.ifArray.indexOf(foundIf), 1)
           structure.entersElse = false;
-          structure.execute();
         }
       }
       if (structure instanceof NullStructure) {
@@ -182,7 +181,7 @@ export class CodeViewComponent implements OnChanges, OnDestroy, AfterViewInit {
       }
       const linesInRange = model.getValueInRange(new monaco.Range(this.highlightLine, 1, this.code.length, 1));
       structure.setScope(linesInRange)
-      structure.execute();
+      structure.execute(isPrevious);
     }
   }
 
