@@ -31,7 +31,7 @@ export class CodeService {
       if (this.codePathIndex > this.maxNext) {
         this.maxNext++;
       }
-
+      
       if (this.maxNext >= this.codePath.length) {
         this.codePath.push(amount);
         highlightLine = highlightLine + amount;
@@ -60,5 +60,6 @@ export class CodeService {
       }
     }
     this.behaviorSubjectHighlight.next(highlightLine);
+    return this.codePath[this.codePathIndex]
   }
 }

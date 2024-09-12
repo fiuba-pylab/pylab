@@ -18,7 +18,6 @@ export class Coordinator {
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-        console.log("VARIABLES: "+JSON.stringify(this.variables));
         const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variables);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
@@ -26,8 +25,15 @@ export class Coordinator {
 
     execute(isPrevious: boolean = false) {
         if(isPrevious){
-            this.codeService.previousLine();
-            return
+            const prevAmount = this.codeService.previousLine();
+            if(prevAmount){
+                this.currentLine -= prevAmount;
+                const currentLine = this.code[this.currentLine].trim()
+                if(this.variables[currentLine.split(' ')[0]]){
+                    this.variables[currentLine.split(' ')[0]].pop()
+                }
+                return
+            }
         }
         let prevAmount = 0;
         this.analize();
@@ -39,7 +45,8 @@ export class Coordinator {
             }
             prevAmount += result.amount;
             this.currentLine += result.amount;
-            this.codeService.nextLine(result.amount);
+            if(result.amount > 0)
+                this.codeService.nextLine(result.amount);
         }
     }
 }

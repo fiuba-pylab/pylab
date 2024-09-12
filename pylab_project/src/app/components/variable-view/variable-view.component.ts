@@ -1,6 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { CodeService } from '../../services/code.service';
-import { jsPlumb } from 'jsplumb';
 
 @Component({
   selector: 'app-variable-view',

@@ -26,13 +26,16 @@ export class NullStructure extends Structure{
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
            const varValue = variableDeclaration[2];
-           this.variables[varName] = varValue;
+           if(!this.variables[varName]){
+            this.variables[varName] = []
+           }
+           this.variables[varName].push(varValue);
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            this.variables[variable] = applyOperation(Number(this.variables[variable]), operator, Number(value));
+            this.variables[variable].push(applyOperation(Number(this.variables[variable][this.variables[variable].length -1]), operator, Number(value)));
         }
        
         this.codeService.updateVariables(this.variables);
