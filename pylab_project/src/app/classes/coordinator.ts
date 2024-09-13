@@ -24,6 +24,7 @@ export class Coordinator {
     }
 
     execute(isPrevious: boolean = false) {
+        console.log("variabless", this.variables)
         if(isPrevious){
             const prevAmount = this.codeService.previousLine();
             if(prevAmount){
@@ -32,8 +33,9 @@ export class Coordinator {
                 if(this.variables[currentLine.split(' ')[0]]){
                     this.variables[currentLine.split(' ')[0]].pop()
                 }
-                return
+                
             }
+            return
         }
         let prevAmount = 0;
         this.analize();
