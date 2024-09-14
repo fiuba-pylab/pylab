@@ -7,24 +7,27 @@
         "introduction": "Objetivo: Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.\nCasos: Sea b^2-4ac el determinante para el cálculo de soluciones:\n 1. Determinante positivo: dos soluciones reales\n 2. Determinante nulo: raiz real doble\n 3. Determinante negativo: dos soluciones complejas (conjugadas)",
         "inputs":[
             {
-                "name":"input0",
+                "name":"a",
+                "type":"int",
                 "options":[
-                    "option0-input0",
-                    "option1-input0"
+                    "2",
+                    "4"
                 ]
             },
             {
-                "name":"input1",
+                "name":"b",
+                "type":"int",
                 "options":[
-                    "option0-input1",
-                    "option1-input1"
+                    "12",
+                    "6"
                 ]
             },
             {
-                "name":"input2",
+                "name":"c",
+                "type":"int",
                 "options":[
-                    "option0-input2",
-                    "option1-input2"
+                    "-2",
+                    "5"
                 ]
             }
         ]

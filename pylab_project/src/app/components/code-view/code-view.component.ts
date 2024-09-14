@@ -19,7 +19,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
 
   @Input() code: string = '';
   @Input() language: string = 'python';
-  @Input() inputs:any = []
+  @Input() inputs: any = []
   @Input() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
   forms:any = []
@@ -39,6 +39,9 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
 
   ngOnInit():void{
     for(let select of this.inputs){
+      for(let option of select.options){
+        option = this.parseOption(option, select.type);
+      }
       this.forms.push({name:select.name, form:new FormControl('')})
     }
   }
@@ -52,6 +55,18 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
         this.updateDecorations();
       }
     }
+  }
+
+  private parseOption(option: any, type: string): any {
+    switch (type){
+      case "int":
+      case "float":
+        return Number(option)
+      case "string":
+      default: 
+        return String(option)
+    } 
+
   }
 
   private initEditor(): void {
