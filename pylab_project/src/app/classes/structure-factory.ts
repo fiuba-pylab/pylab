@@ -1,11 +1,11 @@
 import { CodeService } from "../services/code.service";
+import { DefStructure } from "./structure-def";
 import { IfStructure } from "./structure-if";
 import { NullStructure } from "./structure-null";
 import { WhileStructure } from "./structure-while";
 const IF = 'if';
 const WHILE = 'while';
-const ELSE = 'else';
-const ELIF = 'elif';
+const DEF = 'def';
 
 export class StructureFactory {
     
@@ -16,6 +16,8 @@ export class StructureFactory {
                 return new IfStructure(level, detectCondition(code), codeService, variables);
             case WHILE:
                 return new WhileStructure(level, detectCondition(code), codeService, variables);
+            case DEF:
+                return new DefStructure(level, "", codeService, variables);
             default:
                 return new NullStructure(level, "", codeService, variables);
         }        

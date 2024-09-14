@@ -1,5 +1,4 @@
 import { CodeService } from "../services/code.service";
-import { Coordinator } from "./coordinator";
 
 export abstract class Structure{
     variables: { [key: string]: any } = {};
@@ -7,7 +6,6 @@ export abstract class Structure{
     level: number; 
     condition: string;
     codeService: CodeService;
-    coordinator: any;
     constructor(level: number, condition: string, codeService: CodeService, variables: {}){
         this.level = level;
         this.condition = condition;
