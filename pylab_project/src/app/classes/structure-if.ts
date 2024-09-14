@@ -14,7 +14,8 @@ export class IfStructure extends Structure{
         super(level, condition, codeService, variables);
     }
 
-    setScope(code: any){     
+    setScope(code: any){
+        this.codeService.setStructure("if");
         const lines: any[] = code.split('\n');
         var elseFound: boolean = false;
         var currentElif: { condition: string, lines: any[] } | null = null;
