@@ -30,6 +30,9 @@ export class Coordinator {
             if(prevAmount){
                 this.currentLine -= prevAmount;
                 const currentLine = this.code[this.currentLine].trim()
+                if(currentLine.split(' ')[0] == 'if'){
+                    this.structures.pop();
+                }
                 if(this.variables[currentLine.split(' ')[0]]){
                     this.variables[currentLine.split(' ')[0]].pop()
                 }
