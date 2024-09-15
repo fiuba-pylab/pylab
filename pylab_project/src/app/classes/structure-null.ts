@@ -50,7 +50,8 @@ export class NullStructure extends Structure {
             if(print[2]){
                 value = print[2]
             }
-            let printValue = applyFunctions(value, this.variables);
+            let printValue = replaceVariablesInPrint(value, this.variables);
+            printValue = evaluateExpression(printValue);
             printValue = cleanPrintValue(printValue)
             this.codeService.setPrint(printValue);
         }
@@ -129,6 +130,17 @@ function cleanPrintValue(value: string): string {
     value = value.replace(/\\n|\n/g, '<br>');
     value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
     return value;
+}
+
+function replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
+    return Object.entries(valores).reduce((resultado, [clave, valor]) => {
+        const regex = new RegExp(`\\{\\b${printVarRegex(clave)}\\b\\}`, 'g');
+        return resultado.replace(regex, valor);
+    }, template);
+}
+
+function printVarRegex(string: string): string {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /* 
