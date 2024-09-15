@@ -29,6 +29,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(private codeService: CodeService) { }
 
   ngOnInit():void{
+    if(!this.inputs) return;
     for(let select of this.inputs){
       this.forms.push({name:select.name, form:new FormControl('')})
     }
@@ -41,7 +42,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       this.updateDecorations();
     });
   }
-
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (this.editor) {
       if (changes['code']) {

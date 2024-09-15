@@ -1,7 +1,7 @@
-n = int(input("Ingrese un número entero: "))
+n = 1
+binario = ""
 if n == 0:
     print("0")
-    binario = ""
 while n > 0:
     binario = str(n % 2) + binario
     n //= 2
