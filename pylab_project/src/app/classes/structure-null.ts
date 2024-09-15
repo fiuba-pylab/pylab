@@ -5,7 +5,8 @@ const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
 const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
 const REGEX_FUNCTIONS = /\b(float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const RETURN_BREAK = /\b(return|break)\b(?:\s+[^;]*)?;/g;
-
+const REGEX_PRINT = /print\s*\(\s*[^'"]*['"](.*?)['"]/;
+const REGEX_REMOVE_BRACES = /{(\w+)}/g;
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -30,7 +31,7 @@ export class NullStructure extends Structure {
         }
         const variableDeclaration = this.lines[0].match(REGEX_VARIABLE_DECLARATION);
         const operations = this.lines[0].match(REGEX_OPERATIONS);
-        const print = this.lines[0].match(/print\(([^()]+)\)/);
+        const print = this.lines[0].match(REGEX_PRINT);
         if (variableDeclaration) {
             const varName = variableDeclaration[1];
             let varValue = applyFunctions(variableDeclaration[2], this.variables);
@@ -45,7 +46,8 @@ export class NullStructure extends Structure {
 
         if(print){
             let value = applyFunctions(print[1], this.variables);
-            this.codeService.setPrint(value.replace(/^"(.*)"$/, '$1'));
+            value = cleanPrintValue(value)
+            this.codeService.setPrint(value);
         }
 
         this.codeService.updateVariables(this.variables);
@@ -113,6 +115,14 @@ function evaluateExpression(expression: string): string {
     } while (currentExpression !== previousExpression);
 
     return currentExpression;
+}
+
+function cleanPrintValue(value: string): string {
+    value = value.replace(/^"|'(.*)"|'$/, '$1');
+    value = value.replace(REGEX_REMOVE_BRACES, '$1');
+    value = value.replace(/\\n/g, '<br>');
+    value = value.replace(/\\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    return value;
 }
 
 /* 
