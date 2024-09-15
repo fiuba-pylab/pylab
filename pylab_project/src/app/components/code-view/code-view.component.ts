@@ -29,6 +29,13 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
 
   constructor(private codeService: CodeService) { }
 
+  ngOnInit():void{
+    if(!this.inputs) return;
+    for(let select of this.inputs){
+      this.forms.push({name:select.name, form:new FormControl('')})
+    }
+  }
+
   ngAfterViewInit(): void { 
     this.initEditor();
     this.codeService.highlightLine.subscribe(async (value)=> {
@@ -36,13 +43,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
       this.updateDecorations();
     });
   }
-
-  ngOnInit():void{
-    for(let select of this.inputs){
-      this.forms.push({name:select.name, form:new FormControl('')})
-    }
-  }
-
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (this.editor) {
       if (changes['code']) {

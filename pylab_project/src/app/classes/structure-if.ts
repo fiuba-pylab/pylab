@@ -112,7 +112,7 @@ export class IfStructure extends Structure{
        if(eval(condition_replaced)){ // Se cumple la condición del if
             this.currentLine += 1;
             return {amount: 1, finish: false};
-        }else if(this.elifs != null){ // No se cumplió la condición del if y hay elifs
+        }else if(this.elifs.length > 0){ // No se cumplió la condición del if y hay elifs
             this.checkElifs = true;
             this.currentLine += this.lines.length+1;
             return {amount: this.lines.length+1, finish: false};
