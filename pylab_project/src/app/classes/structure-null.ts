@@ -77,33 +77,33 @@ function applyFunctions(variableValue: any, variables: any) {
 
 function evaluateFunction(funcName: string, args: string): string {
     // TODO: lógica números imaginarios
-    args = evaluate(args);
+    let evalArgs = evaluate(args);
     switch (funcName) {
         case 'float':
-            return String(Number(args));
+            return String(Number(evalArgs));
         case 'int':
-            return String(parseInt(args));
+            return String(parseInt(evalArgs));
         case 'len':
-            return String((args as string).length); 
+            return String((evalArgs as string).length); 
         case 'str':
-            return String(args);
+            return String(evalArgs);
         case 'math.pow':
-            let funcArgs = (args as string).split(',');
+            var funcArgs = (args as string).split(',');
             return (Math.pow(Number(funcArgs[0]), Number(funcArgs[1]))).toString();
         case 'math.sqrt':
-            return (Math.sqrt(Number(args))).toString();
+            return (Math.sqrt(Number(evalArgs))).toString();
         case 'math.round':
-            funcArgs = (args as string).split(',');
+            var funcArgs = (args as string).split(',');
             if (funcArgs.length > 1) {
                 return Number(funcArgs[0]).toFixed(Number(funcArgs[1])).toString();
             }
-            return (Math.round(Number(args))).toString();
+            return (Math.round(Number(evalArgs))).toString();
         case 'math.asin':
-            return (Math.asin(Number(args))).toString();
+            return (Math.asin(Number(evalArgs))).toString();
         case 'math.log10':
-            return (Math.log10(Number(args))).toString();
+            return (Math.log10(Number(evalArgs))).toString();
         default:
-            return args; 
+            return evalArgs; 
     }
 }
 
