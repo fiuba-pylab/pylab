@@ -11,6 +11,7 @@ import { CodeService } from '../../services/code.service';
 export class VariableViewComponent {
   variables: { [key: string]: any } = {};
   variableKeys: string[] = [];
+  print: string = '';
   //jsPlumbInstance: any;
   constructor(private codeService: CodeService) { }
 
@@ -19,6 +20,10 @@ export class VariableViewComponent {
       this.variables = value;
       this.variableKeys = Object.keys(this.variables);
         //this.updateDiagram();
+    });
+
+    this.codeService.print.subscribe((value) => {
+      this.print = value;
     });
   }
 
