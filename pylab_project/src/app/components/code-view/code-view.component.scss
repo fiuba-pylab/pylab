@@ -10,6 +10,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-self: center;
+  align-items: baseline;
   gap: 10px;
 }
 

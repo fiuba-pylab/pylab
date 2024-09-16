@@ -7,7 +7,7 @@ export class Coordinator {
     code: string[] = [];
     codeService: CodeService;
     currentLine: number = 0;
-    constructor(codeService: CodeService, code: string) {        
+    constructor(codeService: CodeService, code: string, variables: any|null  = {}) {        
         this.codeService = codeService;
         this.code = code.split('\n');
         this.codeService.variables.subscribe(async (value)=> {

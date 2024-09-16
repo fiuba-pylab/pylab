@@ -8,26 +8,26 @@
         "inputs":[
             {
                 "name":"a",
-                "type":"int",
+                "type":"float",
                 "options":[
-                    "2",
-                    "4"
+                    "2.0",
+                    "4.5"
                 ]
             },
             {
                 "name":"b",
-                "type":"int",
+                "type":"float",
                 "options":[
-                    "12",
-                    "6"
+                    "12.2",
+                    "6.2"
                 ]
             },
             {
                 "name":"c",
-                "type":"int",
+                "type":"float",
                 "options":[
-                    "-2",
-                    "5"
+                    "-2.5",
+                    "5.0"
                 ]
             }
         ]

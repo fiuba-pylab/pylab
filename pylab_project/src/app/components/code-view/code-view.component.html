@@ -7,7 +7,9 @@
                     <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            
         }
+        <button mat-button (click)="loadSelects()">Load</button>
     </div>
     
     <div id="editor-container">

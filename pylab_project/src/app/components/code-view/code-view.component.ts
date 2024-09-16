@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input as np, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,20 +7,22 @@ import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
 import { MatIcon } from '@angular/material/icon';
+import { Input } from '../../classes/program';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.scss'],
-  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon],
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule],
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
 
-  @Input() code: string = '';
-  @Input() language: string = 'python';
-  @Input() inputs: any = []
-  @Input() highlightLine: number = 0;
+  @np() code: string = '';
+  @np() language: string = 'python';
+  @np() inputs: any = [new Input("", "", [])]; 
+  @np() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
   forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
@@ -39,10 +41,14 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
 
   ngOnInit():void{
     for(let select of this.inputs){
-      for(let option of select.options){
-        option = this.parseOption(option, select.type);
-      }
-      this.forms.push({name:select.name, form:new FormControl('')})
+      this.forms.push({name:select.name, type:select.type, form:new FormControl('')})
+    }
+    console.log(this.forms); 
+  }
+
+  loadSelects():void{
+    for(let {name, type, form} of this.forms){
+      let option = this.parseOption(form.value, type);
     }
   }
 
@@ -58,10 +64,13 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   }
 
   private parseOption(option: any, type: string): any {
-    switch (type){
+    if (option === null || option === undefined || option === "") {
+      return null
+    }
+    switch (type) {
       case "int":
       case "float":
-        return Number(option)
+      return Number(option)
       case "string":
       default: 
         return String(option)
