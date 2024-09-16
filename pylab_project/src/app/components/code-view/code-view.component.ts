@@ -49,7 +49,12 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   loadSelects():void{
     for(let {name, type, form} of this.forms){
       let option = this.parseOption(form.value, type);
+      console.log(name, option, type)
+      if (option === null) {
+        return ;
+      }
     }
+    this.codeService.reset(); 
   }
 
   ngOnChanges(changes: SimpleChanges): void {

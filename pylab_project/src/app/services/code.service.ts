@@ -61,4 +61,12 @@ export class CodeService {
     }
     this.behaviorSubjectHighlight.next(highlightLine);
   }
+
+  reset(){
+    this.behaviorSubjectHighlight.next(1);
+    this.behaviorSubjectVariables.next({});
+    this.codePath = [];
+    this.codePathIndex = -1;
+    this.maxNext = -1;
+  }
 }
