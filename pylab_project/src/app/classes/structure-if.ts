@@ -1,4 +1,4 @@
-import { replaceOperators, replaceVariables } from "../utils";
+import { evaluate, replaceOperators, replaceVariables } from "../utils";
 import { Structure } from "./structure";
 
 export class IfStructure extends Structure{
@@ -47,17 +47,17 @@ export class IfStructure extends Structure{
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
-        if(this.checkElifs && !this.enterElif){
+        if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){
             const elif = this.elifs[this.elifIndex];
             condition_replaced = replaceOperators(replaceVariables(elif.condition, this.variables));
-            if(eval(condition_replaced)){
+            if(evaluate(condition_replaced)){
                 this.enterElif = true;
                 this.currentLine += 1;
                 return {amount: 1, finish: false};
             }else{
                 this.currentLine += this.elifs[this.elifIndex].lines.length + 1;
                 this.elifIndex += 1;
-                if(this.elifIndex < this.elifs.length){
+                if(this.elifIndex <= this.elifs.length){
                     return {amount: this.elifs[this.elifIndex-1].lines.length + 1, finish: false};
                 }
             }
@@ -86,7 +86,13 @@ export class IfStructure extends Structure{
 
         // Se cumplió la condición del if y ya ejecuté todo lo de adentro
         if(this.currentLine > this.lines.length && !this.checkElse){
-            if(this.elseLines.length > 0){
+            if(this.elifs.length > 0){
+                var cantLines = this.elseLines.length+1;
+                for(let i = 0; i < this.elifs.length; i++){
+                    cantLines += this.elifs[i].lines.length + 1;
+                }
+                return {amount: cantLines, finish: true};
+            }else if(this.elseLines.length > 0){
                 return {amount: this.elseLines.length+1, finish: true};
             }else{
                 return {amount: 0, finish: true};
@@ -109,10 +115,10 @@ export class IfStructure extends Structure{
         }
 
      
-       if(eval(condition_replaced)){ // Se cumple la condición del if
+       if(evaluate(condition_replaced)){ // Se cumple la condición del if
             this.currentLine += 1;
             return {amount: 1, finish: false};
-        }else if(this.elifs != null){ // No se cumplió la condición del if y hay elifs
+        }else if(this.elifs.length > 0){ // No se cumplió la condición del if y hay elifs
             this.checkElifs = true;
             this.currentLine += this.lines.length+1;
             return {amount: this.lines.length+1, finish: false};

@@ -11,12 +11,14 @@ export class CodeService {
   private behaviorSubjectVariables = new BehaviorSubject<{
     [key: string]: any;
   }>({});
+  private behaviorSubjectPrint = new BehaviorSubject<string>('');
   private codePath: number[] = [];
   private codePathIndex: number = -1;
   private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
   variables = this.behaviorSubjectVariables.asObservable();
+  print = this.behaviorSubjectPrint.asObservable();
 
   constructor() {}
 
@@ -68,5 +70,9 @@ export class CodeService {
     this.codePath = [];
     this.codePathIndex = -1;
     this.maxNext = -1;
+  }
+  
+  setPrint(value: string): void {
+    this.behaviorSubjectPrint.next(value);
   }
 }

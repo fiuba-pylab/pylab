@@ -4,7 +4,7 @@
         "title":"Raíces - ecuación cuadrática",
         "description": "Ejemplo de programa con todos los atributos",
         "difficulty": 1,
-        "introduction": "Objetivo: Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.\nCasos: Sea b^2-4ac el determinante para el cálculo de soluciones:\n 1. Determinante positivo: dos soluciones reales\n 2. Determinante nulo: raiz real doble\n 3. Determinante negativo: dos soluciones complejas (conjugadas)",
+        "introduction": "<h4>Objetivo:</h4> Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.<br> <h4>Casos:</h4> Sea b^2-4ac el determinante para el cálculo de soluciones:<br> 1. Determinante positivo: dos soluciones reales.<br> 2. Determinante nulo: raiz real doble.<br> 3. Determinante negativo: dos soluciones complejas (conjugadas).",
         "inputs":[
             {
                 "name":"a",
@@ -37,13 +37,13 @@
         "title": "Teorema Pitágoras",
         "description": "Variables y tipos de datos en Python",
         "difficulty": 2,
-        "introduction": "Objetivo: solicitar al usuario valores de dos catetos de un triángulo, e informar el valor de la hipotenusa"
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario valores de dos catetos de un triángulo, e informar el valor de la hipotenusa."
     },
     {
         "id": 3,
         "title": "Ecuación matemática",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 3,
-        "introduction": "Este es un programa tipo que describe el funcionamiento de los operadores"
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario los valores a, b y c para resolver la siguiente ecuación matemática: <img src=\"assets/intro-3-func.png\"></img> <br> <h4>Casos:</h4> <br>"
     }
 ]

@@ -10,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { Input } from '../../classes/program';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
+const LANGUAGE = 'python';
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
@@ -17,10 +18,9 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
   imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule],
   standalone: true
 })
-export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
+export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   @np() code: string = '';
-  @np() language: string = 'python';
   @np() inputs: any = [new Input("", "", [])]; 
   @np() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
@@ -31,19 +31,19 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
 
   constructor(private codeService: CodeService) { }
 
+  ngOnInit():void{
+    if(!this.inputs) return;
+    for(let select of this.inputs){
+      this.forms.push({name:select.name, form:new FormControl('')})
+    }
+  }
+
   ngAfterViewInit(): void { 
     this.initEditor();
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
     });
-  }
-
-  ngOnInit():void{
-    for(let select of this.inputs){
-      this.forms.push({name:select.name, type:select.type, form:new FormControl('')})
-    }
-    console.log(this.forms); 
   }
 
   loadSelects():void{
@@ -87,7 +87,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
     this.editor = monaco.editor.create(document.getElementById('editor-container')!, {
       value: this.code,
       theme: 'vs-dark',
-      language: this.language,
+      language: LANGUAGE,
       readOnly: true,
       tabSize: 4,
       insertSpaces: false,
@@ -112,13 +112,13 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   }
 
   nextLine() {
-    if (this.decorationsCollection) {
+    if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute();
     }    
   }
 
   previousLine() {
-    if (this.decorationsCollection) {
+    if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute(true);
     }
   }

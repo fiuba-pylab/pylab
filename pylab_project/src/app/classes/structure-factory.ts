@@ -4,8 +4,6 @@ import { NullStructure } from "./structure-null";
 import { WhileStructure } from "./structure-while";
 const IF = 'if';
 const WHILE = 'while';
-const ELSE = 'else';
-const ELIF = 'elif';
 
 export class StructureFactory {
     

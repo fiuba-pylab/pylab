@@ -59,10 +59,6 @@ export class ProgramDisplayComponent implements OnInit {
     });
   }
 
-  onVariablesChanged(newVariables: any): void {
-    this.variables = newVariables;
-  }
-
   openSnackBar(text: string, success = true) {
     const panelClass: string = success ? 'green-snackbar' : 'red-snackbar';
     this.snackBar.open(text, undefined, { duration: 3000, panelClass: [panelClass] });

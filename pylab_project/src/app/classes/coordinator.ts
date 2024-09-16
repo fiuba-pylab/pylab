@@ -18,7 +18,7 @@ export class Coordinator {
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-        console.log("VARIABLES: "+JSON.stringify(this.variables));
+        console.log("VARIABLES: " + JSON.stringify(this.variables));
         const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variables);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 

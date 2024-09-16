@@ -4,24 +4,24 @@
         "title":"Clasificación triángulo",
         "description": "Recibe tres valores de distintos angulos para cierto triangulo.",
         "difficulty": 1,
-        "introduction": "Objetivo: ",
+        "introduction": "<h4>Objetivo: </h4> Solicitar al usuario los valores de tres ángulos de un triángulo y determinar si es acutángulo, rectángulo o obtusángulo. <br> <h4>Casos:</h4>1. Ángulos inválidos: alguno de ellos es menor o igual a 0. <br> 2. No es un triángulo: la suma de los ángulos no da 180. <br> 3. Acutángulo: todos los ángulos son mayores a 90. <br> 4. Rectángulo: uno de los ángulos es igual a 90. <br> 5. Obtusángulo: uno de los ángulos es mayor a 90.",
         "inputs":[
             {
-                "name":"input0",
+                "name":"angulo1",
                 "options":[
                     "option0-input0",
                     "option1-input0"
                 ]
             },
             {
-                "name":"input1",
+                "name":"angulo2",
                 "options":[
                     "option0-input1",
                     "option1-input1"
                 ]
             },
             {
-                "name":"input2",
+                "name":"angulo3",
                 "options":[
                     "option0-input2",
                     "option1-input2"
@@ -34,7 +34,7 @@
         "title": "Plazos e intereses",
         "description": "Se recibe un monto a pagar y el plazo, en base a eso calcula los intereses.",
         "difficulty": 2,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo: </h4> Solicitar al usuario un monto a pagar y en el plazo en el cual se paga y en base a eso se calculan los intereses que serán aplicados. <br> <h4> Casos:</h4> 1. Interés de 5%: monto menor a 5000 y plazo menor a 12. <br> 2. Interes de 7%: monto menor a 5000 y plazo mayor a 12. <br> 3. Interés de 6%: monto menor a 20000 y mayor a 5000, plazo menor a 24. <br> 4. Interés de 8%: monto menor a 20000 y mayor a 5000, plazo mayor a 24. <br> 5. Interés de 9%: monto mayor a 20000, plazo menor a 36. <br> 6. Interés de 11%: monto mayor a 20000, plazo mayor a 36."
     },
     {
         "id": 3,
@@ -53,8 +53,8 @@
     {
         "id": 5,
         "title": "Números romanos",
-        "description": "Se recibe número entre 1 y 3999",
+        "description": "",
         "difficulty": 5,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo."
     }
 ]
