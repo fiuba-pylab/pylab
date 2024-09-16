@@ -24,7 +24,7 @@ export class Coordinator {
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-        const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/);
+        const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/); // cambiar regex para detectar cuando hay algo asi: a = funcion_propia(param) o q busque las keys de funciones en la linea
         if(call != null && call[1] in this.functions){
             this.structures.push(this.functions[call[1]]);
             this.funcCallLine = this.currentLine;

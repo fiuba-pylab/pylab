@@ -3,6 +3,7 @@ import { Structure } from "./structure";
 export class DefStructure extends Structure{
     constructor(level: number, condition: string, codeService: any, variables: { [key: string]: any }) {
         super(level, condition, codeService, variables);
+        this.position = codeService.behaviorSubjectHighlight.value;
         const definition = condition.match(/^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/);
         if (definition != null) {
             this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
@@ -13,6 +14,7 @@ export class DefStructure extends Structure{
     localVariables: { [key: string]: any } = {};
     parameters: string[] = [];
     name: string = "";
+    position: number = 0;
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
@@ -37,6 +39,11 @@ export class DefStructure extends Structure{
         if(this.currentLine == 0){ 
             this.currentLine++;
             return {amount: this.lines.length+1, finish: true};
+        }
+
+        if(this.currentLine == 1){
+            this.codeService.goToLine(this.position);
+            return {amount: 0, finish: false};
         }
 
         if(this.currentLine == this.lines.length){

@@ -72,4 +72,8 @@ export class CodeService {
     functions[name] = structure;
     this.behaviorSubjectFunctions.next(functions);
   }
+
+  goToLine(line: number): void {
+    this.behaviorSubjectHighlight.next(line);
+  }
 }
