@@ -19,14 +19,15 @@ export class WhileStructure extends Structure{
         }
     }
 
-    override execute(): {amount: number, finish: boolean}{
+    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
+        
         if(this.currentLine == this.lines.length){
             this.currentLine = 0;
             return {amount: -(this.lines.length+1), finish: true};
         }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
-            this.currentLine++;
+            this.currentLine += amountToAdd ?? 0;
             return {amount: 0, finish: false};
         }
         if(eval(condition_replaced)){
