@@ -12,6 +12,7 @@ export class CodeService {
   private behaviorSubjectVariables = new BehaviorSubject<{
     [key: string]: any;
   }>({});
+  private behaviorSubjectPrint = new BehaviorSubject<string>('');
   private behaviorSubjectFunctions = new BehaviorSubject<{
     [key: string]: DefStructure;
   }>({});
@@ -21,6 +22,7 @@ export class CodeService {
 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
   variables = this.behaviorSubjectVariables.asObservable();
+  print = this.behaviorSubjectPrint.asObservable();
   functions = this.behaviorSubjectFunctions.asObservable();
 
   constructor() {}
@@ -65,6 +67,10 @@ export class CodeService {
       }
     }
     this.behaviorSubjectHighlight.next(highlightLine);
+  }
+
+  setPrint(value: string): void {
+    this.behaviorSubjectPrint.next(value);
   }
 
   setFunction(name: string, structure: DefStructure): void {

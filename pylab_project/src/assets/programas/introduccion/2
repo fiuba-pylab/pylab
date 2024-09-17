@@ -1,3 +1,7 @@
+#catetos son inputs, adaptado para testing
+cateto1 = 20
+cateto2 = 30
+
 cateto1_cuadrado = cateto1 ** 2
 cateto2_cuadrado = cateto2 ** 2
     

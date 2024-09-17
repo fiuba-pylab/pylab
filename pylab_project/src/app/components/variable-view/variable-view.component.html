@@ -1,5 +1,12 @@
-<!-- <div id="diagram-container" style="display: flex;"></div> -->
-@for (variable of variableKeys; track $index) {
-    {{ variable }}: {{ variables[variable] }}
-
-}
+<div id="diagram-container">
+    <div class="output-container">
+        <p class="title">print output</p>
+        <p id="output" [innerHTML] = "print">
+        </p>
+    </div>
+    <div class="variables">
+        @for (variable of variableKeys; track $index) {
+            {{ variable }}: {{ variables[variable] }}
+        }
+    </div>
+</div>
