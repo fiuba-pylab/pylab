@@ -35,6 +35,7 @@ export class Coordinator {
                 }
                 if(this.variables[currentLine.split(' ')[0]]){
                     this.variables[currentLine.split(' ')[0]].pop()
+                    this.codeService.updateVariables(this.variables)
                 }
                 
             }
