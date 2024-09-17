@@ -2,8 +2,11 @@ a = float(3.5)
 b = float(4.8)
 c = float(100)
 
-sqrt_term = math.sqrt(pow(a, 2) + pow(b, 2))
+d = math.pow(a, 2)
+e = math.pow(b, 2)
+
+sqrt_term = math.sqrt(d + e)
 log_term = math.log10(c)
-resultado = round(sqrt_term + log_term, 2)
+resultado = math.round(sqrt_term + log_term)
 
 print(f'El resultado es: {resultado}')

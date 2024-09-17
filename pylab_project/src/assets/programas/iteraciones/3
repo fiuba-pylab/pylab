@@ -1,6 +1,8 @@
 tope = 10
-anteúltimo, último = 0, 1
-while último < tope:
-    actual = anteúltimo + último
-    print(actual, end=' ')
-    anteúltimo, último = último, actual
+anteultimo = 0
+ultimo = 1
+while ultimo < tope:
+    actual = anteultimo + ultimo
+    print(actual)
+    anteultimo = ultimo
+    ultimo = actual

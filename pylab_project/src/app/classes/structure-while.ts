@@ -1,5 +1,5 @@
 import { Structure } from "./structure";
-import { replaceOperators, replaceVariables } from "../utils";
+import { evaluate, replaceOperators, replaceVariables } from "../utils";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
@@ -29,7 +29,7 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 0, finish: false};
         }
-        if(eval(condition_replaced)){
+        if(evaluate(condition_replaced)){
             this.currentLine++;
             return {amount: 1, finish: false};
         }
