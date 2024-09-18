@@ -51,7 +51,7 @@ export class Coordinator {
             }
             prevAmount += result.amount;
             this.currentLine += result.amount;
-            if(result.amount > 0)
+            if(result.amount != 0)
                 this.codeService.nextLine(result.amount);
         }
     }
