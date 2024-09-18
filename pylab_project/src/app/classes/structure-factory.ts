@@ -17,7 +17,7 @@ export class StructureFactory {
             case WHILE:
                 return new WhileStructure(level, detectCondition(code), codeService, variables);
             case DEF:
-                return new DefStructure(level, "", codeService, variables);
+                return new DefStructure(level, code, codeService, variables);
             default:
                 return new NullStructure(level, "", codeService, variables);
         }        
