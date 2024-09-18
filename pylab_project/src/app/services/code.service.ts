@@ -33,7 +33,7 @@ export class CodeService {
       if (this.codePathIndex > this.maxNext) {
         this.maxNext++;
       }
-
+      
       if (this.maxNext >= this.codePath.length) {
         this.codePath.push(amount);
         highlightLine = highlightLine + amount;
@@ -50,18 +50,20 @@ export class CodeService {
   }
 
   previousLine() {
+    const amount = this.codePath[this.codePathIndex];
     var highlightLine = this.behaviorSubjectHighlight.value;
     if (highlightLine == 1) {
       return;
     }
 
     if (highlightLine !== null) {
-      highlightLine = highlightLine - this.codePath[this.codePathIndex];
+      highlightLine = highlightLine - amount;
       if (this.codePathIndex >= 0) {
         this.codePathIndex--;
       }
     }
     this.behaviorSubjectHighlight.next(highlightLine);
+    return amount
   }
 
   setPrint(value: string): void {
