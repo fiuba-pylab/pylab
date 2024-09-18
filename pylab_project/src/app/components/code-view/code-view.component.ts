@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 
+const LANGUAGE = 'python';
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
@@ -18,13 +19,11 @@ import { MatDialog } from '@angular/material/dialog';
   imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule, ],
   standalone: true
 })
-export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
+export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   @Input() code: string = '';
-  @Input() language: string = 'python';
-  @Input() inputs:any = []
-  @Input() highlightLine: number = 0;
-  @Output() variablesChanged = new EventEmitter<any>();
+  @Input() inputs: any = []
+  highlightLine: number = 0;
   forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
@@ -71,7 +70,7 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
     this.editor = monaco.editor.create(document.getElementById('editor-container')!, {
       value: this.code,
       theme: 'vs-dark',
-      language: this.language,
+      language: LANGUAGE,
       readOnly: true,
       tabSize: 4,
       insertSpaces: false,
@@ -95,16 +94,14 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
     }    
   }
 
-  nextLine(event: any) {
-    console.log('nextLine', event);
-    
-    if (this.decorationsCollection) {
+  nextLine() {
+    if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute();
     }    
   }
 
   previousLine() {
-    if (this.decorationsCollection) {
+    if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute(true);
     }
   }
@@ -114,18 +111,13 @@ export class CodeViewComponent implements AfterViewInit, OnChanges, OnDestroy, O
   }
 
   play(){
-    console.log('play');
-    console.log(this.isRunning);
-    console.log(this.isPaused);
-    
-    
     if (this.isPaused) {
       this.isPaused = false;
     } else if (!this.isRunning) {
       this.isRunning = true;
       this.intervalId = setInterval(() => {
         if (!this.isPaused) {
-          this.nextLine('desde play');
+          this.nextLine();
         }
       }, 1000/this.velocity); 
     }

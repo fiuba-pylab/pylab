@@ -1,4 +1,4 @@
-import { replaceOperators, replaceVariables } from "../utils";
+import { evaluate, replaceOperators, replaceVariables } from "../utils";
 import { Structure } from "./structure";
 
 export class IfStructure extends Structure{
@@ -50,7 +50,7 @@ export class IfStructure extends Structure{
         if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){
             const elif = this.elifs[this.elifIndex];
             condition_replaced = replaceOperators(replaceVariables(elif.condition, this.variables));
-            if(eval(condition_replaced)){
+            if(evaluate(condition_replaced)){
                 this.enterElif = true;
                 this.currentLine += 1;
                 return {amount: 1, finish: false};
@@ -115,7 +115,7 @@ export class IfStructure extends Structure{
         }
 
      
-       if(eval(condition_replaced)){ // Se cumple la condición del if
+       if(evaluate(condition_replaced)){ // Se cumple la condición del if
             this.currentLine += 1;
             return {amount: 1, finish: false};
         }else if(this.elifs.length > 0){ // No se cumplió la condición del if y hay elifs
