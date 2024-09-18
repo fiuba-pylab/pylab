@@ -6,7 +6,7 @@
     </div>
     <div class="variables">
         @for (variable of variableKeys; track $index) {
-            {{ variable }}: {{ variables[variable] }}
+            <mat-label> {{ variable }}: {{ variables[variable] }}</mat-label>
         }
     </div>
 </div>
