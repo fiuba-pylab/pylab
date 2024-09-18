@@ -23,8 +23,35 @@
   justify-content: center;
   width: 100%;
   margin-top: 5px;
+  position: relative;
 }
 
 .icon {
   cursor: pointer;
+
+  &.disabled {
+    cursor: not-allowed;
+    color: rgba(var(--pylab-accent-rgb), 0.6);
+  }
+}
+
+.execution-info{
+  position: absolute;
+  right: 0;
+
+  &.finished{
+    color: var(--pylab-success);
+  }
+
+  &.executing{
+    color: rgba(var(--pylab-accent-rgb), 0.5);
+  }
+}
+
+.velocity-button{
+  max-height: 24px;
+}
+
+.mat-mdc-menu-item{
+  min-height: 31px !important;
 }
