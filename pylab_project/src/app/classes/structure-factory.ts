@@ -1,4 +1,6 @@
 import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
+import { Context } from "./context";
 import { DefStructure } from "./structure-def";
 import { IfStructure } from "./structure-if";
 import { NullStructure } from "./structure-null";
@@ -9,17 +11,17 @@ const DEF = 'def';
 
 export class StructureFactory {
     
-    static analize(code: string, level: number, codeService: CodeService, variables: {}){
+    static analize(code: string, level: number, codeService: CodeService, variablesService: VariablesService, context: Context){
         const first_word = code.trim().split(' ')[0]; 
         switch(first_word){
             case IF: 
-                return new IfStructure(level, detectCondition(code), codeService, variables);
+                return new IfStructure(level, detectCondition(code), codeService, variablesService, context);
             case WHILE:
-                return new WhileStructure(level, detectCondition(code), codeService, variables);
+                return new WhileStructure(level, detectCondition(code), codeService, variablesService, context);
             case DEF:
-                return new DefStructure(level, code, codeService, variables);
+                return new DefStructure(level, code, codeService, variablesService, context);
             default:
-                return new NullStructure(level, "", codeService, variables);
+                return new NullStructure(level, "", codeService, variablesService, context);
         }        
     }
 

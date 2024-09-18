@@ -1,7 +1,10 @@
 import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
 import { replaceVariables } from "../utils";
+import { Context } from "./context";
 import { DefStructure } from "./structure-def";
 import { StructureFactory } from "./structure-factory";
+import { v4 as uuidv4 } from 'uuid';
 
 export class Coordinator {
     structures: any[] = [];
@@ -12,12 +15,11 @@ export class Coordinator {
     functions: { [key: string]: DefStructure } = {};
     funcCallLine: number = 0;
     executingFunction: boolean = false;
+    contexts: Context[] = [new Context(uuidv4())];
+    variablesService: VariablesService = new VariablesService();
     constructor(codeService: CodeService, code: string) {        
         this.codeService = codeService;
         this.code = code.split('\n');
-        this.codeService.variables.subscribe(async (value)=> {
-            this.variables = value;
-        });
         this.codeService.functions.subscribe(async (value)=> {
             this.functions = value;
         });
@@ -28,24 +30,28 @@ export class Coordinator {
         const level = matchResult ? matchResult[0].length / 4 : 0;
         //const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/); // cambiar regex para detectar cuando hay algo asi: a = funcion_propia(param) o q busque las keys de funciones en la linea
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
-        if(call != null && !this.structures.includes(this.functions[call]) && !this.executingFunction){
+        if(call != null){
+            if(this.code[this.currentLine].includes('def')){
+                this.contexts.push(new Context(uuidv4(), call));
+                this.functions[call].setContext(this.contexts[this.contexts.length - 1]);
+                return;
+            }
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
                 const args = replaceVariables(params[1], this.variables).split(',').map((arg: string) => arg.trim());
                 this.functions[call].setParameters(args);
+                // TODO: ver parametros por nombre
             }
             this.structures.push(this.functions[call]);
             this.funcCallLine = this.currentLine;
             this.executingFunction = true;
             this.currentLine = this.functions[call].position - 1;
             return;
-        }else if(this.structures.includes(this.functions[call ?? 0]) && this.executingFunction){
-            return;
         }
-        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variables);
+
+        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variablesService, this.contexts[this.contexts.length - 1]);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
-
     }
 
     execute(isPrevious: boolean = false) {
@@ -64,6 +70,7 @@ export class Coordinator {
                     this.executingFunction = false;
                     this.codeService.goToLine(this.funcCallLine + 1);
                     this.currentLine = this.funcCallLine;
+                    this.contexts.pop();
                 }
             }
             prevAmount += result.amount;
@@ -85,3 +92,4 @@ function containsFunctionName(str: string, dict: {[key: string]: any}): string |
     }
     return null;
 }
+

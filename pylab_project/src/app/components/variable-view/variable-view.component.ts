@@ -1,5 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { CodeService } from '../../services/code.service';
+import { VariablesService } from '../../services/variables.service';
+import { Context } from '../../classes/context';
 
 @Component({
   selector: 'app-variable-view',
@@ -9,17 +11,22 @@ import { CodeService } from '../../services/code.service';
   styleUrl: './variable-view.component.css'
 })
 export class VariableViewComponent {
-  variables: { [key: string]: any } = {};
+  contexts: Map<Context, any> = new Map<Context, any>();
   variableKeys: string[] = [];
   print: string = '';
   //jsPlumbInstance: any;
-  constructor(private codeService: CodeService) { }
+  constructor(private variablesService: VariablesService, private codeService: CodeService) { }
 
   ngOnInit(): void {
-    this.codeService.variables.subscribe((value) => {
-      this.variables = value;
-      this.variableKeys = Object.keys(this.variables);
-        //this.updateDiagram();
+    // this.codeService.variables.subscribe((value) => {
+    //   this.variables = value;
+    //   this.variableKeys = Object.keys(this.variables);
+    //     //this.updateDiagram();
+    // });
+    this.variablesService.contexts.subscribe((value) => {
+      this.contexts = value;
+      console.log("CONTEXTS: "+this.contexts);
+      //this.variableKeys = Object.keys(this.contexts);
     });
 
     this.codeService.print.subscribe((value) => {

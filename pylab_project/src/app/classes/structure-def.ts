@@ -1,8 +1,10 @@
+import { VariablesService } from "../services/variables.service";
+import { Context } from "./context";
 import { Structure } from "./structure";
 
 export class DefStructure extends Structure{
-    constructor(level: number, condition: string, codeService: any, variables: { [key: string]: any }) {
-        super(level, condition, codeService, variables);
+    constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
+        super(level, condition, codeService, variablesService, context);
         this.position = codeService.behaviorSubjectHighlight.value;
         const definition = condition.match(/^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/);
         if (definition != null) {
@@ -11,11 +13,11 @@ export class DefStructure extends Structure{
         }
     }
     currentLine: number = -1;
-    localVariables: { [key: string]: any } = {};
     parameters: string[] = [];
     name: string = "";
     position: number = 0;
     called: boolean = false;
+    myContext: any;
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
@@ -43,7 +45,7 @@ export class DefStructure extends Structure{
         }
 
         // llamaron a la funcion
-        if(this.currentLine == 0 && !this.called){ // revisar si called es necesario (lo use porq lo habia pensado de otra forma pero ahora creo q no hace falta)
+        if(this.currentLine == 0 && !this.called){ 
             this.called = true;
             this.codeService.goToLine(this.position);
             return {amount: 0, finish: false};
@@ -62,6 +64,7 @@ export class DefStructure extends Structure{
         }else{ // termine de ejecutar la función
             this.currentLine = 0; // tengo que reiniciarla por si se llama de nuevo a la funcion
             this.called = false;
+            this.variablesService.deleteContext(this.myContext);
             return {amount: 1, finish: true};
         }
     }
@@ -71,8 +74,15 @@ export class DefStructure extends Structure{
     }
 
     setParameters(args: string[]){
+        const params: any = {};
         this.parameters.forEach((param, index) => {
-            this.localVariables[param] = args[index];
+            params[param] = args[index];
         });
+
+        this.variablesService.setVariables(this.myContext, params);
+    }
+
+    setContext(context: Context){
+        this.myContext = context;
     }
 }

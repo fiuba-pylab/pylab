@@ -1,16 +1,20 @@
 import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
+import { Context } from "./context";
 
 export abstract class Structure{
-    variables: { [key: string]: any } = {};
     lines: any[] = [];
     level: number; 
     condition: string;
     codeService: CodeService;
-    constructor(level: number, condition: string, codeService: CodeService, variables: {}){
+    variablesService: VariablesService;
+    context: Context;
+    constructor(level: number, condition: string, codeService: CodeService, variablesService: VariablesService, context: Context){
         this.level = level;
         this.condition = condition;
         this.codeService = codeService;
-        this.variables = variables;
+        this.variablesService = variablesService;
+        this.context = context;
     }
     abstract setScope(code: any): void;
 

@@ -25,6 +25,7 @@ export class NullStructure extends Structure {
     }
 
     override execute(): { amount: number, finish: boolean } {
+        const variables = this.variablesService.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -36,27 +37,27 @@ export class NullStructure extends Structure {
 
         if (variableDeclaration) {
             const varName = variableDeclaration[1];
-            let varValue = applyFunctions(variableDeclaration[2], this.variables);
-            this.variables[varName] = evaluate(varValue);
+            let varValue = applyFunctions(variableDeclaration[2], variables);
+            variables[varName] = evaluate(varValue);
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            this.variables[variable] = applyOperation(Number(this.variables[variable]), operator, Number(value));
+            variables[variable] = applyOperation(Number(variables[variable]), operator, Number(value));
         }
         if(print){
             let value = print[1]
             if(print[2]){
                 value = print[2]
             }
-            let printValue = replaceVariablesInPrint(value, this.variables);
+            let printValue = replaceVariablesInPrint(value, variables);
             printValue = evaluateExpression(printValue);
             printValue = cleanPrintValue(printValue)
             this.codeService.setPrint(printValue);
         }
-
-        this.codeService.updateVariables(this.variables);
+        this.variablesService.setVariables(this.context, variables);
+        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 }

@@ -9,9 +9,9 @@ export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 export class CodeService {
   private length: number = 0;
   private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
-  private behaviorSubjectVariables = new BehaviorSubject<{
-    [key: string]: any;
-  }>({});
+  // private behaviorSubjectVariables = new BehaviorSubject<{
+  //   [key: string]: any;
+  // }>({});
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
   private behaviorSubjectFunctions = new BehaviorSubject<{
     [key: string]: DefStructure;
@@ -21,7 +21,7 @@ export class CodeService {
   private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
-  variables = this.behaviorSubjectVariables.asObservable();
+  // variables = this.behaviorSubjectVariables.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
   functions = this.behaviorSubjectFunctions.asObservable();
 
@@ -50,9 +50,9 @@ export class CodeService {
     }
   }
 
-  updateVariables(variables: any): void {
-    this.behaviorSubjectVariables.next(variables);
-  }
+  // updateVariables(variables: any): void {
+  //   this.behaviorSubjectVariables.next(variables);
+  // }
 
   previousLine() {
     var highlightLine = this.behaviorSubjectHighlight.value;
