@@ -1,23 +1,24 @@
 #diagram-container{
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 2fr;
     gap: 10px;
     height: 100%;
 }
 
 .output-container{
-    border-radius: 10px;
+    border-radius: 6px;
     background-color: white;
     box-shadow: 0px 0px 4px rgba(64, 64, 63, 0.5);
-    width: 98%;
-    height: 25%;
-    margin: 5px;
+    margin: 10px 10px 0px 10px;
     overflow: hidden;
 }
 
 .variables{
-    height: 75%;
+    margin: 0px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .title{
