@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, Input as np, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
+=======
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit, viewChild } from '@angular/core';
+>>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,15 +11,25 @@ import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
 import { MatIcon } from '@angular/material/icon';
+<<<<<<< HEAD
 import { Input } from '../../classes/program';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+=======
+import { MatButtonModule } from '@angular/material/button';
+import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+>>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
 
 const LANGUAGE = 'python';
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.scss'],
+<<<<<<< HEAD
   imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule],
+=======
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule, ],
+>>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -29,7 +43,16 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
   private coordinator: any = null;
 
-  constructor(private codeService: CodeService) { }
+  velocities = [0.5, 1, 2];
+  velocity = 1;
+  mode = 'manual';
+  isRunning: boolean = false;
+  isPaused: boolean = false;
+  isFinished: boolean = false; // TODO
+  intervalId: any = null;
+  readonly menuTrigger = viewChild.required(MatMenuTrigger);
+
+  constructor(private codeService: CodeService, private dialog: MatDialog) { }
 
   ngOnInit():void{
     if(!this.inputs) return;
@@ -121,6 +144,32 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute(true);
     }
+  }
+
+  setVelocity(level: any) {
+    this.velocity = level;
+  }
+
+  play(){
+    if (this.isPaused) {
+      this.isPaused = false;
+    } else if (!this.isRunning) {
+      this.isRunning = true;
+      this.intervalId = setInterval(() => {
+        if (!this.isPaused) {
+          this.nextLine();
+        }
+      }, 1000/this.velocity); 
+    }
+  }
+
+  pause(){
+    this.isPaused = true;
+  }
+
+  stop() {
+    this.isRunning = false;
+    clearInterval(this.intervalId);
   }
 
   ngOnDestroy(): void {

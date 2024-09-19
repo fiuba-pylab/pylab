@@ -4,7 +4,7 @@
         "title":"Raíces - ecuación cuadrática",
         "description": "Ejemplo de programa con todos los atributos",
         "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4> Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.<br> <h4>Casos:</h4> Sea b^2-4ac el determinante para el cálculo de soluciones:<br> 1. Determinante positivo: dos soluciones reales.<br> 2. Determinante nulo: raiz real doble.<br> 3. Determinante negativo: dos soluciones complejas (conjugadas).",
+        "introduction": "<h4>Objetivo:</h4> Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.<br><br> <h4>Casos:</h4> Sea b^2-4ac el determinante para el cálculo de soluciones:<br> 1. Determinante positivo: dos soluciones reales.<br> 2. Determinante nulo: raiz real doble.<br> 3. Determinante negativo: dos soluciones complejas (conjugadas).",
         "inputs":[
             {
                 "name":"a",
