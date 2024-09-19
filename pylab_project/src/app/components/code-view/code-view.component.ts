@@ -7,6 +7,7 @@ import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
 import { MatIcon } from '@angular/material/icon';
+import { VariablesService } from '../../services/variables.service';
 
 const LANGUAGE = 'python';
 @Component({
@@ -26,7 +27,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
   private coordinator: any = null;
 
-  constructor(private codeService: CodeService) { }
+  constructor(private codeService: CodeService, private variablesService: VariablesService) { }
 
   ngOnInit():void{
     if(!this.inputs) return;
@@ -47,7 +48,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.editor) {
       if (changes['code']) {
         this.codeService.setLength(this.code.length);
-        this.coordinator = new Coordinator(this.codeService, this.code);
+        this.coordinator = new Coordinator(this.codeService, this.code, this.variablesService);
         this.editor.setValue(this.code);
         this.updateDecorations();
       }

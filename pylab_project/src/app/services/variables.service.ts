@@ -12,19 +12,17 @@ export class VariablesService {
 
     constructor() {}
 
-    updateContexts(contexts: any): void {
-        this.behaviorSubjectContexts.next(contexts);
-    }
-
     getVariables(context: Context): { [key:string]: any }  {
         return this.behaviorSubjectContexts.value.get(context) || {};
     }
 
     setVariables(context: Context, variables: any): void {
-        this.behaviorSubjectContexts.value.set(context, variables);
+        const contexts = this.behaviorSubjectContexts.value.set(context, variables);
+        this.behaviorSubjectContexts.next(contexts);
     }
 
     deleteContext(context: Context): void {
         this.behaviorSubjectContexts.value.delete(context);
+        this.behaviorSubjectContexts.next(this.behaviorSubjectContexts.value);
     }
 }

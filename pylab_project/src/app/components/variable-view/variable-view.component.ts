@@ -11,27 +11,28 @@ import { Context } from '../../classes/context';
   styleUrl: './variable-view.component.css'
 })
 export class VariableViewComponent {
-  contexts: Map<Context, any> = new Map<Context, any>();
+  contexts: Map<Context, any> = new Map<Context, {[keys: string]: any}>();
   variableKeys: string[] = [];
   print: string = '';
+  contextsKeys: Context[] = [];
   //jsPlumbInstance: any;
   constructor(private variablesService: VariablesService, private codeService: CodeService) { }
 
   ngOnInit(): void {
-    // this.codeService.variables.subscribe((value) => {
-    //   this.variables = value;
-    //   this.variableKeys = Object.keys(this.variables);
-    //     //this.updateDiagram();
-    // });
     this.variablesService.contexts.subscribe((value) => {
+      console.log("Contextos: "+value);
       this.contexts = value;
-      console.log("CONTEXTS: "+this.contexts);
-      //this.variableKeys = Object.keys(this.contexts);
+      this.contextsKeys = Array.from(this.contexts.keys());
     });
 
     this.codeService.print.subscribe((value) => {
       this.print = value;
     });
+  }
+
+  getVariableKeys(context: Context): string[] {
+    const dictionary = this.contexts.get(context);
+    return dictionary ? Object.keys(dictionary) : [];
   }
 
   // ngAfterViewInit(): void {

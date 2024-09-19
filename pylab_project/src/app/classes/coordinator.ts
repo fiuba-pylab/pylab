@@ -16,8 +16,9 @@ export class Coordinator {
     funcCallLine: number = 0;
     executingFunction: boolean = false;
     contexts: Context[] = [new Context(uuidv4())];
-    variablesService: VariablesService = new VariablesService();
-    constructor(codeService: CodeService, code: string) {        
+    variablesService: any;
+    constructor(codeService: CodeService, code: string, variablesService: VariablesService) {
+        this.variablesService = variablesService;        
         this.codeService = codeService;
         this.code = code.split('\n');
         this.codeService.functions.subscribe(async (value)=> {
