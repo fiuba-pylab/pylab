@@ -19,6 +19,9 @@ export class WhileStructure extends Structure{
         }
     }
 
+    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+        var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
+        
     override execute(): {amount: number, finish: boolean}{
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
@@ -27,7 +30,7 @@ export class WhileStructure extends Structure{
             return {amount: -(this.lines.length+1), finish: true};
         }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
-            this.currentLine++;
+            this.currentLine += amountToAdd ?? 0;
             return {amount: 0, finish: false};
         }
         if(evaluate(condition_replaced)){

@@ -36,15 +36,19 @@ export class NullStructure extends Structure {
         const print = this.lines[0].match(REGEX_PRINT);
 
         if (variableDeclaration) {
-            const varName = variableDeclaration[1];
-            let varValue = applyFunctions(variableDeclaration[2], variables);
-            variables[varName] = evaluate(varValue);
+           const varName = variableDeclaration[1];
+           let varValue = applyFunctions(variableDeclaration[2], variables);
+           if(!variables[varName]){
+                variables[varName] = []
+           }
+           variables[varName].push(evaluate(varValue));
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            variables[variable] = applyOperation(Number(variables[variable]), operator, Number(value));
+            variables[variable].push(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+
         }
         if(print){
             let value = print[1]

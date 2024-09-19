@@ -56,8 +56,21 @@ export class Coordinator {
     }
 
     execute(isPrevious: boolean = false) {
+        console.log("structures", this.structures)
         if(isPrevious){
-            this.codeService.previousLine();
+            const prevAmount = this.codeService.previousLine();
+            if(prevAmount){
+                this.currentLine -= prevAmount;
+                const currentLine = this.code[this.currentLine].trim()
+                /* if(currentLine.split(' ')[0] == 'if'){ */
+                    this.structures.pop();
+                /* } */
+                if(this.variables[currentLine.split(' ')[0]]){
+                    this.variables[currentLine.split(' ')[0]].pop()
+                    //this.codeService.updateVariables(this.variables)
+                }
+                
+            }
             return
         }
         let prevAmount = 0;

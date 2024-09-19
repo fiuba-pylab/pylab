@@ -10,8 +10,7 @@
                 <p class="title">{{ context.name }}</p>
                 @for (variable of getVariableKeys(context); track $index) {
                     <div class="variable">
-                        <p class="variable-name">{{ variable }}:</p>
-                        <p class="variable-value">{{ contexts.get(context)[variable] }}</p>
+                        <mat-label> {{ variable }}: {{ contexts.get(context)[variable] }}</mat-label>
                     </div>
                 }
             </div>

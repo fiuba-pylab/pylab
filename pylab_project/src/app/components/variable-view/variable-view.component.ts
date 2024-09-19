@@ -2,11 +2,12 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { CodeService } from '../../services/code.service';
 import { VariablesService } from '../../services/variables.service';
 import { Context } from '../../classes/context';
+import { MatLabel } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-variable-view',
   standalone: true,
-  imports: [],
+  imports: [MatLabel],
   templateUrl: './variable-view.component.html',
   styleUrl: './variable-view.component.css'
 })

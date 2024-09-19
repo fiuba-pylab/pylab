@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 interface ResponseForm {
   name:string
@@ -14,7 +15,7 @@ interface ResponseForm {
 @Component({
   selector: 'app-program-intro-modal',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIconModule],
   templateUrl: './program-intro-modal.component.html',
   styleUrl: './program-intro-modal.component.css'
 })
