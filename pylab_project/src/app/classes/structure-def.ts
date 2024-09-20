@@ -64,7 +64,6 @@ export class DefStructure extends Structure{
         }else{ // termine de ejecutar la función
             this.currentLine = 0; // tengo que reiniciarla por si se llama de nuevo a la funcion
             this.called = false;
-            this.variablesService.deleteContext(this.myContext);
             return {amount: 1, finish: true};
         }
     }
