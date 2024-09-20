@@ -20,9 +20,6 @@ export class WhileStructure extends Structure{
     }
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
-        var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
-        
-    override execute(): {amount: number, finish: boolean}{
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.currentLine == this.lines.length){

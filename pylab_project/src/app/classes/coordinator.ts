@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class Coordinator {
     structures: any[] = [];
-    variables: { [key: string]: any } = {};
     code: string[] = [];
     codeService: CodeService;
     currentLine: number = 0;
@@ -33,13 +32,13 @@ export class Coordinator {
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
         if(call != null){
             if(this.code[this.currentLine].includes('def')){
-                this.contexts.push(new Context(uuidv4(), call));
-                this.functions[call].setContext(this.contexts[this.contexts.length - 1]);
                 return;
             }
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
-                const args = replaceVariables(params[1], this.variables).split(',').map((arg: string) => arg.trim());
+                const args = replaceVariables(params[1], this.variablesService.getVariables(this.contexts[this.contexts.length-1])).split(',').map((arg: string) => arg.trim());
+                this.contexts.push(new Context(uuidv4(), call));
+                this.functions[call].setContext(this.contexts[this.contexts.length - 1]);
                 this.functions[call].setParameters(args);
                 // TODO: ver parametros por nombre
             }
@@ -64,10 +63,13 @@ export class Coordinator {
                 const currentLine = this.code[this.currentLine].trim()
                 /* if(currentLine.split(' ')[0] == 'if'){ */
                     this.structures.pop();
-                /* } */
-                if(this.variables[currentLine.split(' ')[0]]){
-                    this.variables[currentLine.split(' ')[0]].pop()
-                    //this.codeService.updateVariables(this.variables)
+                // /* } */
+                const varName = currentLine.split(' ')[0];
+                const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
+                if(variables[currentLine.split(' ')[0]]){
+                    variables[currentLine.split(' ')[0]].pop()
+                    this.variablesService.setVariables(this.contexts[this.contexts.length - 1], variables);
+                    // esto no funciona, lo acomode asi para que use el variable service pero hay q revisar
                 }
                 
             }

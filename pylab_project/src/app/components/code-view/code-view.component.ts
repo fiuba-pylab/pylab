@@ -38,9 +38,8 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   isFinished: boolean = false; // TODO
   intervalId: any = null;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
-
-  constructor(private codeService: CodeService, private dialog: MatDialog) { }
-  constructor(private codeService: CodeService, private variablesService: VariablesService) { }
+  
+  constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
 
   ngOnInit():void{
     if(!this.inputs) return;

@@ -131,7 +131,6 @@ function evaluateExpression(expression: string): string {
 function cleanPrintValue(value: string): string {
     value = value.replace(/^[^'"]*['"]/, '');
     value = value.replace(/^"|'(.*)"|'$/, '$1');
-    value = value.replace(REGEX_REMOVE_BRACES, '$1');
     value = value.replace(/\\n|\n/g, '<br>');
     value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
     return value;
