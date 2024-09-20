@@ -67,7 +67,6 @@ export class NullStructure extends Structure {
     }
     
     async evaluateFunction(funcName: string, args: string, varName?: string): Promise<string> {
-        // TODO: lógica números imaginarios
         let evalArgs = evaluate(args);
         switch (funcName) {
             case 'float':
@@ -83,7 +82,7 @@ export class NullStructure extends Structure {
                 return (Math.pow(Number(funcArgs[0]), Number(funcArgs[1]))).toString();
             case 'math.sqrt':
                 return (Math.sqrt(Number(evalArgs))).toString();
-            case 'math.round':
+            case 'm             ath.round':
                 var funcArgs = (args as string).split(',');
                 if (funcArgs.length > 1) {
                     return Number(funcArgs[0]).toFixed(Number(funcArgs[1])).toString();
@@ -94,13 +93,11 @@ export class NullStructure extends Structure {
             case 'math.log10':
                 return (Math.log10(Number(evalArgs))).toString();
             case 'input': 
-                // variable y sus opciones
                 return await this.codeService.getInput(evalArgs, varName??''); 
-
-                
             default:
                 return evalArgs; 
         }
+
     }
     
     applyOperation(variableValue: number, operator: Operator, value: number): number {

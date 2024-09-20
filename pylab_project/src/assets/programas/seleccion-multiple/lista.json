@@ -9,22 +9,22 @@
             {
                 "name":"angulo1",
                 "options":[
-                    "option0-input0",
-                    "option1-input0"
+                    "20",
+                    "40"
                 ]
             },
             {
                 "name":"angulo2",
                 "options":[
-                    "option0-input1",
-                    "option1-input1"
+                    "70",
+                    "85"
                 ]
             },
             {
                 "name":"angulo3",
                 "options":[
-                    "option0-input2",
-                    "option1-input2"
+                    "75",
+                    "70"
                 ]
             }
         ]

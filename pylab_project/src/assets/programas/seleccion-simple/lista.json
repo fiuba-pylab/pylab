@@ -7,17 +7,17 @@
         "introduction": "Objetivo: ",
         "inputs":[
             {
-                "name":"input0",
+                "name":"hora1",
                 "options":[
-                    "option0-input0",
-                    "option1-input0"
+                    "053059",
+                    "051059"
                 ]
             },
             {
-                "name":"input1",
+                "name":"hora2",
                 "options":[
-                    "option0-input1",
-                    "option1-input1"
+                    "041000",
+                    "052010"
                 ]
             }
         ]

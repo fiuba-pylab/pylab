@@ -16,5 +16,10 @@ export function replaceOperators(template: string): string {
 
 export function evaluate(code: any): any {
     // TODO: Sanitize input
-    return eval(code);
+    try {
+        return eval(code);
+    } catch (e) {
+        console.error(e);
+        return code;
+    }
 }
