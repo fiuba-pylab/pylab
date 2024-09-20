@@ -16,6 +16,6 @@ export abstract class Structure{
     }
     abstract setScope(code: any): void;
 
-    abstract execute(amountToAdd?: number): {amount: number, finish: boolean};
+    abstract execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>;
 }
 

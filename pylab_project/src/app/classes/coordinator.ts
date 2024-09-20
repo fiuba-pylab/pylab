@@ -1,4 +1,5 @@
 import { CodeService } from "../services/code.service";
+import { Structure } from "./structure";
 import { StructureFactory } from "./structure-factory";
 
 export class Coordinator {
@@ -18,16 +19,12 @@ export class Coordinator {
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-<<<<<<< HEAD
-        console.log("VARIABLES: " + JSON.stringify(this.variables));
-=======
->>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
         const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variables);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
 
-    execute(isPrevious: boolean = false) {
+    async execute(isPrevious: boolean = false) {
         console.log("structures", this.structures)
         if(isPrevious){
             const prevAmount = this.codeService.previousLine();
@@ -48,8 +45,8 @@ export class Coordinator {
         let prevAmount = 0;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
-            const structure = this.structures[i];
-            const result = structure.execute(prevAmount);
+            const structure : Structure = this.structures[i];
+            const result = await structure.execute(prevAmount);
             if (result.finish) {
                 this.structures.pop();
             }

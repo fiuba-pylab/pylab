@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Component, Input as np, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit } from '@angular/core';
-=======
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit, viewChild } from '@angular/core';
->>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
+import { Component, Input , OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,33 +6,27 @@ import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
+import * as pr from '../../classes/program' ;
 import { MatIcon } from '@angular/material/icon';
-<<<<<<< HEAD
-import { Input } from '../../classes/program';
-import { MatButton, MatButtonModule } from '@angular/material/button';
-=======
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
->>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
+import { ProgramInput } from '../../pages/program-display/program-input/program-input.component';
+import { lastValueFrom } from 'rxjs';
 
 const LANGUAGE = 'python';
 @Component({
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.scss'],
-<<<<<<< HEAD
-  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule],
-=======
-  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule, ],
->>>>>>> ebefd6981b949d30ceb096851e983e7da25dd5cc
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule],
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
-  @np() code: string = '';
-  @np() inputs: any = [new Input("", "", [])]; 
-  @np() highlightLine: number = 0;
+  @Input() code: string = '';
+  @Input() inputs: any[] = []; 
+  @Input() highlightLine: number = 0;
   @Output() variablesChanged = new EventEmitter<any>();
   forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
@@ -56,9 +46,8 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit():void{
     if(!this.inputs) return;
-    for(let select of this.inputs){
-      this.forms.push({name:select.name, form:new FormControl('')})
-    }
+    this.codeService.addDialog(this.dialog);
+    this.codeService.addInputs(this.inputs);
   }
 
   ngAfterViewInit(): void { 

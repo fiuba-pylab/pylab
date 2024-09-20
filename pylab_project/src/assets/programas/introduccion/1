@@ -1,7 +1,7 @@
 #cadenas son inputs, adaptado para testing
-cadena_a = 2 
-cadena_b = 2
-cadena_c = 4
+cadena_a = input('Introduce el valor de a: ')
+cadena_b = input('Introduce el valor de b: ')
+cadena_c = input('Introduce el valor de c: ')
 
 a = float(cadena_a)
 b = float(cadena_b)

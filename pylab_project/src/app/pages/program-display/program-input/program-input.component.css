@@ -1,0 +1,18 @@
+.x-close {
+    cursor: pointer;
+}
+
+.input-container{
+    padding: 20px;
+}
+
+.header{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2{
+    padding: 0px;
+}

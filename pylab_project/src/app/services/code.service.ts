@@ -1,5 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, lastValueFrom, Observable, ReplaySubject, take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ProgramInput } from '../pages/program-display/program-input/program-input.component';
 export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 
 @Injectable({
@@ -12,10 +14,13 @@ export class CodeService {
     [key: string]: any;
   }>({});
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
+  private behaviorOpenDialog = new BehaviorSubject<{msg: string, varName: string}>({msg: "", varName: ""});
+  behaviorCloseDialog = new BehaviorSubject<string>("");
   private codePath: number[] = [];
   private codePathIndex: number = -1;
   private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
-
+  dialog:MatDialog | undefined; 
+  inputs:any[] | undefined; 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
   variables = this.behaviorSubjectVariables.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
@@ -76,5 +81,27 @@ export class CodeService {
   
   setPrint(value: string): void {
     this.behaviorSubjectPrint.next(value);
+  }
+
+  async getInput(msg: string, varName: string): Promise<string> {
+    this.behaviorOpenDialog.next({msg, varName});
+    let dialog = this.dialog?.open(ProgramInput, {
+      data: {
+        title: msg,
+        options: this.inputs?.find((input) => input.name === varName)?.options ?? [],
+      },
+      disableClose: true
+    });
+    if (dialog) {
+      return lastValueFrom(dialog.afterClosed());
+    }
+    return Promise.reject('Dialog is undefined');
+  }
+
+  addDialog(dialog: MatDialog): void {
+    this.dialog = dialog;
+  }
+  addInputs(inputs: any[]): void {
+    this.inputs = inputs;
   }
 }
