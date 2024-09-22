@@ -1,5 +1,6 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DefStructure } from '../classes/structure-def';
 export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 
 @Injectable({
@@ -8,17 +9,21 @@ export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 export class CodeService {
   private length: number = 0;
   private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
-  private behaviorSubjectVariables = new BehaviorSubject<{
-    [key: string]: any;
-  }>({});
+  // private behaviorSubjectVariables = new BehaviorSubject<{
+  //   [key: string]: any;
+  // }>({});
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
+  private behaviorSubjectFunctions = new BehaviorSubject<{
+    [key: string]: DefStructure;
+  }>({});
   private codePath: number[] = [];
   private codePathIndex: number = -1;
   private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
-  variables = this.behaviorSubjectVariables.asObservable();
+  // variables = this.behaviorSubjectVariables.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
+  functions = this.behaviorSubjectFunctions.asObservable();
 
   constructor() {}
 
@@ -45,9 +50,9 @@ export class CodeService {
     }
   }
 
-  updateVariables(variables: any): void {
-    this.behaviorSubjectVariables.next(variables);
-  }
+  // updateVariables(variables: any): void {
+  //   this.behaviorSubjectVariables.next(variables);
+  // }
 
   previousLine() {
     const amount = this.codePath[this.codePathIndex];
@@ -68,5 +73,15 @@ export class CodeService {
 
   setPrint(value: string): void {
     this.behaviorSubjectPrint.next(value);
+  }
+
+  setFunction(name: string, structure: DefStructure): void {
+    var functions = this.behaviorSubjectFunctions.value;
+    functions[name] = structure;
+    this.behaviorSubjectFunctions.next(functions);
+  }
+
+  goToLine(line: number): void {
+    this.behaviorSubjectHighlight.next(line);
   }
 }

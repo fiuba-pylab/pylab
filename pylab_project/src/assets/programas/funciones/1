@@ -1,0 +1,17 @@
+def suma(a, b):
+    y = a + b
+    return y
+def nombre_funcion(param, param2):
+    print(f"{param}")
+    print(f"{param2}")
+    x = 1
+    y = 8
+    if y > x:
+        print(f"{y}")
+    else:
+        print(f"{x}")
+    w = 6
+    return x, w
+y = 10
+x, z = nombre_funcion(y, y)
+print(f"{x}")

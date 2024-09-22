@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "title": "Prueba",
+        "description": "Prueba de funciones",
+        "difficulty": 1,
+        "introduction": "Objetivo: "
+    },
+    {
+        "id": 2,
+        "title": "Prueba recursiva",
+        "description": "Prueba de funciones 2",
+        "difficulty": 5,
+        "introduction": "Objetivo: "
+    }
+]

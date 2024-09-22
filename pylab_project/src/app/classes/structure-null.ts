@@ -6,7 +6,7 @@ const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
 const REGEX_FUNCTIONS = /\b(float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const RETURN_BREAK_RETURN = /\b(return|break)\b(?:\s+[^;]*)?;/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
-const REGEX_REMOVE_BRACES = /{(\w+)}/g;
+const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -25,6 +25,7 @@ export class NullStructure extends Structure {
     }
 
     override execute(): { amount: number, finish: boolean } {
+        const variables = this.variablesService.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -33,35 +34,45 @@ export class NullStructure extends Structure {
         const variableDeclaration = this.lines[0].match(REGEX_VARIABLE_DECLARATION);
         const operations = this.lines[0].match(REGEX_OPERATIONS);
         const print = this.lines[0].match(REGEX_PRINT);
-
+        const isReturn = this.lines[0].match(REGEX_RETURN);
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
-           let varValue = applyFunctions(variableDeclaration[2], this.variables);
-           if(!this.variables[varName]){
-            this.variables[varName] = []
+           let varValue = applyFunctions(variableDeclaration[2], variables);
+           if(!variables[varName]){
+                variables[varName] = []
            }
-           this.variables[varName].push(evaluate(varValue));
-
-
+           variables[varName].push(evaluate(varValue));
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            this.variables[variable].push(applyOperation(Number(this.variables[variable][this.variables[variable].length -1]), operator, Number(value)));
+            variables[variable].push(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+
         }
         if(print){
             let value = print[1]
             if(print[2]){
                 value = print[2]
             }
-            let printValue = replaceVariablesInPrint(value, this.variables);
+            let printValue = replaceVariablesInPrint(value, variables);
             printValue = evaluateExpression(printValue);
             printValue = cleanPrintValue(printValue)
             this.codeService.setPrint(printValue);
         }
 
-        this.codeService.updateVariables(this.variables);
+        if(isReturn){
+            let values = isReturn[1].split(',').map((value: string) => value.trim());
+            if(values){
+                for (let i = 0; i < values.length; i++) {
+                    let value = applyFunctions(values[i], variables)
+                    values[i] = evaluate(value);
+                }
+                this.context.setReturnValue(values);
+            }
+        }
+        this.variablesService.setVariables(this.context, variables);
+        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 }
@@ -131,7 +142,6 @@ function evaluateExpression(expression: string): string {
 function cleanPrintValue(value: string): string {
     value = value.replace(/^[^'"]*['"]/, '');
     value = value.replace(/^"|'(.*)"|'$/, '$1');
-    value = value.replace(REGEX_REMOVE_BRACES, '$1');
     value = value.replace(/\\n|\n/g, '<br>');
     value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
     return value;
