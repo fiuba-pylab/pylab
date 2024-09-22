@@ -65,10 +65,8 @@ export class NullStructure extends Structure {
             let values = isReturn[1].split(',').map((value: string) => value.trim());
             if(values){
                 for (let i = 0; i < values.length; i++) {
-                    let value = replaceVariables(values[i], variables);
-                    value = evaluateExpression(value);
-                    
-                    values[i] = value;
+                    let value = applyFunctions(values[i], variables)
+                    values[i] = evaluate(value);
                 }
                 this.context.setReturnValue(values);
             }

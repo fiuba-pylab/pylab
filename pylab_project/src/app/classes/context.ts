@@ -3,8 +3,12 @@ export class Context{
     id: string = '';
     return: any | null = null;
     returnVariables: string[] = [];
-    constructor(id: string, name?: string){
+    callLine: number = 0;
+    constructor(id: string, funcCallLine?: number, name?: string){
         this.id = id;
+        if(funcCallLine){
+            this.callLine = funcCallLine;
+        }
         if(name){
             this.name = name;
         }
@@ -20,5 +24,9 @@ export class Context{
 
     getReturnValue(){
         return {names: this.returnVariables, values: this.return};
+    }
+
+    getCallLine(){
+        return this.callLine;
     }
 }

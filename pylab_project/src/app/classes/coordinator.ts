@@ -5,15 +5,15 @@ import { Context } from "./context";
 import { DefStructure } from "./structure-def";
 import { StructureFactory } from "./structure-factory";
 import { v4 as uuidv4 } from 'uuid';
-import { cloneDeep } from 'lodash';
+
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
+const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 export class Coordinator {
     structures: any[] = [];
     code: string[] = [];
     codeService: CodeService;
     currentLine: number = 0;
     functions: { [key: string]: DefStructure } = {};
-    funcCallLine: number = 0;
     executingFunction: boolean = false;
     contexts: Context[] = [new Context(uuidv4())];
     variablesService: any;
@@ -32,7 +32,7 @@ export class Coordinator {
         //const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/); // cambiar regex para detectar cuando hay algo asi: a = funcion_propia(param) o q busque las keys de funciones en la linea
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
         if(call != null){
-            const context = new Context(uuidv4(), call);
+            const context = new Context(uuidv4(), this.currentLine, call);
             if(this.code[this.currentLine].includes('def')){
                 return;
             }
@@ -40,7 +40,8 @@ export class Coordinator {
             if (returnVar != null) {
                 const varNames = returnVar[1].split(',').map((name: string) => name.trim());
                 context.setReturnVarName(varNames);
-            }
+            }   
+
             const func = this.functions[call].clone(this.contexts[this.contexts.length-1]);
             func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
@@ -51,7 +52,6 @@ export class Coordinator {
             }
             this.contexts.push(context);
             this.structures.push(func);
-            this.funcCallLine = this.currentLine;
             this.executingFunction = true;
             this.currentLine = this.functions[call].position - 1;
             return;
@@ -84,17 +84,17 @@ export class Coordinator {
             return
         }
         let prevAmount = 0;
+        let lastStructure = null;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure = this.structures[i];
             const result = structure.execute(prevAmount);
             if (result.finish) {
-                this.structures.pop();
+                lastStructure = this.structures.pop();
                 if(this.executingFunction && structure.isFunction()){
-                    this.executingFunction = false;
-                    this.codeService.goToLine(this.funcCallLine + 1);
-                    this.currentLine = this.funcCallLine;
                     const lastContext = this.contexts.pop();
+                    this.codeService.goToLine(lastContext!.getCallLine() + 1);
+                    this.currentLine = lastContext!.getCallLine();
                     const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
                     const returnVar = lastContext?.getReturnValue();
                     if(returnVar){
@@ -106,11 +106,16 @@ export class Coordinator {
                     this.variablesService.setVariables(variables);
                 }
             }
-            prevAmount += result.amount;
+            if(lastStructure && lastStructure.isFunction() && lastStructure.insideAFunction()){
+                prevAmount = 1;
+                lastStructure = null;
+            }else{
+                prevAmount += result.amount;
+            }
             this.currentLine += result.amount;
             this.codeService.nextLine(result.amount);
 
-            if (this.executingFunction && structure.isFunction() && !result.finish) { // revisar xq capaz el executingFunction es al pedo
+            if (structure.isFunction() && !result.finish) {
                 break;
             }
         }
@@ -119,7 +124,7 @@ export class Coordinator {
 
 function containsFunctionName(str: string, dict: {[key: string]: any}): string | null{
     for (let key in dict) {
-        if (str.includes(key)) {
+        if (str.includes(key+'(')) {
             return key; 
         }
     }

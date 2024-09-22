@@ -61,10 +61,8 @@ export class DefStructure extends Structure{
 
         // ejecutando la función
         if(this.currentLine > 0 && this.currentLine <= this.lines.length){
-            return {amount: 0, finish: false};
+            return {amount: 0, finish: false};    
         }else{ // termine de ejecutar la función
-            this.currentLine = 0; // tengo que reiniciarla por si se llama de nuevo a la funcion
-            this.called = false;
             return {amount: 1, finish: true};
         }
     }
@@ -84,6 +82,10 @@ export class DefStructure extends Structure{
 
     setContext(context: Context){
         this.myContext = context;
+    }
+
+    insideAFunction(): boolean {
+        return (this.context.name != 'global');
     }
 
     clone(context: Context): DefStructure {
