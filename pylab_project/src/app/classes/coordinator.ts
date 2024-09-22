@@ -1,3 +1,4 @@
+import { REGEX_CONSTS } from "../constans";
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
@@ -6,8 +7,6 @@ import { DefStructure } from "./structure-def";
 import { StructureFactory } from "./structure-factory";
 import { v4 as uuidv4 } from 'uuid';
 
-const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
-const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 export class Coordinator {
     structures: any[] = [];
     code: string[] = [];
@@ -36,7 +35,7 @@ export class Coordinator {
             if(this.code[this.currentLine].includes('def')){
                 return;
             }
-            const returnVar = this.code[this.currentLine].match(REGEX_RETURN_VARIABLES);
+            const returnVar = this.code[this.currentLine].match(REGEX_CONSTS.REGEX_RETURN_VARIABLES);
             if (returnVar != null) {
                 const varNames = returnVar[1].split(',').map((name: string) => name.trim());
                 context.setReturnVarName(varNames);

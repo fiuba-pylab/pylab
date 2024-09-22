@@ -1,3 +1,4 @@
+import { REGEX_CONSTS } from "../constans";
 import { VariablesService } from "../services/variables.service";
 import { evaluate } from "../utils";
 import { Context } from "./context";
@@ -7,7 +8,7 @@ export class DefStructure extends Structure{
     constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
         super(level, condition, codeService, variablesService, context);
         this.position = codeService.behaviorSubjectHighlight.value;
-        const definition = condition.match(/^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/);
+        const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
             this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
             this.name = definition[1].trim();

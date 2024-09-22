@@ -1,12 +1,6 @@
+import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "../constans";
 import { evaluate, replaceVariables } from "../utils";
 import { Structure } from "./structure";
-
-const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
-const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
-const REGEX_FUNCTIONS = /\b(float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
-const RETURN_BREAK_RETURN = /\b(return|break)\b(?:\s+[^;]*)?;/g;
-const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
-const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -31,10 +25,10 @@ export class NullStructure extends Structure {
             return { amount: 0, finish: true };
         }
 
-        const variableDeclaration = this.lines[0].match(REGEX_VARIABLE_DECLARATION);
-        const operations = this.lines[0].match(REGEX_OPERATIONS);
-        const print = this.lines[0].match(REGEX_PRINT);
-        const isReturn = this.lines[0].match(REGEX_RETURN);
+        const variableDeclaration = this.lines[0].match(REGEX_CONSTS.REGEX_VARIABLE_DECLARATION);
+        const operations = this.lines[0].match(REGEX_CONSTS.REGEX_OPERATIONS);
+        const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
+        const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
            let varValue = applyFunctions(variableDeclaration[2], variables);
@@ -72,7 +66,6 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService.setVariables(this.context, variables);
-        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 }
@@ -96,28 +89,28 @@ function evaluateFunction(funcName: string, args: string): string {
     // TODO: lógica números imaginarios
     let evalArgs = evaluate(args);
     switch (funcName) {
-        case 'float':
+        case NATIVE_FUNCTIONS.FLOAT:
             return String(Number(evalArgs));
-        case 'int':
+        case NATIVE_FUNCTIONS.INT:
             return String(parseInt(evalArgs));
-        case 'len':
+        case NATIVE_FUNCTIONS.LEN:
             return String((evalArgs as string).length); 
-        case 'str':
+        case NATIVE_FUNCTIONS.STR:
             return String(evalArgs);
-        case 'math.pow':
+        case NATIVE_FUNCTIONS.MATH_POW:
             var funcArgs = (args as string).split(',');
             return (Math.pow(Number(funcArgs[0]), Number(funcArgs[1]))).toString();
-        case 'math.sqrt':
+        case NATIVE_FUNCTIONS.MATH_SQRT:
             return (Math.sqrt(Number(evalArgs))).toString();
-        case 'math.round':
+        case NATIVE_FUNCTIONS.MATH_ROUND:
             var funcArgs = (args as string).split(',');
             if (funcArgs.length > 1) {
                 return Number(funcArgs[0]).toFixed(Number(funcArgs[1])).toString();
             }
             return (Math.round(Number(evalArgs))).toString();
-        case 'math.asin':
+        case NATIVE_FUNCTIONS.MATH_ASIN:
             return (Math.asin(Number(evalArgs))).toString();
-        case 'math.log10':
+        case NATIVE_FUNCTIONS.MATH_LOG10:
             return (Math.log10(Number(evalArgs))).toString();
         default:
             return evalArgs; 
@@ -130,7 +123,7 @@ function evaluateExpression(expression: string): string {
 
     do {
         previousExpression = currentExpression;
-        currentExpression = currentExpression.replace(REGEX_FUNCTIONS, (match, funcName, args) => {
+        currentExpression = currentExpression.replace(REGEX_CONSTS.REGEX_FUNCTIONS, (match, funcName, args) => {
             let evaluatedArgs = args.split(',').map((arg: string) => evaluateExpression(arg.trim())).join(',');
             return evaluateFunction(funcName, evaluatedArgs);
         });
@@ -157,22 +150,3 @@ function replaceVariablesInPrint(template: string, valores: { [clave: string]: s
 function printVarRegex(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
-
-/* 
-float()
-int()
-round()
-len()
-str()
-
-math.sqrt
-math.log10
-math.asin
-math.pow
-
-input 
-print
-
-return 
-break
-*/
