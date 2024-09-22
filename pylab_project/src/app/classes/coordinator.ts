@@ -5,6 +5,7 @@ import { Context } from "./context";
 import { DefStructure } from "./structure-def";
 import { StructureFactory } from "./structure-factory";
 import { v4 as uuidv4 } from 'uuid';
+import { cloneDeep } from 'lodash';
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
 export class Coordinator {
     structures: any[] = [];
@@ -32,7 +33,6 @@ export class Coordinator {
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
         if(call != null){
             const context = new Context(uuidv4(), call);
-            this.functions[call].setContext(context);
             if(this.code[this.currentLine].includes('def')){
                 return;
             }
@@ -41,14 +41,16 @@ export class Coordinator {
                 const varNames = returnVar[1].split(',').map((name: string) => name.trim());
                 context.setReturnVarName(varNames);
             }
+            const func = this.functions[call].clone(this.contexts[this.contexts.length-1]);
+            func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
                 const args = evaluate(replaceVariables(params[1], this.variablesService.getVariables(this.contexts[this.contexts.length-1])).split(',').map((arg: string) => arg.trim()));
-                this.functions[call].setParameters(args);
+                func.setParameters(args);
                 // TODO: ver parametros por nombre
             }
             this.contexts.push(context);
-            this.structures.push(this.functions[call]);
+            this.structures.push(func);
             this.funcCallLine = this.currentLine;
             this.executingFunction = true;
             this.currentLine = this.functions[call].position - 1;

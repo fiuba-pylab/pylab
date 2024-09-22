@@ -1,4 +1,5 @@
 import { VariablesService } from "../services/variables.service";
+import { evaluate } from "../utils";
 import { Context } from "./context";
 import { Structure } from "./structure";
 
@@ -75,7 +76,7 @@ export class DefStructure extends Structure{
     setParameters(args: string[]){
         const params: any = {};
         this.parameters.forEach((param, index) => {
-            params[param] = args[index];
+            params[param] = evaluate(args[index]);
         });
 
         this.variablesService.setVariables(this.myContext, params);
@@ -83,5 +84,25 @@ export class DefStructure extends Structure{
 
     setContext(context: Context){
         this.myContext = context;
+    }
+
+    clone(context: Context): DefStructure {
+        const clone = new DefStructure(
+            this.level,
+            this.condition,
+            this.codeService,       
+            this.variablesService,  
+            context
+        );
+        
+        clone.currentLine = this.currentLine;
+        clone.parameters = [...this.parameters];
+        clone.name = this.name;
+        clone.position = this.position;
+        clone.called = this.called;
+        
+        clone.lines = [...this.lines];
+        
+        return clone;
     }
 }
