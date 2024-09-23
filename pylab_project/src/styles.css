@@ -2,8 +2,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 .selected-line{
-    background-color: yellow;
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
 .dropDown-seasons-panel {

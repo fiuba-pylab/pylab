@@ -6,13 +6,11 @@ import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
-import * as pr from '../../classes/program' ;
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { ProgramInput } from '../../pages/program-display/program-input/program-input.component';
-import { lastValueFrom } from 'rxjs';
+import { VariablesService } from '../../services/variables.service';
 
 const LANGUAGE = 'python';
 @Component({
@@ -41,8 +39,8 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   isFinished: boolean = false; // TODO
   intervalId: any = null;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
-
-  constructor(private codeService: CodeService, private dialog: MatDialog) { }
+  
+  constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
 
   ngOnInit():void{
     if(!this.inputs) return;
@@ -73,7 +71,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.editor) {
       if (changes['code']) {
         this.codeService.setLength(this.code.length);
-        this.coordinator = new Coordinator(this.codeService, this.code);
+        this.coordinator = new Coordinator(this.codeService, this.code, this.variablesService);
         this.editor.setValue(this.code);
         this.updateDecorations();
       }
