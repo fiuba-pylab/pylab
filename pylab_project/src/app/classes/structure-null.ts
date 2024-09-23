@@ -38,7 +38,7 @@ export class NullStructure extends Structure {
         const isReturn = this.lines[0].match(REGEX_RETURN);
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
-           let varValue = this.applyFunctions(variableDeclaration[2], variables, varName);
+           let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
            if(!variables[varName]){
                 variables[varName] = []
            }
@@ -65,7 +65,7 @@ export class NullStructure extends Structure {
             let values = isReturn[1].split(',').map((value: string) => value.trim());
             if(values){
                 for (let i = 0; i < values.length; i++) {
-                    let value = this.applyFunctions(values[i], variables)
+                    let value = await this.applyFunctions(values[i], variables)
                     values[i] = evaluate(value);
                 }
                 this.context.setReturnValue(values);
