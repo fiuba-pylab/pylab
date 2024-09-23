@@ -23,7 +23,7 @@ export class ProgramDisplayComponent implements OnInit {
   title: string = "";
   private type: string = "";
   private id: string = "";
-  inputs: string = "";
+  inputs: any = [];
   variables: any = {};
   program: any = null;
 

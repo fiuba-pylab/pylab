@@ -16,12 +16,14 @@ export class Program {
     }
 }
 
-class Input {
+export class Input {
     name:string;
+    type:string;
     options:string[];
 
-    constructor(name:string, options:string[]){
+    constructor(name:string, type:string, options:string[]){
         this.name = name;
+        this.type = type;
         this.options = options;
     }
 }

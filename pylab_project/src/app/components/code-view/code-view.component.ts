@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit, viewChild } from '@angular/core';
+import { Component, Input , OnChanges, SimpleChanges, OnDestroy, EventEmitter, Output, OnInit, AfterViewInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,14 +17,15 @@ const LANGUAGE = 'python';
   selector: 'app-code-view',
   templateUrl: './code-view.component.html',
   styleUrls: ['./code-view.component.scss'],
-  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule, ],
+  imports:[MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIcon, MatButtonModule, MatMenuModule],
   standalone: true
 })
 export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   @Input() code: string = '';
-  @Input() inputs: any = []
-  highlightLine: number = 0;
+  @Input() inputs: any[] = []; 
+  @Input() highlightLine: number = 0;
+  @Output() variablesChanged = new EventEmitter<any>();
   forms:any = []
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private decorationsCollection: monaco.editor.IEditorDecorationsCollection | null = null;
@@ -43,9 +44,8 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit():void{
     if(!this.inputs) return;
-    for(let select of this.inputs){
-      this.forms.push({name:select.name, form:new FormControl('')})
-    }
+    this.codeService.addDialog(this.dialog);
+    this.codeService.addInputs(this.inputs);
   }
 
   ngAfterViewInit(): void { 
@@ -55,7 +55,18 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       this.updateDecorations();
     });
   }
-  
+
+  loadSelects():void{
+    for(let {name, type, form} of this.forms){
+      let option = this.parseOption(form.value, type);
+      console.log(name, option, type)
+      if (option === null) {
+        return ;
+      }
+    }
+    this.codeService.reset(); 
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.editor) {
       if (changes['code']) {
@@ -65,6 +76,21 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
         this.updateDecorations();
       }
     }
+  }
+
+  private parseOption(option: any, type: string): any {
+    if (option === null || option === undefined || option === "") {
+      return null
+    }
+    switch (type) {
+      case "int":
+      case "float":
+      return Number(option)
+      case "string":
+      default: 
+        return String(option)
+    } 
+
   }
 
   private initEditor(): void {

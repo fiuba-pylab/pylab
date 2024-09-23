@@ -1,19 +1,23 @@
 <div class="general-container">
-    <div class="inputs-container">
-        @for (select of inputs; track $index) {
-            <mat-form-field >
-                <mat-label>{{select.name}}</mat-label>
-                <mat-select [formControl]="forms[$index].form" panelClass="dropDown-seasons-panel">
-                    <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        }
-    </div>
-    
+    <!--
+        <div class="inputs-container">
+            @for (select of inputs; track $index) {
+                <mat-form-field >
+                    <mat-label>{{select.name}}</mat-label>
+                    <mat-select [formControl]="forms[$index].form" panelClass="dropDown-seasons-panel">
+                        <mat-option *ngFor="let option of select.options" [value]="option" >{{option}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+            }
+            <button mat-button (click)="loadSelects()">Load</button>
+        </div>
+        
+    -->
     <div id="editor-container">
         <!-- Editor de código -->
     </div>
-    
+
     <div class="buttons-container">
         <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="previous-arrow" fontIcon="arrow_back_ios" (click)="(!isRunning || isPaused) && previousLine()"></mat-icon>
         <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="next-arrow" fontIcon="arrow_forward_ios" (click)="(!isRunning || isPaused) && nextLine()"></mat-icon>
