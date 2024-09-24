@@ -3,7 +3,6 @@ import { evaluate, replaceOperators, replaceVariables } from "../utils";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
-    first = false
     loops = 0
     setScope(code: any){
         const lines: any[] = code.split('\n');
@@ -21,13 +20,16 @@ export class WhileStructure extends Structure{
         }
     }
 
-    override executePrevious(isLast?:boolean){
+    override executePrevious(){
         console.log("this.currentLine",this.currentLine)
-        if(this.currentLine == 1 && this.loops > 0){
-            const amount = this.lines.length - 1
-            this.currentLine += amount
-            this.loops --;
-            return {amount: -(amount), finish: isLast?true:false}
+        if(this.currentLine == 0){
+            if(this.loops > 0){
+                const amount = this.lines.length - 1
+                this.currentLine += amount
+                this.loops --;
+                return {amount: -(amount), finish: false}
+            }
+            return {amount: 1, finish: true}
         } 
         this.currentLine--
         return {amount: 1, finish: false}
@@ -53,6 +55,7 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 1, finish: false};
         }
+        this.currentLine = this.lines.length + 1
         return {amount:  0 , finish: true};
     }
 }
