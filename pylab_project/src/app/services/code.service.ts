@@ -33,8 +33,9 @@ export class CodeService {
 
   nextLine(amount: number): void {
     var highlightLine = this.behaviorSubjectHighlight.value;
+    console.log("highlightLine", highlightLine)
     if (highlightLine !== null && highlightLine < this.length) {
-      this.codePathIndex++;
+      /* this.codePathIndex++;
       if (this.codePathIndex > this.maxNext) {
         this.maxNext++;
       }
@@ -44,9 +45,9 @@ export class CodeService {
         highlightLine = highlightLine + amount;
       } else {
         highlightLine = highlightLine + this.codePath[this.codePathIndex];
-      }
-
-      this.behaviorSubjectHighlight.next(highlightLine);
+      } */
+        console.log("highlightLine + amount", highlightLine + amount)
+      this.behaviorSubjectHighlight.next(highlightLine + amount);
     }
   }
 
@@ -54,8 +55,9 @@ export class CodeService {
   //   this.behaviorSubjectVariables.next(variables);
   // }
 
-  previousLine() {
-    const amount = this.codePath[this.codePathIndex];
+  previousLine(amount?:number) {
+    console.log("amount", amount)
+    /* const amount = this.codePath[this.codePathIndex];
     var highlightLine = this.behaviorSubjectHighlight.value;
     if (highlightLine == 1) {
       return;
@@ -66,8 +68,9 @@ export class CodeService {
       if (this.codePathIndex >= 0) {
         this.codePathIndex--;
       }
-    }
-    this.behaviorSubjectHighlight.next(highlightLine);
+    } */
+      var highlightLine = this.behaviorSubjectHighlight.value
+    this.behaviorSubjectHighlight.next(highlightLine - (amount?amount:0));
     return amount
   }
 

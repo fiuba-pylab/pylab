@@ -1,5 +1,7 @@
 import { evaluate, replaceVariables } from "../utils";
+import { SimpleVariable } from "./simple-variable";
 import { Structure } from "./structure";
+import { Variable } from "./variable";
 
 const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
 const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
@@ -38,16 +40,24 @@ export class NullStructure extends Structure {
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
            let varValue = applyFunctions(variableDeclaration[2], variables);
-           if(!variables[varName]){
+          /*  if(!variables[varName]){
                 variables[varName] = []
-           }
-           variables[varName].push(evaluate(varValue));
+           } */
+            if(variables[varName]){
+                variables[varName].setValue(evaluate(varValue))
+            } else {
+                variables[varName] = new SimpleVariable(evaluate(varValue));
+            }
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            variables[variable].push(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+            if(variables[variable]){
+                variables[variable].setValue(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+            } else {
+                variables[variable] = new SimpleVariable(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+            }
 
         }
         if(print){
@@ -74,6 +84,11 @@ export class NullStructure extends Structure {
         this.variablesService.setVariables(this.context, variables);
         //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
+    }
+
+    override executePrevious(){
+
+        return {amount: 1, finish: true}
     }
 }
 
@@ -147,10 +162,10 @@ function cleanPrintValue(value: string): string {
     return value;
 }
 
-function replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
+function replaceVariablesInPrint(template: string, valores: { [clave: string]: Variable }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\{\\b${printVarRegex(clave)}\\b\\}`, 'g');
-        return resultado.replace(regex, valor);
+        return resultado.replace(regex, valor.value + '');
     }, template);
 }
 

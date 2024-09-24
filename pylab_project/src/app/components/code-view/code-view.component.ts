@@ -103,7 +103,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   previousLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute(true);
+      this.coordinator.executePrevious();
     }
   }
 

@@ -3,6 +3,8 @@ import { evaluate, replaceOperators, replaceVariables } from "../utils";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
+    first = false
+    loops = 0
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
@@ -19,14 +21,31 @@ export class WhileStructure extends Structure{
         }
     }
 
+    override executePrevious(isLast?:boolean){
+        console.log("this.currentLine",this.currentLine)
+        if(this.currentLine == 1 && this.loops > 0){
+            const amount = this.lines.length - 1
+            this.currentLine += amount
+            this.loops --;
+            return {amount: -(amount), finish: isLast?true:false}
+        } 
+        this.currentLine--
+        return {amount: 1, finish: false}
+        
+    }
+
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+        console.log("variables", this.variablesService.getVariables(this.context)['ultimo'].value)
+        console.log("currentLine", this.currentLine)
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
-        if(this.currentLine == this.lines.length){
-            this.currentLine = 0;
-            return {amount: -(this.lines.length+1), finish: true};
+        if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
+            this.currentLine = 1;
+            this.loops ++;
+            return {amount: -(this.lines.length), finish: false};
         }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
+            console.log("amountToAdd", amountToAdd)
             this.currentLine += amountToAdd ?? 0;
             return {amount: 0, finish: false};
         }
@@ -34,6 +53,6 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 1, finish: false};
         }
-        return {amount: this.lines.length+1, finish: true};
+        return {amount:  0 , finish: true};
     }
 }

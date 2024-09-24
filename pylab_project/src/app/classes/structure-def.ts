@@ -1,6 +1,7 @@
 import { VariablesService } from "../services/variables.service";
 import { evaluate } from "../utils";
 import { Context } from "./context";
+import { SimpleVariable } from "./simple-variable";
 import { Structure } from "./structure";
 
 export class DefStructure extends Structure{
@@ -67,6 +68,10 @@ export class DefStructure extends Structure{
         }
     }
 
+    override executePrevious(){
+        return {amount: 0, finish: true}
+    }
+
     override isFunction(): boolean {
         return true;
     }
@@ -74,7 +79,7 @@ export class DefStructure extends Structure{
     setParameters(args: string[]){
         const params: any = {};
         this.parameters.forEach((param, index) => {
-            params[param] = evaluate(args[index]);
+            params[param] = new SimpleVariable(evaluate(args[index]));
         });
 
         this.variablesService.setVariables(this.myContext, params);

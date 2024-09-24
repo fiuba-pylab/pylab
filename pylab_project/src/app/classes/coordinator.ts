@@ -2,9 +2,12 @@ import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
+import { SimpleVariable } from "./simple-variable";
+import { Structure } from "./structure";
 import { DefStructure } from "./structure-def";
 import { StructureFactory } from "./structure-factory";
 import { v4 as uuidv4 } from 'uuid';
+import { Variable } from "./variable";
 
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
@@ -13,6 +16,7 @@ export class Coordinator {
     code: string[] = [];
     codeService: CodeService;
     currentLine: number = 0;
+    pastStructures: any[] = [];
     functions: { [key: string]: DefStructure } = {};
     executingFunction: boolean = false;
     contexts: Context[] = [new Context(uuidv4())];
@@ -62,35 +66,78 @@ export class Coordinator {
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
 
-    execute(isPrevious: boolean = false) {
+    executePrevious(){
+       
+        let amount = 0
         console.log("structures", this.structures)
-        if(isPrevious){
-            const prevAmount = this.codeService.previousLine();
-            if(prevAmount){
-                this.currentLine -= prevAmount;
-                const currentLine = this.code[this.currentLine].trim()
-                /* if(currentLine.split(' ')[0] == 'if'){ */
-                    this.structures.pop();
-                // /* } */
-                const varName = currentLine.split(' ')[0];
-                const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
-                if(variables[currentLine.split(' ')[0]]){
-                    variables[currentLine.split(' ')[0]].pop()
-                    this.variablesService.setVariables(this.contexts[this.contexts.length - 1], variables);
-                    // esto no funciona, lo acomode asi para que use el variable service pero hay q revisar
+        console.log("structures", this.pastStructures)
+        if(this.structures.length > 0){
+            for (let i = this.structures.length - 1; i >= 0; i--){
+                const structure = this.structures[i];
+                const result = structure.executePrevious()
+                if(!result.finish){
+                    this.pastStructures.pop()
                 }
-                
+                amount += result.amount
+                if(result.finish){
+                    this.structures.pop()
+                }
             }
-            return
+        } else {
+            console.log("tiene que entrar")
+            let poppedStructure:Structure
+            this.structures.push(poppedStructure = this.pastStructures.pop());
+            const result = poppedStructure.executePrevious()
+            amount += result.amount
         }
+        
+        console.log("amountt", amount)
+        const prevAmount = this.codeService.previousLine(amount);
+        if(prevAmount){
+            this.currentLine -= prevAmount;
+            const currentLine = this.code[this.currentLine].trim()
+            const varName = currentLine.split(' ')[0];
+            const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
+            console.log("variables", variables)
+            let actualVar: Variable;
+            if(actualVar = variables[currentLine.split(' ')[0]]){
+                actualVar.setPrevious()
+                console.log("actualVar", actualVar.value)
+                //variables[currentLine.split(' ')[0]].pop()
+            }
+        }
+        
+
+        /* if(prevAmount){
+            this.currentLine -= prevAmount;
+            const currentLine = this.code[this.currentLine].trim()
+            this.structures.pop();
+            const varName = currentLine.split(' ')[0];
+            const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
+            let actualVar: Variable;
+            if(actualVar = variables[currentLine.split(' ')[0]]){
+                actualVar.setPrevious()
+                variables[currentLine.split(' ')[0]].pop()
+                this.variablesService.setVariables(this.contexts[this.contexts.length - 1], variables);
+
+            }
+                
+        } */
+    }
+
+    execute() {
+        console.log("this.structures", this.pastStructures)
+        console.log("this.structures", this.structures)
         let prevAmount = 0;
         let lastStructure = null;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure = this.structures[i];
+            console.log("structuress", structure)
             const result = structure.execute(prevAmount);
             if (result.finish) {
                 lastStructure = this.structures.pop();
+                this.pastStructures.push(lastStructure)
                 if(this.executingFunction && structure.isFunction()){
                     const lastContext = this.contexts.pop();
                     this.codeService.goToLine(lastContext!.getCallLine() + 1);
@@ -99,7 +146,7 @@ export class Coordinator {
                     const returnVar = lastContext?.getReturnValue();
                     if(returnVar){
                         for(let i = 0; i < returnVar.names.length; i++){
-                            variables[returnVar.names[i]] = returnVar.values[i];
+                            variables[returnVar.names[i]].setValue(returnVar.values[i])
                         }
                     }
                     this.variablesService.deleteContext(lastContext);
@@ -113,6 +160,7 @@ export class Coordinator {
                 prevAmount += result.amount;
             }
             this.currentLine += result.amount;
+            console.log("his.currentLine", result.amount)
             this.codeService.nextLine(result.amount);
 
             if (structure.isFunction() && !result.finish) {

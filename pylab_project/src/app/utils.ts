@@ -1,8 +1,9 @@
+import { Variable } from "./classes/variable";
 
-export function replaceVariables(template: string, valores: { [clave: string]: string }): string {
+export function replaceVariables(template: string, valores: { [clave: string]: Variable }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
-        return resultado.replace(regex, valor);
+        return resultado.replace(regex, valor.value + '');
     }, template);
 }
 

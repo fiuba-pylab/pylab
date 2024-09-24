@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Context } from "../classes/context";
+import { Variable } from "../classes/variable";
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class VariablesService {
 
     constructor() {}
 
-    getVariables(context: Context): { [key:string]: any }  {
+    getVariables(context: Context): { [key:string]: any}  {
         return this.behaviorSubjectContexts.value.get(context) || {};
     }
 

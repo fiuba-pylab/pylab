@@ -12,8 +12,33 @@ export class IfStructure extends Structure{
     enterElif: boolean = false;
     elifIndex: number = 0;
     hasElse: boolean = false;
+    scopeIndex = 0;
+    previousAmount = 0;
+    finishAmount = 0;
     constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
         super(level, condition, codeService, variablesService, context);
+    }
+
+    override executePrevious(){
+        this.scopeIndex--;
+        if(this.finishAmount > 0){
+            const amount = this.finishAmount
+            this.finishAmount = 0
+            return {amount:amount, finish: false}
+        }
+        if(this.scopeIndex == 0){
+            this.finishAmount = 0
+            this.currentLine-=this.previousAmount
+            return {amount:this.previousAmount, finish: true}
+        } else {
+            this.finishAmount = 0
+            this.currentLine--;
+            return {amount:1, finish: false}
+        }
+        /* this.codePath.pop()
+        this.codePathIndex--
+        return {amount: this.codePath.length > 0 ? this.codePath[this.codePathIndex]: 0, finish: true} */
+
     }
 
     setScope(code: any){     
@@ -48,6 +73,8 @@ export class IfStructure extends Structure{
     }
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+        this.scopeIndex ++
+        console.log("this.scopeIndex ", this.scopeIndex )
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){
@@ -82,6 +109,7 @@ export class IfStructure extends Structure{
                     length += this.elifs[index].lines.length + 1;
                 }
                 length += this.elseLines.length + 1;
+                this.finishAmount = length + 1
                 return {amount: length + 1, finish: true};
             }
         }
@@ -94,8 +122,10 @@ export class IfStructure extends Structure{
                 for(let i = 0; i < this.elifs.length; i++){
                     cantLines += this.elifs[i].lines.length + 1;
                 }
+                this.finishAmount = cantLines
                 return {amount: cantLines, finish: true};
             }else if(this.elseLines.length > 0){
+                this.finishAmount = this.elseLines.length+1
                 return {amount: this.elseLines.length+1, finish: true};
             }else{
                 return {amount: 0, finish: true};
@@ -120,16 +150,22 @@ export class IfStructure extends Structure{
      
        if(evaluate(condition_replaced)){ // Se cumple la condición del if
             this.currentLine += 1;
+            this.previousAmount = 1
             return {amount: 1, finish: false};
         }else if(this.elifs.length > 0){ // No se cumplió la condición del if y hay elifs
+            console.log("entra a elif")
             this.checkElifs = true;
             this.currentLine += this.lines.length+1;
+            this.previousAmount = this.lines.length+1
             return {amount: this.lines.length+1, finish: false};
         }else if(this.elseLines.length > 0){ // No se cumple la condición del if y hay else
             this.checkElse = true;
             this.currentLine += this.lines.length+1;
+            this.previousAmount = this.lines.length+1
             return {amount: this.lines.length+1, finish: false};
         } else{ // No se cumple la condición del if y no hay else, se termina el if
+            this.previousAmount = this.lines.length+1
+            this.finishAmount = this.lines.length+1
             return {amount: this.lines.length+1, finish: true};
         }
     }

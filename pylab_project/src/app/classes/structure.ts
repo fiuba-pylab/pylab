@@ -20,6 +20,8 @@ export abstract class Structure{
 
     abstract execute(amountToAdd?: number): {amount: number, finish: boolean};
 
+    abstract executePrevious():{amount: number, finish: boolean};
+
     isFunction(): boolean{
         return false;
     }
