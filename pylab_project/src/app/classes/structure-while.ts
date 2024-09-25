@@ -19,7 +19,7 @@ export class WhileStructure extends Structure{
         }
     }
 
-    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+    override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.currentLine == this.lines.length){

@@ -1,3 +1,4 @@
+import { REGEX_CONSTS } from "../constans";
 import { VariablesService } from "../services/variables.service";
 import { evaluate } from "../utils";
 import { Context } from "./context";
@@ -7,7 +8,7 @@ export class DefStructure extends Structure{
     constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
         super(level, condition, codeService, variablesService, context);
         this.position = codeService.behaviorSubjectHighlight.value;
-        const definition = condition.match(/^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/);
+        const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
             this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
             this.name = definition[1].trim();
@@ -36,7 +37,7 @@ export class DefStructure extends Structure{
         this.codeService.setFunction(this.name, this);
     }
 
-    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
+    override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
         // si es la primera vez que llamo al execute, quiere decir que es cuando 
         // se declaro la funcion, entonces tengo que avanzar hasta salir del scope de la
         // funcion para que se vuelva aca solo si se llamo a la funcion en el programa
@@ -60,9 +61,9 @@ export class DefStructure extends Structure{
         this.currentLine += amountToAdd ?? 1;
 
         // ejecutando la función
-        if(this.currentLine > 0 && this.currentLine <= this.lines.length){
+        if (this.currentLine > 0 && this.currentLine <= this.lines.length){
             return {amount: 0, finish: false};    
-        }else{ // termine de ejecutar la función
+        } else { // termine de ejecutar la función
             return {amount: 1, finish: true};
         }
     }
