@@ -11,14 +11,13 @@ const operations = {
 
 type Operator = keyof typeof operations;
 export class NullStructure extends Structure {
-    super() { }
-
+    super(){}
     setScope(code: any) {
         const lines: any[] = code.split('\n');
         this.lines.push(lines[0]);
     }
 
-    override execute(): { amount: number, finish: boolean } {
+    override async execute(): Promise<{ amount: number; finish: boolean; }> {
         const variables = this.variablesService.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == STRUCTURES.ELIF) {
@@ -29,9 +28,10 @@ export class NullStructure extends Structure {
         const operations = this.lines[0].match(REGEX_CONSTS.REGEX_OPERATIONS);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
+
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
-           let varValue = applyFunctions(variableDeclaration[2], variables);
+           let varValue = await applyFunctions(variableDeclaration[2], variables);
            if(!variables[varName]){
                 variables[varName] = []
            }
@@ -42,7 +42,6 @@ export class NullStructure extends Structure {
             const operator = operations[2];
             const value = operations[3];
             variables[variable].push(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
-
         }
         if(print){
             let value = print[1]
@@ -50,7 +49,7 @@ export class NullStructure extends Structure {
                 value = print[2]
             }
             let printValue = replaceVariablesInPrint(value, variables);
-            printValue = evaluateExpression(printValue);
+            printValue = await evaluateExpression(printValue);
             printValue = cleanPrintValue(printValue)
             this.codeService.setPrint(printValue);
         }
@@ -59,7 +58,7 @@ export class NullStructure extends Structure {
             let values = isReturn[1].split(',').map((value: string) => value.trim());
             if(values){
                 for (let i = 0; i < values.length; i++) {
-                    let value = applyFunctions(values[i], variables)
+                    let value = await applyFunctions(values[i], variables)
                     values[i] = evaluate(value);
                 }
                 this.context.setReturnValue(values);
@@ -67,14 +66,6 @@ export class NullStructure extends Structure {
         }
         this.variablesService.setVariables(this.context, variables);
         return { amount: 1, finish: true };
-    }
-}
-
-function applyOperation(variableValue: number, operator: Operator, value: number): number {
-    if (operator in operations) {
-        return operations[operator](variableValue, value);
-    } else {
-        throw new Error('Operador no soportado');
     }
 }
 
@@ -140,6 +131,14 @@ function cleanPrintValue(value: string): string {
     return value;
 }
 
+function  applyOperation(variableValue: number, operator: Operator, value: number): number {
+    if (operator in operations) {
+        return operations[operator](variableValue, value);
+    } else {
+        throw new Error('Operador no soportado');
+    }
+}
+
 function replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\{\\b${printVarRegex(clave)}\\b\\}`, 'g');
@@ -150,3 +149,4 @@ function replaceVariablesInPrint(template: string, valores: { [clave: string]: s
 function printVarRegex(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+

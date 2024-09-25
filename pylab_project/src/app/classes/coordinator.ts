@@ -1,5 +1,6 @@
 import { REGEX_CONSTS } from "../constans";
 import { CodeService } from "../services/code.service";
+import { Structure } from "./structure";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
@@ -20,7 +21,7 @@ export class Coordinator {
         this.variablesService = variablesService;        
         this.codeService = codeService;
         this.code = code.split('\n');
-        this.codeService.functions.subscribe(async (value)=> {
+        this.codeService.functions.subscribe(async (value: { [key: string]: DefStructure; })=> {
             this.functions = value;
         });
     }
@@ -61,7 +62,7 @@ export class Coordinator {
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
 
-    execute(isPrevious: boolean = false) {
+    async execute(isPrevious: boolean = false) {
         console.log("structures", this.structures)
         if(isPrevious){
             const prevAmount = this.codeService.previousLine();
@@ -86,8 +87,8 @@ export class Coordinator {
         let lastStructure = null;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
-            const structure = this.structures[i];
-            const result = structure.execute(prevAmount);
+            const structure : Structure = this.structures[i];
+            const result = await structure.execute(prevAmount);
             if (result.finish) {
                 lastStructure = this.structures.pop();
                 if(this.executingFunction && structure.isFunction()){
