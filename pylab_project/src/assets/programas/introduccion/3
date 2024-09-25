@@ -1,6 +1,7 @@
-a = float(3.5)
-b = float(4.8)
-c = float(100)
+import math
+a = float(input('Introduce el valor de a: '))
+b = float(input('Introduce el valor de b: '))
+c = float(input('Introduce el valor de c: '))
 
 d = math.pow(a, 2)
 e = math.pow(b, 2)

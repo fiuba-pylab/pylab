@@ -4,7 +4,7 @@
         "title":"Raíces - ecuación cuadrática",
         "description": "Ejemplo de programa con todos los atributos",
         "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4> Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax^2+bx+c = 0 e informar el valor de las raíces.<br><br> <h4>Casos:</h4> Sea b^2-4ac el determinante para el cálculo de soluciones:<br> 1. Determinante positivo: dos soluciones reales.<br> 2. Determinante nulo: raiz real doble.<br> 3. Determinante negativo: dos soluciones complejas (conjugadas).",
+        "introduction": "<h4>Objetivo:</h4> Solitar al usuario los coeficientes de una ecuación cuadrática a, b, c, tales que ax<sup>2</sup>+bx+c = 0 e informar el valor de las raíces.<br><br> <h4>Casos:</h4> Sea b<sup>2</sup>-4ac el determinante para el cálculo de soluciones:<br> 1. Determinante positivo: dos soluciones reales.<br> 2. Determinante nulo: raiz real doble.<br> 3. Determinante negativo: dos soluciones complejas (conjugadas).",
         "inputs":[
             {
                 "name":"cadena_a",
@@ -41,6 +41,33 @@
         "title": "Ecuación matemática",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario los valores a, b y c para resolver la siguiente ecuación matemática: <img src=\"assets/intro-3-func.png\"></img> <br> <h4>Casos:</h4> <br>"
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario los valores a, b y c para resolver la siguiente ecuación matemática: <img src=\"assets/intro-3-func.png\"></img> <br> <br> <h4>Casos:</h4> <br>"
+    },
+    {
+        "id": 4,
+        "title": "División",
+        "description": "Operadores aritméticos, lógicos y de comparación en Python",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario dos números enteros, dividir un número entero por otro y comunicar el resultado real, la división entera y el resto de la división. <br><br> <h4>Casos:</h4> 1. Dividendo 0, divisor 7: resultado 0, división entera 0, resto 0. <br> 2. Dividendo 2, divisor 3: resultado 0.6666, división entera 0, resto 2. <br> 3. Dividendo 3, divisor 2: resultado 1.5, división entera 1, resto 1. <br> 4. Dividendo 8, divisor 4: resultado 2, división entera 2, resto 0.",
+        "inputs": [
+            {
+                "name": "dividendo",
+                "options": [
+                    "0",
+                    "2",
+                    "3",
+                    "8"
+                ]
+            },
+            {
+                "name": "divisor",
+                "options": [
+                    "7",
+                    "3",
+                    "2",
+                    "4"
+                ]
+            }
+        ]
     }
 ]

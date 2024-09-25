@@ -10,4 +10,4 @@ else:
         else: 
             descuento = 0.30
 monto_final = monto_compra * (1 - descuento); 
-print(f"Tu compra fue de: {monto_compra}")
+print(f"Tu compra fue de: {monto_final}")
