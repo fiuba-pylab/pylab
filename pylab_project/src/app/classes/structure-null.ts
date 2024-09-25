@@ -1,4 +1,4 @@
-import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "../constans";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS, STRUCTURES } from "../constans";
 import { evaluate, replaceVariables } from "../utils";
 import { Structure } from "./structure";
 
@@ -21,7 +21,7 @@ export class NullStructure extends Structure {
     override execute(): { amount: number, finish: boolean } {
         const variables = this.variablesService.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
-        if (this.lines[0].split(' ')[0] == 'elif') {
+        if (this.lines[0].split(' ')[0] == STRUCTURES.ELIF) {
             return { amount: 0, finish: true };
         }
 

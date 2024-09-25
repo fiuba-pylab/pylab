@@ -9,6 +9,7 @@ const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
 const IF = 'if';
 const WHILE = 'while';
 const DEF = 'def';
+const ELIF = 'elif';
 
 const LEN = 'len';
 const STR = 'str';
@@ -35,7 +36,8 @@ export const REGEX_CONSTS = {
 export const STRUCTURES = {
     IF, 
     WHILE, 
-    DEF
+    DEF,
+    ELIF
 };
 
 export const NATIVE_FUNCTIONS = {
