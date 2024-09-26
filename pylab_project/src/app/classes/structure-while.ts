@@ -22,9 +22,9 @@ export class WhileStructure extends Structure{
     override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
-        if(this.currentLine == this.lines.length){
-            this.currentLine = 0;
-            return {amount: -(this.lines.length+1), finish: true};
+        if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
+            this.currentLine = 1;
+            return {amount: -(this.lines.length), finish: false};
         }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
             this.currentLine += amountToAdd ?? 0;
@@ -34,6 +34,6 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 1, finish: false};
         }
-        return {amount: this.lines.length+1, finish: true};
+        return {amount: 0/* this.lines.length+1 */, finish: true};
     }
 }
