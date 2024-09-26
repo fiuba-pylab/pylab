@@ -5,6 +5,12 @@ const REGEX_FUNCTIONS = /\b(float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
+const REGEX_LIST = /^\[[^\]]*\]$/;
+const REGGEX_SET = /^\{[^\]]*\}$/;
+const REGGEX_TUPLE = /^\([^\]]*\)$/;
+const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
+const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
+const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -30,7 +36,13 @@ export const REGEX_CONSTS = {
     REGEX_FUNCTIONS, 
     REGEX_OPERATIONS, 
     REGEX_VARIABLE_DECLARATION, 
-    REGEX_RETURN_VARIABLES
+    REGEX_RETURN_VARIABLES,
+    REGEX_LIST,
+    REGGEX_SET,
+    REGGEX_TUPLE,
+    REGEX_COLLECTION_ADD,
+    REGEX_COLLECTION_SUBSTRACT,
+    REGEX_COLLECTION_ACCESS
 };
 
 export const STRUCTURES = {

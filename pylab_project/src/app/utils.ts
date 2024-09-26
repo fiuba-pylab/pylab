@@ -1,8 +1,9 @@
+import { Collection } from "./classes/collection";
 
-export function replaceVariables(template: string, valores: { [clave: string]: string }): string {
+export function replaceVariables(template: string, valores: { [clave: string]: any }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
-        return resultado.replace(regex, valor);
+        return resultado.replace(regex, (valor instanceof Collection)? valor.values:valor[valor.length - 1]);
     }, template);
 }
 

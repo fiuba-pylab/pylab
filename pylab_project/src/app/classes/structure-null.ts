@@ -1,6 +1,8 @@
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, STRUCTURES } from "../constans";
 import { evaluate, replaceVariables } from "../utils";
+import { List } from "./list";
 import { Structure } from "./structure";
+import { Tuple } from "./tuple";
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -26,22 +28,30 @@ export class NullStructure extends Structure {
 
         const variableDeclaration = this.lines[0].match(REGEX_CONSTS.REGEX_VARIABLE_DECLARATION);
         const operations = this.lines[0].match(REGEX_CONSTS.REGEX_OPERATIONS);
+        const collectionAdd = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_ADD);
+        const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
-
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
            let varValue = await applyFunctions(variableDeclaration[2], variables);
+           let collection = matchCollection(varValue, variables, variableDeclaration[2])
            if(!variables[varName]){
                 variables[varName] = []
            }
-           variables[varName].push(evaluate(varValue));
+           if(!collection){
+                variables[varName].push(evaluate(varValue));
+           } else {
+                variables[varName] = collection
+           }
+           
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
             variables[variable].push(applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+
         }
         if(print){
             let value = print[1]
@@ -53,7 +63,28 @@ export class NullStructure extends Structure {
             printValue = cleanPrintValue(printValue)
             this.codeService.setPrint(printValue);
         }
-
+        if(collectionAdd){
+            const variable = collectionAdd[1];
+            const operator = collectionAdd[2];
+            const value = collectionAdd[3];
+            if(operator == 'append' || operator == 'add'){
+                variables[variable].add(value)
+            } else if(collectionAdd[5] == '+'){
+                const tupleValues = collectionAdd[6].split(', ')
+                for(let tupleValue of tupleValues){
+                    variables[collectionAdd[4]].add(tupleValue)
+                }
+            }
+        }
+        if(collectionSubstract){
+            const variable = collectionSubstract[1];
+            const operator = collectionSubstract[2];
+            const value = collectionSubstract[3];
+            if(operator == 'remove' || operator == 'discard'){
+                variables[variable].substract(value)
+            }
+        }
+        
         if(isReturn){
             let values = isReturn[1].split(',').map((value: string) => value.trim());
             if(values){
@@ -66,6 +97,34 @@ export class NullStructure extends Structure {
         }
         this.variablesService.setVariables(this.context, variables);
         return { amount: 1, finish: true };
+    }
+}
+
+function matchCollection(varValue:string, variables:any, collectionName:string){
+    console.log("varValue", varValue)
+    let collectionAccess;
+    //se crea una lista
+    if(varValue.match(REGEX_CONSTS.REGEX_LIST)){
+        console.log("se crea lista")
+        const values = varValue.slice(1, varValue.length -1 ).split(', ')
+        return new List(values)
+        //se crea un set
+    } else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
+        console.log("se crea set")
+        const values = varValue.slice(1, varValue.length -1 ).split(', ')
+        return new Set(values)
+    //se crea una tupla
+    } else if(varValue.match(REGEX_CONSTS.REGGEX_TUPLE)){
+        console.log("se crea tupla")
+        const values = varValue.slice(1, varValue.length -1 ).split(', ')
+        return new Tuple(values)
+    //se accede a una colecion
+    } else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
+        const value = collectionAccess[1]
+        const index = collectionAccess[2]
+        return variables[value].values[index]
+    }else {
+        return null
     }
 }
 
