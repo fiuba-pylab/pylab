@@ -6,16 +6,19 @@ const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
 const REGEX_LIST = /^\[[^\]]*\]$/;
-const REGGEX_SET = /^\{[^\]]*\}$/;
+const REGGEX_SET = /^\{[^}]+\}$/;
 const REGGEX_TUPLE = /^\([^\]]*\)$/;
+const REGGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
 const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
+const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
 
 const IF = 'if';
 const WHILE = 'while';
 const DEF = 'def';
 const ELIF = 'elif';
+const FOR = 'for'
 
 const LEN = 'len';
 const STR = 'str';
@@ -42,14 +45,17 @@ export const REGEX_CONSTS = {
     REGGEX_TUPLE,
     REGEX_COLLECTION_ADD,
     REGEX_COLLECTION_SUBSTRACT,
-    REGEX_COLLECTION_ACCESS
+    REGEX_COLLECTION_ACCESS,
+    REGGEX_DICTIONARY,
+    REGEX_FOR
 };
 
 export const STRUCTURES = {
     IF, 
     WHILE, 
     DEF,
-    ELIF
+    ELIF,
+    FOR
 };
 
 export const NATIVE_FUNCTIONS = {

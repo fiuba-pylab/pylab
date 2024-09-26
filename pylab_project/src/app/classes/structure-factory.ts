@@ -16,6 +16,7 @@ export class StructureFactory {
             case STRUCTURES.IF: 
                 return new IfStructure(level, detectCondition(code), codeService, variablesService, context);
             case STRUCTURES.WHILE:
+            case STRUCTURES.FOR:
                 return new WhileStructure(level, detectCondition(code), codeService, variablesService, context);
             case STRUCTURES.DEF:
                 return new DefStructure(level, code, codeService, variablesService, context);

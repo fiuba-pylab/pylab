@@ -1,6 +1,6 @@
 export abstract class Collection{
-    values:any[]
-    constructor(initialValues:any[]){
+    values:any[] | any
+    constructor(initialValues?:any[] | any){
         this.values = initialValues
     }
     

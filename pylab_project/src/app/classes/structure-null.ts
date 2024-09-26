@@ -1,5 +1,6 @@
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, STRUCTURES } from "../constans";
 import { evaluate, replaceVariables } from "../utils";
+import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Structure } from "./structure";
 import { Tuple } from "./tuple";
@@ -21,6 +22,7 @@ export class NullStructure extends Structure {
 
     override async execute(): Promise<{ amount: number; finish: boolean; }> {
         const variables = this.variablesService.getVariables(this.context);
+        console.log("variables", variables)
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == STRUCTURES.ELIF) {
             return { amount: 0, finish: true };
@@ -102,14 +104,26 @@ export class NullStructure extends Structure {
 
 function matchCollection(varValue:string, variables:any, collectionName:string){
     console.log("varValue", varValue)
+    let varMatch;
     let collectionAccess;
     //se crea una lista
     if(varValue.match(REGEX_CONSTS.REGEX_LIST)){
         console.log("se crea lista")
         const values = varValue.slice(1, varValue.length -1 ).split(', ')
         return new List(values)
+        
+        // se crea diccioario
+    }else if(varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)){
+        const dictionaryElements = varMatch[1].split(', ')
+        const dictionary = new Dictionary();
+        let element;
+        for(element of dictionaryElements){
+            dictionary.add(element.toString())
+        }
+        return dictionary
+        
         //se crea un set
-    } else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
+    }else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
         console.log("se crea set")
         const values = varValue.slice(1, varValue.length -1 ).split(', ')
         return new Set(values)
@@ -118,8 +132,9 @@ function matchCollection(varValue:string, variables:any, collectionName:string){
         console.log("se crea tupla")
         const values = varValue.slice(1, varValue.length -1 ).split(', ')
         return new Tuple(values)
+    }
     //se accede a una colecion
-    } else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
+     else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
         const value = collectionAccess[1]
         const index = collectionAccess[2]
         return variables[value].values[index]
