@@ -4,7 +4,7 @@
         "title":"Diferencia horaria",
         "description": "Se recibe dos strings con números de tipo 053059 representando un horario",
         "difficulty": 1,
-        "introduction": "Objetivo: ",
+        "introduction": "<h4>Objetivo:</h4> ",
         "inputs":[
             {
                 "name":"hora1",
@@ -43,7 +43,7 @@
         "id": 3,
         "title": "Cálculo de una compra con descuento",
         "description": "Recibe el monto y a partir de ese valor, calcula el descuento a aplicar, devolviendo finalmente el monto con el descuento aplicado.",
-        "difficulty": 3,
+        "difficulty": 2,
         "introduction": "<h4>Objetivo:</h4> Solicita al usuario el monto de la compra y a partir del mismo, calcula el descuento a aplicar e imprime por pantalla el monto con descuento. <br><br> <h4>Casos:</h4> 1. Monto menor a 50: sin descuento. <br> 2. Monto entre 50 y 100: descuento del 10%. <br> 3. Monto entre 100 y 200: descuento del 20%. <br> 4. Monto mayor a 200: descuento del 30%.",
         "inputs": [
             {
@@ -61,7 +61,7 @@
         "id": 4,
         "title": "Orden de números",
         "description": "Recibe dos números y los ordena de menor a mayor.",
-        "difficulty": 2,
+        "difficulty": 1,
         "introduction": "<h4>Objetivo:</h4> Solicita al usuario el ingreso de dos números enteros positivos distintos y determina cuál es el número mayor y cuál es el número menor e imprimirlos por pantalla. <br><br> <h4>Casos:</h4> 1. Se ingresa 94 y 37: menor es 37, el mayor es 94. <br> 2. Se ingresa 5 y 98: menor es 5, el mayor es 98.",
         "inputs": [
             {

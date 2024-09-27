@@ -34,7 +34,29 @@
         "title": "Teorema Pitágoras",
         "description": "Variables y tipos de datos en Python",
         "difficulty": 2,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario valores de dos catetos de un triángulo, e informar el valor de la hipotenusa."
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario valores de dos catetos de un triángulo, e informar el valor de la hipotenusa. <br> <br> <h4> Casos:</h4> 1. Básico: catetos con valores 3 y 4. <br> 2. Un cateto con valor 0. <br> 3. Catetos con valores decimales 6,3 y 2,7. <br> 4. Catetos iguales con valor 5 (isósceles). <br> 5. Catetos con valores grandes 300 y 400.",
+        "inputs":[
+            {
+                "name": "cateto1",
+                "options": [
+                    "3",
+                    "0",
+                    "6.3",
+                    "5",
+                    "300"
+                ]
+            },
+            {
+                "name": "cateto2",
+                "options": [
+                    "4",
+                    "0",
+                    "2.7",
+                    "5",
+                    "400"
+                ]
+            }
+        ]
     },
     {
         "id": 3,
