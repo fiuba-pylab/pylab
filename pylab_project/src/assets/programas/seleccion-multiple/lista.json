@@ -74,7 +74,33 @@
         "title": "Ventas en local",
         "description": "Se recibe un método de pago, precio por unidad de un producto y cantidad a comprar. En base al método de pago y cantidad, se realiza un descuento o un recargo.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un método de pago, precio por unidad y cantidad a comprar de un producto. En base a eso se realiza un descuento o recargo y se imprime el valor final que tendrá que pagar. <br><br><h4> Casos: </h4>"
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un método de pago, precio por unidad y cantidad a comprar de un producto. En base a eso se realiza un descuento o recargo y se imprime el valor final que tendrá que pagar. <br><br><h4> Casos: </h4>",
+        "inputs": [
+            {
+                "name": "metodo_pago",
+                "options": [
+                    "efectivo",
+                    "qr",
+                    "tarjeta"
+                ]
+            },
+            {
+                "name": "precio_por_unidad",
+                "options": [
+                    "100",
+                    "200",
+                    "500"
+                ]
+            },
+            {
+                "name": "cantidad",
+                "options": [
+                    "1",
+                    "5",
+                    "10"
+                ]
+            }
+        ]
     },
     {
         "id": 4,

@@ -75,7 +75,10 @@ export class DefStructure extends Structure{
     setParameters(args: string[]){
         const params: any = {};
         this.parameters.forEach((param, index) => {
-            params[param] = evaluate(args[index]);
+            if(!params[param]){
+                params[param] = []
+           }
+           params[param].push(args[index]);
         });
 
         this.variablesService.setVariables(this.myContext, params);

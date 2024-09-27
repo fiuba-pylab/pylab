@@ -16,6 +16,10 @@ export function replaceOperators(template: string): string {
 
 export function evaluate(code: any): any {
     // TODO: Sanitize input
+    if(code.includes('//')){
+        const lines = code.split(' ').map((line: string) => parseInt(line.trim()));
+        return Math.floor(lines[0] / lines[2]);
+    }
     try {
         return eval(code);
     } catch (e) {

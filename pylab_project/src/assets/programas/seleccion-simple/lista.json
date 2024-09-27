@@ -79,5 +79,28 @@
                 ]
             }
         ]
+    },
+    {
+        "id": 5,
+        "title": "Cálculo de antigüedad laboral",
+        "description": "Recibe la fecha de ingreso de un empleado y calcula la antigüedad en años, meses y días.",
+        "difficulty": 2,
+        "introduction":"<h4>Objetivo:</h4> Solicitar al usuario año y mes de inicio laboral y año y mes para el cual calcular la antigüedad. Calcula años y meses de antigüedad en un trabajo. Se calcula a mesa completo, por lo que se contempla hasta el mes previo al del cálculo final por convención. <br> <br> <h4> Casos: </h4> 1. Mes de inicio menor al mes de cálculo: 1988902 a 202303. <br> 2. Mes de inicio mayor o igual al mes de cálculo: 197810 a 202303.",
+        "inputs": [
+            {
+                "name": "inicio",
+                "options": [
+                    "198902",
+                    "197810"
+                ]
+            },
+            {
+                "name": "fin",
+                "options": [
+                    "202303"
+                ]
+            }
+        ]
+        
     }
 ]
