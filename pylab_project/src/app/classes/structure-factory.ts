@@ -1,4 +1,4 @@
-import { STRUCTURES } from "../constans";
+import { REGEX_CONSTS, STRUCTURES } from "../constans";
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { Context } from "./context";
@@ -16,8 +16,10 @@ export class StructureFactory {
             case STRUCTURES.IF: 
                 return new IfStructure(level, detectCondition(code), codeService, variablesService, context);
             case STRUCTURES.WHILE:
-            case STRUCTURES.FOR:
                 return new WhileStructure(level, detectCondition(code), codeService, variablesService, context);
+            case STRUCTURES.FOR:
+                const {newCondition, collectionInfo} = forConfiguration(code, variablesService, context)
+                return new WhileStructure(level, newCondition, codeService, variablesService, context, collectionInfo);
             case STRUCTURES.DEF:
                 return new DefStructure(level, code, codeService, variablesService, context);
             default:
@@ -25,6 +27,32 @@ export class StructureFactory {
         }        
     }
 
+}
+
+function forConfiguration(code:string, variablesService: VariablesService, context:Context){
+    const condition = detectCondition(code)
+    const variables = variablesService.getVariables(context);
+    const collectionIteration = condition.match(REGEX_CONSTS.REGEX_FOR);
+    let newCondition = '';
+    let collectionInfo:any = {}
+    if(collectionIteration){
+        const varIteratorName = condition.split(' ')[2]
+        collectionInfo['varIteratorName'] = varIteratorName
+        const tempVarName = condition.split(' ')[0]
+        collectionInfo['tempVarName'] = tempVarName
+        const collection = variables[varIteratorName]
+        const numberValuesCollection = collection?.values.length
+        //definición del iterador
+        if(!variables['ForIteratorVariable']){
+            variables['ForIteratorVariable'] = []
+        }
+        variables['ForIteratorVariable'].push(numberValuesCollection)
+        //definición de la variable a iterar
+        variables[tempVarName] = []
+        variables[tempVarName].push(collection?.values[0])
+        newCondition = 'ForIteratorVariable > 0'
+    }
+    return {newCondition, collectionInfo}
 }
 
 function detectCondition(code: string){

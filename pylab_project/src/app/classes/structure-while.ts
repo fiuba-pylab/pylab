@@ -23,19 +23,20 @@ export class WhileStructure extends Structure{
     override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
         const variables = this.variablesService.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
-        const collectionIteration = this.condition.match(REGEX_CONSTS.REGEX_FOR);
-        if(collectionIteration){
-            const varName = this.condition.split(' ')[2]
-            const collection = variables[varName]
-            const numberValuesCollection = collection.values.length
-            this.condition = 'ForIteratorVariable > 0'
-            variables['ForIteratorVariable'] = numberValuesCollection
-            
-        }
-        
-        if(this.currentLine == this.lines.length){
-            this.currentLine = 0;
-            return {amount: -(this.lines.length+1), finish: true};
+        if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
+            this.currentLine = 1;
+            if(this.collectionInfo){
+                const collection = variables[this.collectionInfo.varIteratorName]
+                const variableForArray = variables['ForIteratorVariable']
+
+                const inverseActualIndex = Number(variableForArray[variableForArray.length-1])-1
+                //decremento la variables inyterna del for
+                variables['ForIteratorVariable'].push(inverseActualIndex)
+                //cambio el valor de la variable a iterar
+                variables[this.collectionInfo.tempVarName].push(collection.values[collection.values.length-1 - inverseActualIndex])
+            }
+            return {amount: -(this.lines.length), finish: false};
+
         }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
             this.currentLine += amountToAdd ?? 0;
@@ -45,6 +46,6 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 1, finish: false};
         }
-        return {amount: this.lines.length+1, finish: true};
+        return {amount: 0/* this.lines.length+1 */, finish: true};
     }
 }

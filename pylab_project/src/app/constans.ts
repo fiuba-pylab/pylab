@@ -1,7 +1,7 @@
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
 const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
 const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
-const REGEX_FUNCTIONS = /\b(float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
+const REGEX_FUNCTIONS = /\b(input|float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
@@ -30,7 +30,7 @@ const MATH_ROUND = 'math.round';
 const MATH_ASIN = 'math.asin';
 const MATH_LOG10 = 'math.log10';
 const PRINT = 'print';
-const input = 'input';
+const INPUT = 'input';
 
 export const REGEX_CONSTS = {
     REGEX_DEF, 
@@ -69,5 +69,5 @@ export const NATIVE_FUNCTIONS = {
     MATH_ASIN, 
     MATH_LOG10, 
     PRINT, 
-    input
+    INPUT
 };
