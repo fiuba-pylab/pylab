@@ -120,6 +120,14 @@ export class Coordinator {
             }
         }
     }
+
+    reset(){
+        this.structures = [];
+        this.currentLine = 0;
+        this.executingFunction = false;
+        this.contexts = this.contexts.slice(0, 1);
+        this.variablesService.reset();
+    }
 }
 
 function containsFunctionName(str: string, dict: {[key: string]: any}): string | null{

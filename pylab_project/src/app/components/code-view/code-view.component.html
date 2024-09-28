@@ -23,7 +23,7 @@
         <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="next-arrow" fontIcon="arrow_forward_ios" (click)="(!isRunning || isPaused) && nextLine()"></mat-icon>
         <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="play" fontIcon="play_arrow" (click)="(!isRunning || isPaused) && play()"></mat-icon>
         <mat-icon class="icon" [class]="isPaused? 'disabled': ''" aria-hidden="false" aria-label="pause" fontIcon="pause" (click)="!isPaused && pause()"></mat-icon>
-            
+        <mat-icon class="icon" aria-hidden="false" aria-label="redo" fontIcon="redo" (click)="reset()"></mat-icon>
         <button mat-button [matMenuTriggerFor]="menu" #menuTrigger class="velocity-button" [disabled]="isRunning && !isPaused">Velocidad</button>
         <mat-menu #menu="matMenu">
             @for (velocity of velocities; track $index) {
