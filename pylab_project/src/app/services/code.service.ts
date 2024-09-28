@@ -76,7 +76,8 @@ export class CodeService {
   }
   
   setPrint(value: string): void {
-    this.behaviorSubjectPrint.next(value);
+    const newValue = this.behaviorSubjectPrint.value + value;
+    this.behaviorSubjectPrint.next(newValue);
   }
 
   async getInput(msg: string, varName: string): Promise<string> {

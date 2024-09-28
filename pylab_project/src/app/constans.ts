@@ -5,6 +5,7 @@ const REGEX_FUNCTIONS = /\b(input|float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
+const REGEX_PRINT_END = /,\s*end=\s*['"]/;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -30,7 +31,8 @@ export const REGEX_CONSTS = {
     REGEX_FUNCTIONS, 
     REGEX_OPERATIONS, 
     REGEX_VARIABLE_DECLARATION, 
-    REGEX_RETURN_VARIABLES
+    REGEX_RETURN_VARIABLES,
+    REGEX_PRINT_END
 };
 
 export const STRUCTURES = {

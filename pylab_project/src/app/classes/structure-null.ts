@@ -48,7 +48,14 @@ export class NullStructure extends Structure {
             }
             let printValue = this.replaceVariablesInPrint(value, variables);
             printValue = await this.evaluateExpression(printValue);
-            printValue = this.cleanPrintValue(printValue)
+            printValue = this.cleanPrintValue(printValue);
+
+            const end = printValue.match(REGEX_CONSTS.REGEX_PRINT_END);
+            if(end){
+                printValue = printValue.replace(REGEX_CONSTS.REGEX_PRINT_END, ' ');
+            }else{
+                printValue = printValue + '<br>';
+            }
             this.codeService.setPrint(printValue);
         }
 
@@ -63,7 +70,6 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService.setVariables(this.context, variables);
-        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
     
