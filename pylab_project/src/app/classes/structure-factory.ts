@@ -41,7 +41,8 @@ function forConfiguration(code:string, variablesService: VariablesService, conte
         const tempVarName = condition.split(' ')[0]
         collectionInfo['tempVarName'] = tempVarName
         const collection = variables[varIteratorName]
-        const numberValuesCollection = collection?.values.length
+        const collectionIsArray = collection?.values.length
+        const numberValuesCollection = collectionIsArray?collectionIsArray:(Object.keys(collection?.values).length)
         //definición del iterador
         if(!variables['ForIteratorVariable']){
             variables['ForIteratorVariable'] = []
@@ -49,7 +50,7 @@ function forConfiguration(code:string, variablesService: VariablesService, conte
         variables['ForIteratorVariable'].push(numberValuesCollection - 1)
         //definición de la variable a iterar
         variables[tempVarName] = []
-        variables[tempVarName].push(collection?.values[0])
+        variables[tempVarName].push(collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]])
         newCondition = 'ForIteratorVariable > 0'
     }
     return {newCondition, collectionInfo}

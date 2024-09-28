@@ -27,13 +27,15 @@ export class WhileStructure extends Structure{
             this.currentLine = 1;
             if(this.collectionInfo){
                 const collection = variables[this.collectionInfo.varIteratorName]
+                const collectionIsArray = collection?.values.length
                 const variableForArray = variables['ForIteratorVariable']
 
                 const inverseActualIndex = Number(variableForArray[variableForArray.length-1])-1
                 //decremento la variables inyterna del for
                 variables['ForIteratorVariable'].push(inverseActualIndex)
                 //cambio el valor de la variable a iterar
-                variables[this.collectionInfo.tempVarName].push(collection.values[collection.values.length-1 - inverseActualIndex])
+                const index = collectionIsArray?(collection.values.length-1 - inverseActualIndex):(Object.keys(collection?.values).length-1 - inverseActualIndex)
+                variables[this.collectionInfo.tempVarName].push(collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]])
             }
             return {amount: -(this.lines.length), finish: false};
 
