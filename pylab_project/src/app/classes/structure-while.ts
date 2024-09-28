@@ -38,6 +38,9 @@ export class WhileStructure extends Structure{
             return {amount: -(this.lines.length), finish: false};
 
         }
+        if(this.currentLine == this.lines.length && !evaluate(condition_replaced)){
+            return {amount: 0, finish: true};
+        }
         if(this.currentLine > 0 && this.currentLine < this.lines.length){
             this.currentLine += amountToAdd ?? 0;
             return {amount: 0, finish: false};
@@ -46,6 +49,6 @@ export class WhileStructure extends Structure{
             this.currentLine++;
             return {amount: 1, finish: false};
         }
-        return {amount: 0/* this.lines.length+1 */, finish: true};
+        return {amount: this.lines.length+1, finish: true};
     }
 }

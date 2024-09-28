@@ -46,7 +46,7 @@ function forConfiguration(code:string, variablesService: VariablesService, conte
         if(!variables['ForIteratorVariable']){
             variables['ForIteratorVariable'] = []
         }
-        variables['ForIteratorVariable'].push(numberValuesCollection)
+        variables['ForIteratorVariable'].push(numberValuesCollection - 1)
         //definición de la variable a iterar
         variables[tempVarName] = []
         variables[tempVarName].push(collection?.values[0])
