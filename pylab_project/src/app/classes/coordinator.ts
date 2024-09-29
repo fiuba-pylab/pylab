@@ -89,7 +89,7 @@ export class Coordinator {
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure : Structure = this.structures[i];
             const result = await structure.execute(prevAmount);
-            if (result.finish) {
+            if (result.finish && structure == this.structures[this.structures.length - 1]) {
                 lastStructure = this.structures.pop();
                 if(this.executingFunction && structure.isFunction()){
                     const lastContext = this.contexts.pop();
@@ -106,7 +106,7 @@ export class Coordinator {
                     this.variablesService.setVariables(variables);
                 }
             }
-            if(lastStructure && lastStructure.isFunction() && lastStructure.insideAFunction()){
+            if(lastStructure && lastStructure.isFunction()){
                 prevAmount = 1;
                 lastStructure = null;
             }else{

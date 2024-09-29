@@ -1,6 +1,6 @@
-#catetos son inputs, adaptado para testing
-cateto1 = 20
-cateto2 = 30
+import math
+cateto1 = int(input('Introduce el valor del cateto 1: '))
+cateto2 = int(input('Introduce el valor del cateto 2: '))
 
 cateto1_cuadrado = cateto1 ** 2
 cateto2_cuadrado = cateto2 ** 2
