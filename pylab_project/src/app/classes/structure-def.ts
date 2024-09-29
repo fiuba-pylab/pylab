@@ -37,7 +37,7 @@ export class DefStructure extends Structure{
         this.codeService.setFunction(this.name, this);
     }
 
-    override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
+    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         // si es la primera vez que llamo al execute, quiere decir que es cuando 
         // se declaro la funcion, entonces tengo que avanzar hasta salir del scope de la
         // funcion para que se vuelva aca solo si se llamo a la funcion en el programa
@@ -75,7 +75,10 @@ export class DefStructure extends Structure{
     setParameters(args: string[]){
         const params: any = {};
         this.parameters.forEach((param, index) => {
-            params[param] = evaluate(args[index]);
+            if(!params[param]){
+                params[param] = []
+           }
+           params[param].push(args[index]);
         });
 
         this.variablesService.setVariables(this.myContext, params);

@@ -18,7 +18,18 @@
         "title": "Fibonacci",
         "description": "Recibe un número entero y devuelve el número de la serie de Fibonacci correspondiente.",
         "difficulty": 3,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo:</h4> Muestra en pantalla los términos de la sucesión de Fibonacci hasta igualar o superar un valor tope especificado por el usuario. <br> La sucesión de Fibonacci es: F(0)=0 <br> F(1)=1 <br> F(n)=F(n-2)+F(n-1). <br> <br> <h4>Casos:</h4> 1. tope = 0 <br> 2. tope = 1 <br> 3. tope = 5 <br> 4. tope = 10",
+        "inputs": [
+            {
+                "name": "tope",
+                "options": [
+                    "0",
+                    "1",
+                    "5",
+                    "10"
+                ]
+            }
+        ]
 
     },
     {
@@ -26,6 +37,52 @@
         "title": "Números malabaristas",
         "description": "Dado un número entero positivo e imprime en una línea de la pantalla la sucesión malabarista que lo tiene como origen:\n - si un número es par, el siguiente es la parte entera de su raíz cuadrada\n - si es impar, la parte entera de la raíz cuadrada de su cubo",
         "difficulty": 4,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo:</h4> Solicita al usuario un número entero positivo e imprime por pantalla la sucesión malabarista que lo tiene como origen. <br> Si un número es par, el siguiente es la parte entera de su raíz cuadrada. <br> Si es impar, la parte entera de la raíz cuadrada de su cubo. <br> <br> <h4>Casos:</h4> 1. n = 1 <br> 2. n = 2 <br> 3. n = 5 <br> 4. n = 10",
+        "inputs": [
+            {
+                "name": "num",
+                "options": [
+                    "1",
+                    "2",
+                    "5",
+                    "10"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Factorial",
+        "description": "Recibe un número entero y devuelve el factorial del mismo.",
+        "difficulty": 5,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero mayor o igual a 0 y se imprime su factorial n!: <ul> <li> 0! = 1</li> <li> 1! = 1 </li> <li> n! = 1*2*3*...*(n-1)*n </li></ul> <br> <h4> Casos:</h4> 1. n = 0 <br> 2. n = 1 <br> 3. n = 5 <br> 4. n = 10",
+        "inputs": [
+            {
+                "name": "n",
+                "options": [
+                    "0",
+                    "1",
+                    "5",
+                    "10"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Factorización",
+        "description": "Recibe un número entero y devuelve su factorización en números primos.",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4> Solicita al usuario un número entero positivo mayor que 1 a factorizar. <br> El teorema fundamental de la aritmética o teorema de factorización única afirma que todo entero positivo mayor que 1 es un número primo o bien un único producto de números primos. Como la multiplicación es conmutativa, el orden de los factores es irrelevante, por esta razón, usualmente se enuncia el teorema como factorización única salvo en el orden de los factores. <br> <br> <h4>Casos:</h4> 1. n = 16 (factorización 2 2 2 2) <br> 2. n = 12 (factorización 2 2 3). <br> 3. n = 35 (factorización 5 7).",
+        "inputs": [
+            {
+                "name": "n",
+                "options": [
+                    "16",
+                    "12",
+                    "35"
+                ]
+            }
+        ]
     }
 ]
