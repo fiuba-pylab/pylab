@@ -2,7 +2,7 @@
 export function replaceVariables(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
-        return resultado.replace(regex, valor);
+        return resultado.replace(regex, valor[valor.length -1]);
     }, template);
 }
 
