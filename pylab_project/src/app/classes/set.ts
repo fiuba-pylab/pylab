@@ -8,4 +8,8 @@ export class Set extends Collection{
     override substract(element?: any): void {
         this.values.splice(this.values.indexOf(element), 1)
     }
+
+    override access(index: string): void {
+        
+    }
 }

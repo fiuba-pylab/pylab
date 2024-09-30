@@ -32,6 +32,9 @@ const MATH_LOG10 = 'math.log10';
 const PRINT = 'print';
 const INPUT = 'input';
 
+const validAddOperators = ['append', 'add'];
+const validSubstractOperators = ['remove', 'discard'];
+
 export const REGEX_CONSTS = {
     REGEX_DEF, 
     REGEX_RETURN, 
@@ -71,3 +74,8 @@ export const NATIVE_FUNCTIONS = {
     PRINT, 
     INPUT
 };
+
+export const VALID_OPERATORS = {
+    validAddOperators,
+    validSubstractOperators
+}

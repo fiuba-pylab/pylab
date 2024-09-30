@@ -8,4 +8,8 @@ export class Tuple extends Collection{
     override substract(element?: any): void {
         
     }
+
+    override access(index:string){
+        return this.values[Number(index)]
+    }
 }

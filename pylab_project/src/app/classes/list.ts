@@ -9,4 +9,8 @@ export class List extends Collection{
     override substract(element?: any): void {
         this.values.splice(this.values.indexOf(element), 1)
     }
+
+    override access(index:string){
+        return this.values[Number(index)]
+    }
 }

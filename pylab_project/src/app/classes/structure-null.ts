@@ -1,4 +1,4 @@
-import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "../constans";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constans";
 import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
@@ -36,7 +36,7 @@ export class NullStructure extends Structure {
         if (variableDeclaration) {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
-           let collection = this.matchCollection(varValue, variables, variableDeclaration[2])
+           let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
 
            if(!variables[varName]){
                 variables[varName] = []
@@ -69,8 +69,8 @@ export class NullStructure extends Structure {
             const variable = collectionAdd[1];
             const operator = collectionAdd[2];
             const value = collectionAdd[3];
-            if(operator == 'append' || operator == 'add'){
-                variables[variable].add(value)
+            if(VALID_OPERATORS.validAddOperators.includes(operator)){
+                variables[variable].add(await this.applyFunctions(value, variables, variable))
             } else if(collectionAdd[5] == '+'){
                 const tupleValues = collectionAdd[6].split(', ')
                 for(let tupleValue of tupleValues){
@@ -82,8 +82,8 @@ export class NullStructure extends Structure {
             const variable = collectionSubstract[1];
             const operator = collectionSubstract[2];
             const value = collectionSubstract[3];
-            if(operator == 'remove' || operator == 'discard'){
-                variables[variable].substract(value)
+            if(VALID_OPERATORS.validSubstractOperators.includes(operator)){
+                variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }
         }
         
@@ -142,8 +142,7 @@ export class NullStructure extends Structure {
         }
     }
 
-    matchCollection(varValue:string, variables:any, collectionName:string){
-    console.log("varValue", varValue)
+    async matchCollection(varValue:string, variables:any, collectionName:string){
     let varMatch;
     let collectionAccess;
     //se crea una lista
@@ -177,7 +176,8 @@ export class NullStructure extends Structure {
      else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
         const value = collectionAccess[1]
         const index = collectionAccess[2]
-        return variables[value].values[index]
+        const accessIndex = await this.applyFunctions(index, variables, value)
+        return variables[value].access(accessIndex)
     }else {
         return null
     }

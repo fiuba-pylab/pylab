@@ -7,5 +7,7 @@ export abstract class Collection{
     abstract add(element:any):void
 
     abstract substract(element?:any):void
+
+    abstract access(index:string):void
 }
 

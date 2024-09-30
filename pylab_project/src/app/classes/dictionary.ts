@@ -14,4 +14,8 @@ export class Dictionary extends Collection{
 
     override substract(element?: any): void {
     }
+
+    access(index:string){
+        return this.values[index]
+    }
 }
