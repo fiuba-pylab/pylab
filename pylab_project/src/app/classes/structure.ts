@@ -1,5 +1,6 @@
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
+import { Collection } from "./collection";
 import { Context } from "./context";
 
 export abstract class Structure{
@@ -9,12 +10,14 @@ export abstract class Structure{
     codeService: CodeService;
     variablesService: VariablesService;
     context: Context;
-    constructor(level: number, condition: string, codeService: CodeService, variablesService: VariablesService, context: Context){
+    collectionInfo?:any
+    constructor(level: number, condition: string, codeService: CodeService, variablesService: VariablesService, context: Context, collectionInfo?:any){
         this.level = level;
         this.condition = condition;
         this.codeService = codeService;
         this.variablesService = variablesService;
         this.context = context;
+        this.collectionInfo = collectionInfo
     }
     abstract setScope(code: any): void;
 
