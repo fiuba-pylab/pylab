@@ -159,6 +159,15 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     clearInterval(this.intervalId);
   }
 
+  reset(){
+    this.isRunning = false;
+    this.isPaused = true;
+    this.isFinished = false;
+    clearInterval(this.intervalId);
+    this.coordinator.reset();
+    this.codeService.reset();
+  }
+
   ngOnDestroy(): void {
     if (this.editor) {
       this.editor.dispose();
