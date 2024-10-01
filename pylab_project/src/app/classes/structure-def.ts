@@ -10,12 +10,21 @@ export class DefStructure extends Structure{
         this.position = codeService.behaviorSubjectHighlight.value;
         const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
-            this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
+            const params = definition[2].split(",").map((arg: string) => arg.trim());
+            this.parameters = params.reduce((acc: any, param: string) => {
+                if(param.match(/^\w+=\w+$/)){
+                    const [key, value] = param.split("=");
+                    acc[key] = [evaluate(value)];
+                    return acc;
+                }
+                acc[param] = [];
+                return acc;
+            }, {});
             this.name = definition[1].trim();
         }
     }
     currentLine: number = -1;
-    parameters: string[] = [];
+    parameters: { [key: string]: any } = {};
     name: string = "";
     position: number = 0;
     called: boolean = false;
@@ -73,15 +82,16 @@ export class DefStructure extends Structure{
     }
 
     setParameters(args: string[]){
-        const params: any = {};
-        this.parameters.forEach((param, index) => {
-            if(!params[param]){
-                params[param] = []
-           }
-           params[param].push(args[index]);
+        Object.keys(this.parameters).forEach((param, index) => {
+            if(!this.parameters[param]){
+                this.parameters[param] = []
+            }
+            if(args[index]){
+                this.parameters[param].push(args[index]);
+            }
         });
 
-        this.variablesService.setVariables(this.myContext, params);
+        this.variablesService.setVariables(this.myContext, this.parameters);
     }
 
     setContext(context: Context){
@@ -102,7 +112,7 @@ export class DefStructure extends Structure{
         );
         
         clone.currentLine = this.currentLine;
-        clone.parameters = [...this.parameters];
+        clone.parameters = this.parameters;
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
