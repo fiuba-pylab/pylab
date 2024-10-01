@@ -1,4 +1,5 @@
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constans";
+import { replace } from "lodash";
 import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
@@ -10,6 +11,7 @@ const operations = {
     '-=': (a: number, b: number) => a - b,
     '*=': (a: number, b: number) => a * b,
     '/=': (a: number, b: number) => a / b,
+    '//=': (a: number, b: number) => Math.floor(a / b),
 };
 
 type Operator = keyof typeof operations;
@@ -52,8 +54,7 @@ export class NullStructure extends Structure {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-
-            variables[variable].push(this.applyOperation(Number(variables[variable][variables[variable].length -1]), operator, Number(value)));
+            variables[variable].push(this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables))));
         }
         if(print){
             let value = print[1]

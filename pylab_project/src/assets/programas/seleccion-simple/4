@@ -1,19 +1,11 @@
-monto = 19
-plazo = 12
-if monto <= 0 or plazo <= 0:
-    print("Monto o plazo inválido")
-if monto <= 10:
-    if plazo <= 12:
-        interes = 0.05  # 5% de interés
-    else:
-        interes = 0.07  # 7% de interés
+num1 = int(input('Ingrese un entero positivo: '))
+num2 = int(input('Ingrese otro entero positivo distinto al anterior: '))
+
+if num1 < num2:
+    menor = num1
+    mayor = num2
 else:
-    if plazo <= 36:
-        interes = 0.09  # 9% de interés
-    else:
-        interes = 0.11  # 11% de interés
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
-print(f'El interés aplicado es del {interes * 100}%')
+    menor = num2
+    mayor = num1
+
+print(f'El menor es {menor}, y el mayor, {mayor}')
