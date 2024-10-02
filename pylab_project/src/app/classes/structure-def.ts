@@ -1,6 +1,6 @@
 import { REGEX_CONSTS } from "../constans";
 import { VariablesService } from "../services/variables.service";
-import { evaluate } from "../utils";
+import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
 import { Structure } from "./structure";
 
@@ -12,9 +12,9 @@ export class DefStructure extends Structure{
         if (definition != null) {
             const params = definition[2].split(",").map((arg: string) => arg.trim());
             this.parameters = params.reduce((acc: any, param: string) => {
-                if(param.match(/^\w+=\w+$/)){
+                if(param.match(/^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/)){
                     const [key, value] = param.split("=");
-                    acc[key] = [evaluate(value)];
+                    acc[key.trim()] = [evaluate(value)];
                     return acc;
                 }
                 acc[param] = [];
@@ -82,12 +82,22 @@ export class DefStructure extends Structure{
     }
 
     setParameters(args: string[]){
+        const variables = this.variablesService.getVariables(this.context);
         Object.keys(this.parameters).forEach((param, index) => {
-            if(!this.parameters[param]){
-                this.parameters[param] = []
-            }
             if(args[index]){
-                this.parameters[param].push(args[index]);
+                const match = args[index].match(/^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/);
+                if(match){
+                    const key = match[1];
+                    const value = match[2];
+                    this.parameters[key].push(evaluate(replaceVariables(value, variables)));
+                    return;
+                }
+                if(!this.parameters[param]){
+                    this.parameters[param] = []
+                }
+                if(args[index]){
+                    this.parameters[param].push(evaluate(replaceVariables(args[index], variables)));
+                }
             }
         });
 
@@ -112,7 +122,7 @@ export class DefStructure extends Structure{
         );
         
         clone.currentLine = this.currentLine;
-        clone.parameters = this.parameters;
+        clone.parameters = JSON.parse(JSON.stringify(this.parameters));
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
