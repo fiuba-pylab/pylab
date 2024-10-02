@@ -96,7 +96,7 @@ export class DefStructure extends Structure{
             this.condition,
             this.codeService,       
             this.variablesService!,  
-            context
+            context!
         );
         
         clone.currentLine = this.currentLine;
@@ -110,12 +110,12 @@ export class DefStructure extends Structure{
         return clone;
     }
 
-    override clone(): DefStructure {
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): DefStructure {
         const clone = new DefStructure(
             this.level,
             this.condition,
-            null,
-            null,  
+            codeService,
+            variablesService,  
             this.context
         );
         

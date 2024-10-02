@@ -1,4 +1,6 @@
 import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "../constans";
+import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Structure } from "./structure";
 
@@ -162,7 +164,7 @@ export class NullStructure extends Structure {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
-    override clone(): Structure {
-        return new NullStructure(this.level, this.condition, null, null, this.context);
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
+        return new NullStructure(this.level, this.condition, codeService, variablesService, this.context);
     }
 }

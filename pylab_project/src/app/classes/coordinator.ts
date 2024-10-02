@@ -68,7 +68,9 @@ export class Coordinator {
             console.log("response", response);
             if (response.previousState){
                 this.currentLine = response.previousState.currentLine;
-                this.structures = response.previousState.structures;
+                for (let i = 0; i < response.previousState.structures.length; i++) {
+                    this.structures[i] = response.previousState.structures[i].clone(this.codeService, this.variablesService);
+                }
                 this.functions = response.previousState.functions;
                 this.contexts = response.previousState.contexts;
                 this.executingFunction = response.previousState.executingFunction;
@@ -85,9 +87,11 @@ export class Coordinator {
         if (response && response.state) {
             const futureState = response.state;
             this.currentLine = futureState.currentLine;
-            this.structures = [...futureState.structures];
+            for (let i = 0; i < futureState.structures.length; i++) {
+                this.structures[i] = futureState.structures[i].clone(this.codeService, this.variablesService);
+            }
             this.functions = futureState.functions;
-            this.contexts = [...futureState.contexts];
+            this.contexts = futureState.contexts;
             this.executingFunction = futureState.executingFunction;
             return;
         }
@@ -109,7 +113,7 @@ export class Coordinator {
                         }
                     }
                     this.variablesService.deleteContext(lastContext);
-                    this.variablesService.setVariables(variables);
+                    this.variablesService.setVariables(this.contexts[this.contexts.length-1], variables);
                 }
             }
             if(lastStructure && lastStructure.isFunction() && lastStructure.insideAFunction()){

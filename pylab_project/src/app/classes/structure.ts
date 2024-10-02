@@ -20,10 +20,11 @@ export abstract class Structure{
 
     abstract execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>;
 
-    abstract clone(): Structure;
+    abstract clone(codeService: CodeService | null, variablesService: VariablesService | null): Structure;
 
     isFunction(): boolean{
         return false;
     }
+
 }
 

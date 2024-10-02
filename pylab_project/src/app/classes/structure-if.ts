@@ -135,12 +135,12 @@ export class IfStructure extends Structure{
         }
     }
 
-    override clone(): Structure {
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
         const clone = new IfStructure(
             this.level,
             this.condition,
-            null,
-            null,
+            codeService,
+            variablesService,
             this.context
         );
 

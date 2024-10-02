@@ -1,5 +1,7 @@
 import { Structure } from "./structure";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
+import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
@@ -37,8 +39,8 @@ export class WhileStructure extends Structure{
         return {amount: 0/* this.lines.length+1 */, finish: true};
     }
 
-    override clone(): Structure {
-        let clone = new WhileStructure(this.level, this.condition, null, null, this.context)
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
+        let clone = new WhileStructure(this.level, this.condition, codeService, variablesService, this.context)
         clone.currentLine = this.currentLine;
 
         return clone;

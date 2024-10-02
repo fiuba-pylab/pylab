@@ -53,7 +53,7 @@ export class CodeService {
         this.behaviorSubjectHighlight.next(nextState.highlightLine);
         this.behaviorSubjectPrint.next(nextState.print);
         this.behaviorSubjectFunctions.next(nextState.functions);
-        this.codePath = nextState.codePath;
+        this.codePath = [...nextState.codePath];
         this.codePathIndex = nextState.codePathIndex;
         this.maxNext = nextState.maxNext;
         this.store.dispatch(actions.goForward());
