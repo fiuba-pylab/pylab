@@ -13,6 +13,7 @@ const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
+const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -50,7 +51,8 @@ export const REGEX_CONSTS = {
     REGEX_COLLECTION_SUBSTRACT,
     REGEX_COLLECTION_ACCESS,
     REGGEX_DICTIONARY,
-    REGEX_FOR
+    REGEX_FOR,
+    REGEX_IN_OPERATION
 };
 
 export const STRUCTURES = {
