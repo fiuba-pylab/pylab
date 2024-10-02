@@ -3,7 +3,7 @@
     Seleccione un tema...
   </h1>
 
-  <div>
+<!--   <div>
     <h1>Gestión de Estados con NGRX</h1>
   
     <label for="variableInput">Actualiza la variable:</label>
@@ -13,7 +13,8 @@
   
     <div *ngIf="variable$ | async as variableState">
       <h2>Estado Actual</h2>
-      <p><strong>Variable Actual:</strong> {{ variableState.present }}</p>
+      <p><strong>V
+        ariable Actual:</strong> {{ variableState.present }}</p>
       
       <h3>Historial:</h3>
       <p><strong>Pasado:</strong> {{ variableState.past.join(', ') }}</p>
@@ -23,8 +24,8 @@
     <button (click)="undo()">Deshacer</button>
     <button (click)="redo()">Rehacer</button>
   </div>
-
-  <!-- <div class="containerCards">
+ -->
+  <div class="containerCards">
     <div *ngFor="let card of cards; let i=index">
       <mat-card class="home-card" (click)="listPrograms(card.tipo)">
         <mat-card-header>
@@ -37,5 +38,5 @@
         }
       </mat-card>
     </div>
-  </div> -->
+  </div>
 </div>

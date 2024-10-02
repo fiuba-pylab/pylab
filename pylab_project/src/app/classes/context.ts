@@ -29,4 +29,11 @@ export class Context{
     getCallLine(){
         return this.callLine;
     }
+
+    clone(): Context{
+        const newContext = new Context(this.id, this.callLine, this.name);
+        newContext.setReturnValue(this.return);
+        newContext.setReturnVarName(this.returnVariables);
+        return newContext;
+    }
 }

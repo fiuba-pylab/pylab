@@ -1,9 +1,12 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, createFeatureSelector, createSelector, props } from '@ngrx/store';
+import { Coordinator } from '../classes/coordinator';
+import { AppState } from './models';
 
-export const updateVariable = createAction(
-  '[Variable] Update Variable',
-  props<{ variable: string }>()
-);
+export const goBack = createAction('[Coordinator] Go Back');
+export const goForward = createAction('[Coordinator] Go Forward');
+export const addNew = createAction('[Coordinator] Add New', props<{ newCoordinator: any }>());
 
-export const undoAction = createAction('[Variable] Undo');
-export const redoAction = createAction('[Variable] Redo');
+export const selectAppState = createFeatureSelector<AppState>('appState');
+export const selectCurrentCoordinator = createSelector(selectAppState, (state) => state.currentValues);
+export const selectPastStates = createSelector(selectAppState, (state) => state.past);
+export const selectFutureStates = createSelector(selectAppState, (state) => state.future);

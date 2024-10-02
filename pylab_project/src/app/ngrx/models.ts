@@ -1,13 +1,5 @@
 export interface AppState {
-  variable: {
-    past: string[];
-    present: string;
-    future: string[];
-  };
+  past: any[];
+  currentValues: any;
+  future: any[];
 }
-
-export const initialState: AppState['variable'] = {
-  past: [],
-  present: '',
-  future: [],
-};

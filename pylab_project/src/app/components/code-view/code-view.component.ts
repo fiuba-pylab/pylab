@@ -123,13 +123,13 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute();
+      this.coordinator.executeForward();
     }    
   }
 
   previousLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute(true);
+      this.coordinator.executePrevious();
     }
   }
 

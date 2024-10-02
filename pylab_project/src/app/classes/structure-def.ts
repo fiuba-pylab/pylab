@@ -1,13 +1,14 @@
 import { REGEX_CONSTS } from "../constans";
+import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { evaluate } from "../utils";
 import { Context } from "./context";
 import { Structure } from "./structure";
 
 export class DefStructure extends Structure{
-    constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
+    constructor(level: number, condition: string, codeService: CodeService | null, variablesService: VariablesService | null, context: Context) {
         super(level, condition, codeService, variablesService, context);
-        this.position = codeService.behaviorSubjectHighlight.value;
+        this.position = codeService!.getHighlightLine();
         const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
             this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
@@ -34,7 +35,7 @@ export class DefStructure extends Structure{
                 break;
             }
         }
-        this.codeService.setFunction(this.name, this);
+        this.codeService!.setFunction(this.name, this);
     }
 
     override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
@@ -49,7 +50,7 @@ export class DefStructure extends Structure{
         // llamaron a la funcion
         if(this.currentLine == 0 && !this.called){ 
             this.called = true;
-            this.codeService.goToLine(this.position);
+            this.codeService!.goToLine(this.position);
             return {amount: 0, finish: false};
         }
 
@@ -78,7 +79,7 @@ export class DefStructure extends Structure{
             params[param] = evaluate(args[index]);
         });
 
-        this.variablesService.setVariables(this.myContext, params);
+        this.variablesService!.setVariables(this.myContext, params);
     }
 
     setContext(context: Context){
@@ -89,12 +90,12 @@ export class DefStructure extends Structure{
         return (this.context.name != 'global');
     }
 
-    clone(context: Context): DefStructure {
+    deepClone(context: Context): DefStructure {
         const clone = new DefStructure(
             this.level,
             this.condition,
             this.codeService,       
-            this.variablesService,  
+            this.variablesService!,  
             context
         );
         
@@ -103,6 +104,27 @@ export class DefStructure extends Structure{
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
+        
+        clone.lines = [...this.lines];
+        
+        return clone;
+    }
+
+    override clone(): DefStructure {
+        const clone = new DefStructure(
+            this.level,
+            this.condition,
+            null,
+            null,  
+            this.context
+        );
+        
+        clone.currentLine = this.currentLine;
+        clone.parameters = [...this.parameters];
+        clone.name = this.name;
+        clone.position = this.position;
+        clone.called = this.called;
+        clone.myContext = this.myContext;
         
         clone.lines = [...this.lines];
         

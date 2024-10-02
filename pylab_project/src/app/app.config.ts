@@ -6,8 +6,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from './ngrx/reducer';
+import { coordinatorReducer } from './ngrx/reducer';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(), provideStore(reducers, { metaReducers }), provideStoreDevtools()]
+  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(), provideStore({appState: coordinatorReducer}), provideStoreDevtools()]
 };

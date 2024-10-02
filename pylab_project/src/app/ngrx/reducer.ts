@@ -1,53 +1,47 @@
-import {
-  Action,
-  ActionReducerMap,
-  createReducer,
-  MetaReducer,
-  on,
-} from '@ngrx/store';
-import { redoAction, undoAction, updateVariable } from './actions';
-import { AppState, initialState } from './models';
+import { createReducer, on } from '@ngrx/store';
+import { AppState } from './models';
+import { addNew, goBack, goForward } from './actions';
 
-
-const _variableReducer = createReducer(
-  initialState,
-  on(updateVariable, (state, { variable }) => ({
-    ...state,
-    past: [...state.past, state.present],
-    present: variable,
-    future: [],
-  })),
-  on(undoAction, (state) => {
-    const previous = state.past[state.past.length - 1];
-    const newPast = state.past.slice(0, state.past.length - 1);
-    return {
-      ...state,
-      past: newPast,
-      present: previous,
-      future: [state.present, ...state.future],
-    };
-  }),
-  on(redoAction, (state) => {
-    const next = state.future[0];
-    const newFuture = state.future.slice(1);
-    return {
-      ...state,
-      past: [...state.past, state.present],
-      present: next,
-      future: newFuture,
-    };
-  })
-);
-
-export function variableReducer(
-  state: AppState['variable'] | undefined,
-  action: Action
-) {
-  return _variableReducer(state, action);
-}
-
-export const reducers: ActionReducerMap<AppState> = {
-  variable: variableReducer, // Asegúrate de que tu estado tenga esta estructura
+const initialState: AppState = {
+  past: [],
+  currentValues: {},
+  future: [],
 };
 
-export const metaReducers: MetaReducer<AppState>[] = [];
+export const coordinatorReducer = createReducer(
+  initialState,
+  on(goBack, (state) => {
+    const previousState = state.past[state.past.length - 1];
+    if (!previousState) return state;
+
+    return {
+      ...state,
+      past: state.past.slice(0, -1), // Elimina el último estado del pasado
+      currentValues: { ...previousState }, // El estado anterior se convierte en el actual
+      future: [state.currentValues, ...state.future], // El estado actual pasa al futuro
+    };
+  }),
+  on(goForward, (state) => {
+    const nextState = state.future[0]; // El siguiente estado futuro
+    console.log('nextState', nextState);
+    let result = {
+      ...state,
+      past: [...state.past, { ...state.currentValues }], // Mueve el estado actual al pasado
+      currentValues: { ...nextState }, // El siguiente estado futuro se convierte en el actual
+      future: state.future.slice(1), // Elimina ese futuro del array
+    };
+    console.log(result);
+
+    return result;
+  }),
+  on(addNew, (state, { newCoordinator} ) => {
+    let result = {
+      ...state,
+      past: [...state.past, { ...state.currentValues }], // Mueve el estado actual al pasado
+      currentValues: { ...newCoordinator }, // Establece el nuevo estado como actual
+      future: [], // No hay futuros cuando agregas un nuevo estado
+    };
+
+    return result;
+  })
+);

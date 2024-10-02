@@ -18,7 +18,7 @@ export class NullStructure extends Structure {
     }
 
     override async execute(): Promise<{ amount: number; finish: boolean; }> {
-        const variables = this.variablesService.getVariables(this.context);
+        const variables = this.variablesService!.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -49,7 +49,7 @@ export class NullStructure extends Structure {
             let printValue = this.replaceVariablesInPrint(value, variables);
             printValue = await this.evaluateExpression(printValue);
             printValue = this.cleanPrintValue(printValue)
-            this.codeService.setPrint(printValue);
+            this.codeService!.setPrint(printValue);
         }
 
         if(isReturn){
@@ -62,7 +62,7 @@ export class NullStructure extends Structure {
                 this.context.setReturnValue(values);
             }
         }
-        this.variablesService.setVariables(this.context, variables);
+        this.variablesService!.setVariables(this.context, variables);
         //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
@@ -94,7 +94,7 @@ export class NullStructure extends Structure {
             case NATIVE_FUNCTIONS.MATH_LOG10:
                 return (Math.log10(Number(evalArgs))).toString();
             case NATIVE_FUNCTIONS.INPUT: 
-                return await this.codeService.getInput(evalArgs, varName??''); 
+                return await this.codeService!.getInput(evalArgs, varName??''); 
             default:
                 return evalArgs; 
         }
@@ -160,5 +160,9 @@ export class NullStructure extends Structure {
     
     printVarRegex(string: string): string {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    override clone(): Structure {
+        return new NullStructure(this.level, this.condition, null, null, this.context);
     }
 }
