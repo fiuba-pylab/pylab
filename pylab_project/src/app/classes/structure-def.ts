@@ -12,7 +12,7 @@ export class DefStructure extends Structure{
         if (definition != null) {
             const params = definition[2].split(",").map((arg: string) => arg.trim());
             this.parameters = params.reduce((acc: any, param: string) => {
-                if(param.match(/^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/)){
+                if(param.match(REGEX_CONSTS.REGEX_NAMED_PARAMS)){
                     const [key, value] = param.split("=");
                     acc[key.trim()] = [evaluate(value)];
                     return acc;
@@ -85,7 +85,7 @@ export class DefStructure extends Structure{
         const variables = this.variablesService.getVariables(this.context);
         Object.keys(this.parameters).forEach((param, index) => {
             if(args[index]){
-                const match = args[index].match(/^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/);
+                const match = args[index].match(REGEX_CONSTS.REGEX_NAMED_PARAMS);
                 if(match){
                     const key = match[1];
                     const value = match[2];
