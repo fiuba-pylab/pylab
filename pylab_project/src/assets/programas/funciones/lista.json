@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": "calculadora.py",
         "title": "Calculadora",
         "description": "calculadora básica",
         "difficulty": 1,
@@ -33,7 +33,7 @@
         ]
     },
     {
-        "id": 2,
+        "id": "prueba_recursiva.py",
         "title": "Prueba recursiva",
         "description": "Prueba de funciones 2",
         "difficulty": 5,

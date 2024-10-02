@@ -1,6 +1,6 @@
 [
     {
-        "id":1,
+        "id":"diferencia_horaria.py",
         "title":"Diferencia horaria",
         "description": "Se recibe dos strings con números de tipo 053059 representando un horario",
         "difficulty": 1,
@@ -23,7 +23,7 @@
         ]
     },
     {
-        "id": 2,
+        "id": "temperatura.py",
         "title": "Clasificación temperatura",
         "description": "Recibe la temperatura del agua en Fahrenheit, la convierte a Celsius y devuelve el estado.",
         "difficulty": 2,
@@ -40,7 +40,7 @@
         ]
     },
     {
-        "id": 3,
+        "id": "compra.py",
         "title": "Cálculo de una compra con descuento",
         "description": "Recibe el monto y a partir de ese valor, calcula el descuento a aplicar, devolviendo finalmente el monto con el descuento aplicado.",
         "difficulty": 2,
@@ -58,7 +58,7 @@
         ]
     },
     {
-        "id": 4,
+        "id": "orden.py",
         "title": "Orden de números",
         "description": "Recibe dos números y los ordena de menor a mayor.",
         "difficulty": 1,
@@ -81,7 +81,7 @@
         ]
     },
     {
-        "id": 5,
+        "id": "antiguedad_laboral.py",
         "title": "Cálculo de antigüedad laboral",
         "description": "Recibe la fecha de ingreso de un empleado y calcula la antigüedad en años, meses y días.",
         "difficulty": 2,

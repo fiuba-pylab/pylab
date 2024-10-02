@@ -1,6 +1,6 @@
 [
     {
-        "id":1,
+        "id":"triangulo.py",
         "title":"Clasificación triángulo",
         "description": "Recibe tres valores de distintos angulos para cierto triangulo.",
         "difficulty": 1,
@@ -39,7 +39,7 @@
         ]
     },
     {
-        "id": 2,
+        "id": "intereses.py",
         "title": "Plazos e intereses",
         "description": "Se recibe un monto a pagar y el plazo, en base a eso calcula los intereses.",
         "difficulty": 1,
@@ -70,7 +70,7 @@
         ]
     },
     {
-        "id": 3,
+        "id": "ventas.py",
         "title": "Ventas en local",
         "description": "Se recibe un método de pago, precio por unidad de un producto y cantidad a comprar. En base al método de pago y cantidad, se realiza un descuento o un recargo.",
         "difficulty": 3,
@@ -103,21 +103,21 @@
         ]
     },
     {
-        "id": 4,
+        "id": "imaginarios.py",
         "title": "Números imaginarios",
         "description": "",
         "difficulty": 4,
         "introduction": "Objetivo: "
     },
     {
-        "id": 5,
+        "id": "romanos.py",
         "title": "Números romanos",
         "description": "",
         "difficulty": 5,
         "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo."
     },
     {
-        "id": 6,
+        "id": "triangulo2.py",
         "title": "Clasificación triángulo 2",
         "description": "clasificación de triángulos",
         "difficulty": 2,
