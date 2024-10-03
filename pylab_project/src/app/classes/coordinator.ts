@@ -1,4 +1,4 @@
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 import { CodeService } from "../services/code.service";
 import { Structure } from "./structure";
 import { VariablesService } from "../services/variables.service";

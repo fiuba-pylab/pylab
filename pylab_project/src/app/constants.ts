@@ -13,7 +13,7 @@ const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
-const IMAGINARY = /[-+]? ?\d*\.?\d+j/
+const IMAGINARY = /[-+]? ?\d*\.?\d+i/
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/
 
 const IF = 'if';

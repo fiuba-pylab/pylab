@@ -1,4 +1,4 @@
-import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constans";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constants";
 import { replace } from "lodash";
 import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
@@ -130,7 +130,7 @@ export class NullStructure extends Structure {
                     evalArgs = evalArgs * -1;
                     imaginary = true
                 }
-                return ((Math.sqrt(Number(evalArgs))).toString() + (imaginary?'j':''));
+                return ((Math.sqrt(Number(evalArgs))).toString() + (imaginary?'i':''));
             case NATIVE_FUNCTIONS.MATH_ROUND:
                 var funcArgs = (args as string).split(',');
                 if (funcArgs.length > 1) {

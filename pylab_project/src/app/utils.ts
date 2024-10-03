@@ -1,5 +1,5 @@
 import { Collection } from "./classes/collection";
-import { REGEX_CONSTS } from "./constans";
+import { REGEX_CONSTS } from "./constants";
 
 export function replaceVariables(template: string, valores: { [clave: string]: any }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
@@ -40,7 +40,7 @@ export function evaluate(code: any): any {
 function complex_evaluation(code:string){
     const imaginary = code.match(REGEX_CONSTS.IMAGINARY)??''
     const real_part = eval(code.replace(imaginary[0], ''))
-    const imaginary_part = eval(code.replace(REGEX_CONSTS.REAL, '').replace('j',''))
-    return real_part + ` ${imaginary[0][0]} ` + imaginary_part + 'j'
+    const imaginary_part = eval(code.replace(REGEX_CONSTS.REAL, '').replace('i',''))
+    return real_part + ` ${imaginary[0][0]} ` + imaginary_part + 'i'
 }
 
