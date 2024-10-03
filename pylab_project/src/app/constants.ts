@@ -14,6 +14,8 @@ const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
+const IMAGINARY = /[-+]? ?\d*\.?\d+i/
+const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/
 
 const IF = 'if';
 const WHILE = 'while';
@@ -52,7 +54,9 @@ export const REGEX_CONSTS = {
     REGEX_COLLECTION_SUBSTRACT,
     REGEX_COLLECTION_ACCESS,
     REGGEX_DICTIONARY,
-    REGEX_FOR
+    REGEX_FOR,
+    IMAGINARY,
+    REAL
 };
 
 export const STRUCTURES = {
@@ -74,7 +78,7 @@ export const NATIVE_FUNCTIONS = {
     MATH_ASIN, 
     MATH_LOG10, 
     PRINT, 
-    INPUT
+    INPUT,
 };
 
 export const VALID_OPERATORS = {

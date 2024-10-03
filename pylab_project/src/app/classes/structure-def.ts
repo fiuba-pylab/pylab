@@ -1,4 +1,4 @@
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
