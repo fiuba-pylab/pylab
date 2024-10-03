@@ -46,7 +46,7 @@ export class Coordinator {
             func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
-                const args = evaluate(replaceVariables(params[1], this.variablesService.getVariables(this.contexts[this.contexts.length-1])).split(',').map((arg: string) => arg.trim()));
+                const args = params[1].split(',').map((arg: string) => arg.trim());
                 func.setParameters(args);
                 // TODO: ver parametros por nombre
             }
