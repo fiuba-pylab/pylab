@@ -5,6 +5,7 @@ const REGEX_FUNCTIONS = /\b(input|float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
+const REGEX_NAMED_PARAMS = /^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/;
 const REGEX_LIST = /^\[[^\]]*\]$/;
 const REGGEX_SET = /^\{[^}]+\}$/;
 const REGGEX_TUPLE = /^\( *(?:[^(),]+|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^()]*\|[ \t\n\r]*|(?:,\s*)?)*\) *$/;
@@ -45,6 +46,7 @@ export const REGEX_CONSTS = {
     REGEX_OPERATIONS, 
     REGEX_VARIABLE_DECLARATION, 
     REGEX_RETURN_VARIABLES,
+    REGEX_NAMED_PARAMS,
     REGEX_LIST,
     REGGEX_SET,
     REGGEX_TUPLE,
