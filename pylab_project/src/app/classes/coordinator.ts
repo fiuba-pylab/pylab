@@ -1,4 +1,4 @@
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 import { CodeService } from "../services/code.service";
 import { Structure } from "./structure";
 import { VariablesService } from "../services/variables.service";
@@ -46,7 +46,7 @@ export class Coordinator {
             func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
-                const args = evaluate(replaceVariables(params[1], this.variablesService.getVariables(this.contexts[this.contexts.length-1])).split(',').map((arg: string) => arg.trim()));
+                const args = params[1].split(',').map((arg: string) => arg.trim());
                 func.setParameters(args);
                 // TODO: ver parametros por nombre
             }
@@ -119,6 +119,14 @@ export class Coordinator {
                 break;
             }
         }
+    }
+
+    reset(){
+        this.structures = [];
+        this.currentLine = 0;
+        this.executingFunction = false;
+        this.contexts = this.contexts.slice(0, 1);
+        this.variablesService.reset();
     }
 }
 
