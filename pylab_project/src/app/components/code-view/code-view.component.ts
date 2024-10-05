@@ -46,6 +46,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if(!this.inputs) return;
     this.codeService.addDialog(this.dialog);
     this.codeService.addInputs(this.inputs);
+    this.codeService.reset()
   }
 
   ngAfterViewInit(): void { 

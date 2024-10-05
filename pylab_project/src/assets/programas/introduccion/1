@@ -8,7 +8,8 @@ a = float(cadena_a)
 b = float(cadena_b)
 c = float(cadena_c)
 
-determinante = b ** 2 - 4.0 * a * c
+determinante = b ** 2
+determinante = determinante - 4 * a * c
 
 raiz_1 = (- b + math.sqrt(determinante)) / (2.0 * a)
 raiz_2 = (- b - math.sqrt(determinante)) / (2.0 * a)

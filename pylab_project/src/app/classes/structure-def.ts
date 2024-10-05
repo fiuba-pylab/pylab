@@ -1,6 +1,6 @@
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 import { VariablesService } from "../services/variables.service";
-import { evaluate } from "../utils";
+import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
 import { Structure } from "./structure";
 
@@ -10,12 +10,21 @@ export class DefStructure extends Structure{
         this.position = codeService.behaviorSubjectHighlight.value;
         const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
-            this.parameters = definition[2].split(",").map((arg: string) => arg.trim());
+            const params = definition[2].split(",").map((arg: string) => arg.trim());
+            this.parameters = params.reduce((acc: any, param: string) => {
+                if(param.match(REGEX_CONSTS.REGEX_NAMED_PARAMS)){
+                    const [key, value] = param.split("=");
+                    acc[key.trim()] = [evaluate(value)];
+                    return acc;
+                }
+                acc[param] = [];
+                return acc;
+            }, {});
             this.name = definition[1].trim();
         }
     }
     currentLine: number = -1;
-    parameters: string[] = [];
+    parameters: { [key: string]: any } = {};
     name: string = "";
     position: number = 0;
     called: boolean = false;
@@ -73,15 +82,26 @@ export class DefStructure extends Structure{
     }
 
     setParameters(args: string[]){
-        const params: any = {};
-        this.parameters.forEach((param, index) => {
-            if(!params[param]){
-                params[param] = []
-           }
-           params[param].push(args[index]);
+        const variables = this.variablesService.getVariables(this.context);
+        Object.keys(this.parameters).forEach((param, index) => {
+            if(args[index]){
+                const match = args[index].match(REGEX_CONSTS.REGEX_NAMED_PARAMS);
+                if(match){
+                    const key = match[1];
+                    const value = match[2];
+                    this.parameters[key].push(evaluate(replaceVariables(value, variables)));
+                    return;
+                }
+                if(!this.parameters[param]){
+                    this.parameters[param] = []
+                }
+                if(args[index]){
+                    this.parameters[param].push(evaluate(replaceVariables(args[index], variables)));
+                }
+            }
         });
 
-        this.variablesService.setVariables(this.myContext, params);
+        this.variablesService.setVariables(this.myContext, this.parameters);
     }
 
     setContext(context: Context){
@@ -102,7 +122,7 @@ export class DefStructure extends Structure{
         );
         
         clone.currentLine = this.currentLine;
-        clone.parameters = [...this.parameters];
+        clone.parameters = JSON.parse(JSON.stringify(this.parameters));
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
