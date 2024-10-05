@@ -241,7 +241,7 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
  replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
-        return resultado.replace(regex, valor);
+        return resultado.replace(regex, valor[valor.length - 1]);
     }, template);
 }
 
