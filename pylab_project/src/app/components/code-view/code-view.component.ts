@@ -54,7 +54,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
-      if(this.code != "" && this.highlightLine === this.code.split('\n').length){
+      if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
         this.isFinished = true;
       }
     });
