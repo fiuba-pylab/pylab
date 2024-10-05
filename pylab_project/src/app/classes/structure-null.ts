@@ -232,6 +232,7 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
  cleanPrintValue(value: string): string {
     value = value.replace(/^[^'"]*['"]/, '');
     value = value.replace(/^"|'(.*)"|'$/, '$1');
+    value = value.replace(/["']/g, '');
     value = value.replace(/\\n|\n/g, '<br>');
     value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
     return value;
@@ -239,7 +240,7 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
 
  replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
-        const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
+        const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
         return resultado.replace(regex, valor);
     }, template);
 }
