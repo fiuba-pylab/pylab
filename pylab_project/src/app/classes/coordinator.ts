@@ -1,4 +1,4 @@
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 import { CodeService } from "../services/code.service";
 import { Structure } from "./structure";
 import { VariablesService } from "../services/variables.service";
@@ -46,7 +46,7 @@ export class Coordinator {
             func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
-                const args = evaluate(replaceVariables(params[1], this.variablesService.getVariables(this.contexts[this.contexts.length-1])).split(',').map((arg: string) => arg.trim()));
+                const args = params[1].split(',').map((arg: string) => arg.trim());
                 func.setParameters(args);
                 // TODO: ver parametros por nombre
             }
@@ -89,7 +89,7 @@ export class Coordinator {
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure : Structure = this.structures[i];
             const result = await structure.execute(prevAmount);
-            if (result.finish) {
+            if (result.finish && structure == this.structures[this.structures.length - 1]) {
                 lastStructure = this.structures.pop();
                 if(this.executingFunction && structure.isFunction()){
                     const lastContext = this.contexts.pop();
@@ -106,7 +106,7 @@ export class Coordinator {
                     this.variablesService.setVariables(variables);
                 }
             }
-            if(lastStructure && lastStructure.isFunction() && lastStructure.insideAFunction()){
+            if(lastStructure && lastStructure.isFunction()){
                 prevAmount = 1;
                 lastStructure = null;
             }else{
@@ -119,6 +119,14 @@ export class Coordinator {
                 break;
             }
         }
+    }
+
+    reset(){
+        this.structures = [];
+        this.currentLine = 0;
+        this.executingFunction = false;
+        this.contexts = this.contexts.slice(0, 1);
+        this.variablesService.reset();
     }
 }
 

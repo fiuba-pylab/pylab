@@ -1,4 +1,4 @@
-tope = 10
+tope = int(input("Ingrese el tope de la serie de Fibonacci: "))
 anteultimo = 0
 ultimo = 1
 while ultimo < tope:

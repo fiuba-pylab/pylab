@@ -1,5 +1,7 @@
 num = int(input('Ingrese un número: '))
 while num > 1:
-    if num % 2 == 0: num = int(num**0.5)
-    else: num = int(m**1.5) 
-    print(num, end=' ')
+    if num % 2 == 0: 
+        num = int(num**0.5)
+    else: 
+        num = int(num**1.5) 
+    print(num)
