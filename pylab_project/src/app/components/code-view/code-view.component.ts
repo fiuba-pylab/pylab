@@ -54,9 +54,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
-      if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
-        this.isFinished = true;
-      }
     });
   }
 
@@ -125,10 +122,13 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }    
   }
 
-  nextLine() {
+  async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute();
+      await this.coordinator.execute();
     }    
+    if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
+      this.isFinished = true;
+    }
   }
 
   previousLine() {
