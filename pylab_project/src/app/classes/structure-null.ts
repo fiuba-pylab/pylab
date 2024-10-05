@@ -184,9 +184,6 @@ export class NullStructure extends Structure {
     }
 }
 
-
-
-
  applyOperation(variableValue: number, operator: Operator, value: number): number {
     if (operator in operations) {
         return operations[operator](variableValue, value);
@@ -194,9 +191,6 @@ export class NullStructure extends Structure {
         throw new Error('Operador no soportado');
     }
 }
-
-
-
 
 async evaluateExpression(expression: string, varName?: string): Promise<string> {
     let previousExpression;
