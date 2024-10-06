@@ -34,7 +34,7 @@ export class CodeService {
 
   nextLine(amount: number): void {
     var highlightLine = this.behaviorSubjectHighlight.value;
-    if (highlightLine !== null && highlightLine < this.length) {
+    if (highlightLine !== null && highlightLine < this.length+1) {
       this.codePathIndex++;
       if (this.codePathIndex > this.maxNext) {
         this.maxNext++;

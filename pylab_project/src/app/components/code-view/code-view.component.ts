@@ -36,7 +36,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   mode = 'manual';
   isRunning: boolean = false;
   isPaused: boolean = false;
-  isFinished: boolean = false; // TODO
+  isFinished: boolean = false; 
   intervalId: any = null;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
@@ -122,13 +122,19 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }    
   }
 
-  nextLine() {
+  async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute();
+      await this.coordinator.execute();
     }    
+    if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
+      this.isFinished = true;
+    }
   }
 
   previousLine() {
+    if(this.isFinished){
+      this.isFinished = false;
+    }
     if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute(true);
     }
