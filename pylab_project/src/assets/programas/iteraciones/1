@@ -1,4 +1,4 @@
-n = 1
+n = int(input("Ingrese un número entero: "))
 binario = ""
 if n == 0:
     print("0")

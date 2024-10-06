@@ -48,7 +48,7 @@ export class IfStructure extends Structure{
         }
     }
 
-    override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
+    override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         const variables = this.variablesService!.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){

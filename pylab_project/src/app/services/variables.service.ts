@@ -54,4 +54,8 @@ export class VariablesService {
         this.behaviorSubjectContexts.value.delete(context);
         this.behaviorSubjectContexts.next(this.behaviorSubjectContexts.value);
     }
+
+    reset(){
+        this.behaviorSubjectContexts.next(new Map<Context, { [key:string]: any }>());
+    }
 }

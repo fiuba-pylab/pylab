@@ -5,11 +5,23 @@ const REGEX_FUNCTIONS = /\b(input|float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
+const REGEX_NAMED_PARAMS = /^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/;
+const REGEX_LIST = /^\[[^\]]*\]$/;
+const REGGEX_SET = /^\{[^}]+\}$/;
+const REGGEX_TUPLE = /^\( *(?:[^(),]+|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^()]*\|[ \t\n\r]*|(?:,\s*)?)*\) *$/;
+const REGGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
+const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
+const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
+const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
+const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
+const IMAGINARY = /[-+]? ?\d*\.?\d+i/
+const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/
 
 const IF = 'if';
 const WHILE = 'while';
 const DEF = 'def';
 const ELIF = 'elif';
+const FOR = 'for'
 
 const LEN = 'len';
 const STR = 'str';
@@ -23,6 +35,9 @@ const MATH_LOG10 = 'math.log10';
 const PRINT = 'print';
 const INPUT = 'input';
 
+const validAddOperators = ['append', 'add'];
+const validSubstractOperators = ['remove', 'discard'];
+
 export const REGEX_CONSTS = {
     REGEX_DEF, 
     REGEX_RETURN, 
@@ -30,14 +45,26 @@ export const REGEX_CONSTS = {
     REGEX_FUNCTIONS, 
     REGEX_OPERATIONS, 
     REGEX_VARIABLE_DECLARATION, 
-    REGEX_RETURN_VARIABLES
+    REGEX_RETURN_VARIABLES,
+    REGEX_NAMED_PARAMS,
+    REGEX_LIST,
+    REGGEX_SET,
+    REGGEX_TUPLE,
+    REGEX_COLLECTION_ADD,
+    REGEX_COLLECTION_SUBSTRACT,
+    REGEX_COLLECTION_ACCESS,
+    REGGEX_DICTIONARY,
+    REGEX_FOR,
+    IMAGINARY,
+    REAL
 };
 
 export const STRUCTURES = {
     IF, 
     WHILE, 
     DEF,
-    ELIF
+    ELIF,
+    FOR
 };
 
 export const NATIVE_FUNCTIONS = {
@@ -51,5 +78,10 @@ export const NATIVE_FUNCTIONS = {
     MATH_ASIN, 
     MATH_LOG10, 
     PRINT, 
-    INPUT
+    INPUT,
 };
+
+export const VALID_OPERATORS = {
+    validAddOperators,
+    validSubstractOperators
+}

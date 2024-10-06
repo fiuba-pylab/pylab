@@ -30,6 +30,10 @@
 
 .icon {
   cursor: pointer;
+  padding: 0px;
+  margin: 3px;
+  height: 24px !important;
+  width: 24px  !important;
 
   &.disabled {
     cursor: not-allowed;
