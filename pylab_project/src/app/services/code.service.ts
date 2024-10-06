@@ -45,24 +45,6 @@ export class CodeService {
     return this.behaviorSubjectHighlight.value;
   }
 
-  getFutureState() {
-    return new Promise(async (resolve, reject) => {
-      const futureStates = await firstValueFrom(this.store.select(actions.selectFutureStates));
-      if (futureStates && futureStates.length > 0) {
-        const nextState = futureStates[0];
-        this.behaviorSubjectHighlight.next(nextState.highlightLine);
-        this.behaviorSubjectPrint.next(nextState.print);
-        this.behaviorSubjectFunctions.next(nextState.functions);
-        this.codePath = [...nextState.codePath];
-        this.codePathIndex = nextState.codePathIndex;
-        this.maxNext = nextState.maxNext;
-        this.store.dispatch(actions.goForward());
-
-        resolve({state: nextState});
-      }
-      resolve(null)
-    });
-  }
 
   nextLine(amount: number, coordinator: Coordinator) {
     var highlightLine = this.behaviorSubjectHighlight.value;
@@ -85,7 +67,7 @@ export class CodeService {
       }
   }
 
-  previousLine() {
+  getStateFromPreviousLine() {
     return new Promise(async (resolve, reject) => {
       const pastStates = await firstValueFrom(this.store.select(selectPastStates));
       console.log(pastStates);
@@ -95,7 +77,7 @@ export class CodeService {
         this.behaviorSubjectHighlight.next(previousState.highlightLine);
         this.behaviorSubjectPrint.next(previousState.print);
         this.behaviorSubjectFunctions.next(previousState.functions);
-        this.codePath = previousState.codePath;
+        this.codePath = [...previousState.codePath];
         this.codePathIndex = previousState.codePathIndex;
         this.maxNext = previousState.maxNext;
         this.store.dispatch(actions.goBack());
@@ -136,9 +118,11 @@ export class CodeService {
   addDialog(dialog: MatDialog): void {
     this.dialog = dialog;
   }
+
   addInputs(inputs: any[]): void {
     this.inputs = inputs;
   }
+
   setFunction(name: string, structure: DefStructure): void {
     var functions = this.behaviorSubjectFunctions.value;
     functions[name] = structure;
@@ -149,7 +133,7 @@ export class CodeService {
     this.behaviorSubjectHighlight.next(line);
   }
 
-  goForwardOrAddNew(coordinator: Coordinator): void {
+  addNewState(coordinator: Coordinator): void {
     let newCoordinator = coordinator.clone();
     newCoordinator.highlightLine = this.behaviorSubjectHighlight.value;
     newCoordinator.print = this.behaviorSubjectPrint.value;

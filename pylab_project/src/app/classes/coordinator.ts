@@ -24,7 +24,7 @@ export class Coordinator {
         this.codeService.functions.subscribe(async (value: { [key: string]: DefStructure; })=> {
             this.functions = value;
         });
-        this.codeService.goForwardOrAddNew(this);
+        this.codeService.addNewState(this);
     }
 
     private analize() {
@@ -64,15 +64,16 @@ export class Coordinator {
     }
 
     async executePrevious() {
-        await this.codeService.previousLine().then((response: any) => {
+        await this.codeService.getStateFromPreviousLine().then((response: any) => {
             console.log("response", response);
             if (response.previousState){
                 this.currentLine = response.previousState.currentLine;
                 for (let i = 0; i < response.previousState.structures.length; i++) {
                     this.structures[i] = response.previousState.structures[i].clone(this.codeService, this.variablesService);
                 }
-                this.functions = response.previousState.functions;
                 this.contexts = response.previousState.contexts;
+                this.variablesService.setPreviousVariables(this.contexts);
+                this.functions = response.previousState.functions;
                 this.executingFunction = response.previousState.executingFunction;
                 return;
             } 
@@ -83,18 +84,6 @@ export class Coordinator {
         console.log("structures", this.structures)
         let prevAmount = 0;
         let lastStructure = null;
-        const response: any = await this.codeService.getFutureState();
-        if (response && response.state) {
-            const futureState = response.state;
-            this.currentLine = futureState.currentLine;
-            for (let i = 0; i < futureState.structures.length; i++) {
-                this.structures[i] = futureState.structures[i].clone(this.codeService, this.variablesService);
-            }
-            this.functions = futureState.functions;
-            this.contexts = futureState.contexts;
-            this.executingFunction = futureState.executingFunction;
-            return;
-        }
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure : Structure = this.structures[i];
@@ -129,14 +118,13 @@ export class Coordinator {
                 break;
             }
         }
-        this.codeService.goForwardOrAddNew(this);
+        this.codeService.addNewState(this);
     }
 
     clone() {
         const newCoordinator:any = {}
         newCoordinator.currentLine = this.currentLine;
         newCoordinator.structures = this.structures.map(structure => structure.clone());
-        //newCoordinator.functions = { ...this.functions }; 
         let clonedFunctions: { [key: string]: DefStructure } = {};
         for (const key in this.functions) {
             if (this.functions.hasOwnProperty(key)) {
@@ -144,7 +132,13 @@ export class Coordinator {
             }
           }
         newCoordinator.functions = clonedFunctions;
-        newCoordinator.contexts = this.contexts.map(context => context.clone());
+        newCoordinator.contexts = new Map<Context, { [key: string]: any }>(
+          this.contexts.map((context) => {
+            const clonedContext = context.clone();
+            const clonedVariables = this.variablesService.getVariables(clonedContext);
+            return [clonedContext, { ...clonedVariables }];
+          })
+        );
         newCoordinator.executingFunction = this.executingFunction;
         return newCoordinator;
     }
