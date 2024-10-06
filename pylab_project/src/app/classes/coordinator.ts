@@ -71,8 +71,8 @@ export class Coordinator {
                 for (let i = 0; i < response.previousState.structures.length; i++) {
                     this.structures[i] = response.previousState.structures[i].clone(this.codeService, this.variablesService);
                 }
-                this.contexts = response.previousState.contexts;
-                this.variablesService.setPreviousVariables(this.contexts);
+                this.contexts = [...response.previousState.contexts.keys()]; 
+                this.variablesService.setPreviousVariables(response.previousState.contexts);
                 this.functions = response.previousState.functions;
                 this.executingFunction = response.previousState.executingFunction;
                 return;

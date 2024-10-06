@@ -43,10 +43,10 @@ export class VariablesService {
 
     setPreviousVariables(p_contexts: Map<Context, { [key:string]: any }>){
         const contexts = new Map<Context, { [key: string]: any }>();
-        p_contexts.forEach((variables, context) => {
+        for (const [context, variables] of p_contexts.entries()) {
             const clonedContext = context.clone();
             contexts.set(clonedContext, { ...variables });
-        });
+        }
         this.behaviorSubjectContexts.next(contexts);
     }
 
