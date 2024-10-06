@@ -3,28 +3,6 @@
     Seleccione un tema...
   </h1>
 
-<!--   <div>
-    <h1>Gestión de Estados con NGRX</h1>
-  
-    <label for="variableInput">Actualiza la variable:</label>
-    <input id="variableInput" type="text" #variableInput>
-  
-    <button (click)="updateVariable(variableInput.value)">Actualizar</button>
-  
-    <div *ngIf="variable$ | async as variableState">
-      <h2>Estado Actual</h2>
-      <p><strong>V
-        ariable Actual:</strong> {{ variableState.present }}</p>
-      
-      <h3>Historial:</h3>
-      <p><strong>Pasado:</strong> {{ variableState.past.join(', ') }}</p>
-      <p><strong>Futuro:</strong> {{ variableState.future.join(', ') }}</p>
-    </div>
-  
-    <button (click)="undo()">Deshacer</button>
-    <button (click)="redo()">Rehacer</button>
-  </div>
- -->
   <div class="containerCards">
     <div *ngFor="let card of cards; let i=index">
       <mat-card class="home-card" (click)="listPrograms(card.tipo)">
