@@ -158,7 +158,7 @@ export class NullStructure extends Structure {
         return new List(values)
         
         // se crea diccioario
-    }else if(varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)){
+    }else if(varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)){
         const dictionaryElements = varMatch[1].split(', ')
         const dictionary = new Dictionary();
         let element;
