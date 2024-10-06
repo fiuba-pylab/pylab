@@ -19,7 +19,7 @@
     </div>
 
     <div class="buttons-container">
-        <button class="icon" [class]="isRunning && !isPaused? 'disabled': ''" mat-icon-button [disabled]="isRunning && !isPaused" aria-label="previous-arrow" (click)="previousLine()">
+        <button class="icon" [class]="isRunning && !isPaused? 'disabled': ''" mat-icon-button [disabled]="(isRunning && !isPaused) || highlightLine == 1" aria-label="previous-arrow" (click)="previousLine()">
             <mat-icon aria-hidden="false" fontIcon="arrow_back_ios"></mat-icon>
         </button>
     

@@ -36,7 +36,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   mode = 'manual';
   isRunning: boolean = false;
   isPaused: boolean = false;
-  isFinished: boolean = false; // TODO
+  isFinished: boolean = false; 
   intervalId: any = null;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
