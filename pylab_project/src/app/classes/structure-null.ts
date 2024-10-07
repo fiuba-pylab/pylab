@@ -202,6 +202,7 @@ export class NullStructure extends Structure {
         }
     }
 
+
     async evaluateExpression(expression: string, varName?: string): Promise<string> {
         let previousExpression;
         let currentExpression = expression;
