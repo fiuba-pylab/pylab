@@ -74,6 +74,9 @@ export class Coordinator {
             console.log("response", response);
             if (response.previousState){
                 this.currentLine = response.previousState.currentLine;
+                if(response.previousState.structures.length == 0){
+                    this.structures = [];
+                }
                 for (let i = 0; i < response.previousState.structures.length; i++) {
                     this.structures[i] = response.previousState.structures[i].clone(this.codeService, this.variablesService);
                 }
