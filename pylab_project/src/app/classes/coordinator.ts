@@ -104,11 +104,7 @@ export class Coordinator {
                     const returnVar = lastContext?.getReturnValue();
                     if(returnVar){
                         for(let i = 0; i < returnVar.names.length; i++){
-                            if(!variables[returnVar.names[i]]){
-                                variables[returnVar.names[i]] = [];
-                            }
-
-                            variables[returnVar.names[i]].push(returnVar.values[i]);
+                            variables[returnVar.names[i]] = returnVar.values[i];
                         }
                     }
                     this.variablesService.deleteContext(lastContext);

@@ -40,11 +40,8 @@ export class NullStructure extends Structure {
             let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
             let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
 
-            if (!variables[varName]) {
-                variables[varName] = []
-            }
             if (!collection) {
-                variables[varName].push(evaluate(varValue));
+                variables[varName] = evaluate(varValue);
             } else {
                 variables[varName] = collection
             }
@@ -54,7 +51,7 @@ export class NullStructure extends Structure {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            variables[variable].push(this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables))));
+            variables[variable] = this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables)));
         }
         if (print) {
             let value = print[1]
@@ -241,7 +238,7 @@ export class NullStructure extends Structure {
     replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
         return Object.entries(valores).reduce((resultado, [clave, valor]) => {
             const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
-            return resultado.replace(regex, valor[valor.length - 1]);
+            return resultado.replace(regex, valor);
         }, template);
     }
 

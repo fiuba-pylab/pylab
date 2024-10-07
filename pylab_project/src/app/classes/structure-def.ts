@@ -90,14 +90,14 @@ export class DefStructure extends Structure{
                 if(match){
                     const key = match[1];
                     const value = match[2];
-                    this.parameters[key].push(evaluate(replaceVariables(value, variables)));
+                    this.parameters[key] = evaluate(replaceVariables(value, variables));
                     return;
                 }
                 if(!this.parameters[param]){
                     this.parameters[param] = []
                 }
                 if(args[index]){
-                    this.parameters[param].push(evaluate(replaceVariables(args[index], variables)));
+                    this.parameters[param] = evaluate(replaceVariables(args[index], variables));
                 }
             }
         });
