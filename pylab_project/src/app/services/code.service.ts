@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import * as actions from "../ngrx/actions";
 import { Coordinator } from '../classes/coordinator';
 import { selectPastStates } from '../ngrx/actions';
+import { VariablesService } from './variables.service';
 
 export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 
@@ -70,13 +71,13 @@ export class CodeService {
   getStateFromPreviousLine() {
     return new Promise(async (resolve, reject) => {
       const pastStates = await firstValueFrom(this.store.select(selectPastStates));
-      console.log(pastStates);
+      console.log('past states', pastStates);
       if (pastStates.length > 0) {
         const previousState = pastStates[pastStates.length - 1];
 
         this.behaviorSubjectHighlight.next(previousState.highlightLine);
         this.behaviorSubjectPrint.next(previousState.print);
-        this.behaviorSubjectFunctions.next(previousState.functions);
+        //this.behaviorSubjectFunctions.next({...previousState.functions});
         this.codePath = [...previousState.codePath];
         this.codePathIndex = previousState.codePathIndex;
         this.maxNext = previousState.maxNext;
@@ -130,6 +131,16 @@ export class CodeService {
     this.behaviorSubjectFunctions.next(functions);
   }
 
+  setPreviousFunctions(p_functions: { [key: string]: DefStructure }, variablesService: VariablesService): void {
+    let functions: { [key: string]: DefStructure } = {};
+    for (const key in p_functions) {
+      if (p_functions.hasOwnProperty(key)) {
+        functions[key] = p_functions[key].clone(this, variablesService);
+      }
+    }
+    this.behaviorSubjectFunctions.next({...functions});
+  }
+
   goToLine(line: number, coordinator?: Coordinator): void {
     this.behaviorSubjectHighlight.next(line);
   }
@@ -138,7 +149,6 @@ export class CodeService {
     let newCoordinator = coordinator.clone();
     newCoordinator.highlightLine = this.behaviorSubjectHighlight.value;
     newCoordinator.print = this.behaviorSubjectPrint.value;
-    newCoordinator.functions = { ...this.behaviorSubjectFunctions.value };
     newCoordinator.codePath = [...this.codePath];
     newCoordinator.codePathIndex = this.codePathIndex;
     newCoordinator.maxNext = this.maxNext;

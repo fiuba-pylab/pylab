@@ -8,7 +8,7 @@ import { Structure } from "./structure";
 export class DefStructure extends Structure{
     constructor(level: number, condition: string, codeService: CodeService | null, variablesService: VariablesService | null, context: Context) {
         super(level, condition, codeService, variablesService, context);
-        this.position = codeService!.getHighlightLine();
+        if (codeService) this.position = codeService!.getHighlightLine();
         const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
             const params = definition[2].split(",").map((arg: string) => arg.trim());
@@ -29,7 +29,7 @@ export class DefStructure extends Structure{
     name: string = "";
     position: number = 0;
     called: boolean = false;
-    myContext: any;
+    myContext: Context | undefined;
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
@@ -102,7 +102,9 @@ export class DefStructure extends Structure{
             }
         });
 
-        this.variablesService!.setVariables(this.myContext, this.parameters);
+        if (this.myContext) {
+            this.variablesService!.setVariables(this.myContext, this.parameters);
+        }
     }
 
     setContext(context: Context){
@@ -139,7 +141,7 @@ export class DefStructure extends Structure{
             this.condition,
             codeService,
             variablesService,  
-            this.context
+            this.context.clone()
         );
         
         clone.currentLine = this.currentLine;
@@ -147,7 +149,7 @@ export class DefStructure extends Structure{
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
-        clone.myContext = this.myContext;
+        clone.myContext = this.myContext ? this.myContext.clone() : undefined;
         
         clone.lines = [...this.lines];
         

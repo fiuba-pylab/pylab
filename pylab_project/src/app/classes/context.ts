@@ -1,7 +1,9 @@
+import { cloneDeep } from 'lodash';
+
 export class Context{
     name: string = 'global';
     id: string = '';
-    return: any | null = null;
+    return: any[] = [];
     returnVariables: string[] = [];
     callLine: number = 0;
     constructor(id: string, funcCallLine?: number, name?: string){
@@ -14,7 +16,7 @@ export class Context{
         }
     }
 
-    setReturnValue(value: any){
+    setReturnValue(value: any[]){
         this.return = value;
     }
 
@@ -32,8 +34,8 @@ export class Context{
 
     clone(): Context{
         const newContext = new Context(this.id, this.callLine, this.name);
-        newContext.setReturnValue(this.return);
-        newContext.setReturnVarName(this.returnVariables);
+        newContext.return = cloneDeep(this.return); 
+        newContext.returnVariables = cloneDeep(this.returnVariables); 
         return newContext;
     }
 }
