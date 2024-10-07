@@ -51,7 +51,12 @@ export class VariablesService {
     }
 
     deleteContext(context: Context): void {
-        this.behaviorSubjectContexts.value.delete(context);
+        for(const [key, _] of this.behaviorSubjectContexts.value.entries()){
+            if(key.id === context.id){
+                this.behaviorSubjectContexts.value.delete(key);
+                break;
+            }
+        }
         this.behaviorSubjectContexts.next(this.behaviorSubjectContexts.value);
     }
 

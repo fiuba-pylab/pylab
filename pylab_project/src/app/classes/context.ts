@@ -33,9 +33,6 @@ export class Context{
     }
 
     clone(): Context{
-        const newContext = new Context(this.id, this.callLine, this.name);
-        newContext.return = cloneDeep(this.return); 
-        newContext.returnVariables = cloneDeep(this.returnVariables); 
-        return newContext;
+        return cloneDeep(this);
     }
 }

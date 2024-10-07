@@ -48,9 +48,6 @@ export class Coordinator {
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
                 const args = params[1].split(',').map((arg: string) => arg.trim());
-                for(let i = 0; i < args.length; i++){
-                    args[i] = evaluate(replaceVariables(args[i], this.variablesService.getVariables(this.contexts[this.contexts.length - 1])));
-                }
                 func.setParameters(args);
                 // TODO: ver parametros por nombre
             }
@@ -61,7 +58,13 @@ export class Coordinator {
             return;
         }
 
-        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variablesService, this.contexts[this.contexts.length - 1]);
+        const lastContext = this.contexts.pop();
+        let clonedContext = null;
+        if(lastContext){
+            clonedContext = lastContext.clone();
+        }
+        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variablesService, lastContext ? clonedContext! : this.contexts[this.contexts.length - 1]);
+        this.contexts.push(clonedContext ? clonedContext : this.contexts[this.contexts.length - 1]);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
@@ -101,7 +104,11 @@ export class Coordinator {
                     const returnVar = lastContext?.getReturnValue();
                     if(returnVar){
                         for(let i = 0; i < returnVar.names.length; i++){
-                            variables[returnVar.names[i]] = returnVar.values[i];
+                            if(!variables[returnVar.names[i]]){
+                                variables[returnVar.names[i]] = [];
+                            }
+
+                            variables[returnVar.names[i]].push(returnVar.values[i]);
                         }
                     }
                     this.variablesService.deleteContext(lastContext);
