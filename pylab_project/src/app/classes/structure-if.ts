@@ -152,6 +152,7 @@ export class IfStructure extends Structure{
         clone.enterElif = this.enterElif;
         clone.elifIndex = this.elifIndex;
         clone.hasElse = this.hasElse;
+        clone.lines = [...this.lines];
         return clone;
     }
 }

@@ -58,6 +58,7 @@ export class WhileStructure extends Structure{
     override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
         let clone = new WhileStructure(this.level, this.condition, codeService, variablesService, this.context)
         clone.currentLine = this.currentLine;
+        clone.lines = [...this.lines];
 
         return clone;
     }
