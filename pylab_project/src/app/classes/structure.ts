@@ -1,21 +1,30 @@
 import { CodeService } from "../services/code.service";
-import { Coordinator } from "./coordinator";
+import { VariablesService } from "../services/variables.service";
+import { Collection } from "./collection";
+import { Context } from "./context";
 
 export abstract class Structure{
-    variables: { [key: string]: any } = {};
     lines: any[] = [];
     level: number; 
     condition: string;
     codeService: CodeService;
-    coordinator: any;
-    constructor(level: number, condition: string, codeService: CodeService, variables: {}){
+    variablesService: VariablesService;
+    context: Context;
+    collectionInfo?:any
+    constructor(level: number, condition: string, codeService: CodeService, variablesService: VariablesService, context: Context, collectionInfo?:any){
         this.level = level;
         this.condition = condition;
         this.codeService = codeService;
-        this.variables = variables;
+        this.variablesService = variablesService;
+        this.context = context;
+        this.collectionInfo = collectionInfo
     }
     abstract setScope(code: any): void;
 
-    abstract execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>;
+    abstract execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}> | {amount: number, finish: boolean};
+
+    isFunction(): boolean{
+        return false;
+    }
 }
 

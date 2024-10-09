@@ -6,7 +6,7 @@ unidad_mil = numero // 1000
 
 if unidad < 4: 
     ur = unidad*'I'
-elif 4 < unidad < 9: 
+elif 4 < unidad and unidad < 9: 
     ur = 'V' + (unidad-5)*'I'
 elif unidad == 4: 
     ur = 'IV'
@@ -15,7 +15,7 @@ else:
 
 if decena < 4: 
     dr = decena*'X'
-elif 4 < decena < 9: 
+elif 4 < decena and decena < 9: 
     dr = 'L' + (decena-5)*'X'
 elif decena == 4: 
     dr = 'XL'
@@ -24,7 +24,7 @@ else:
 
 if centena < 4: 
     cr = centena*'C'
-elif 4 < centena < 9: 
+elif 4 < centena and centena < 9: 
     cr = 'D' + (centena-5)*'C'       
 elif centena == 4: 
     cr = 'CD'

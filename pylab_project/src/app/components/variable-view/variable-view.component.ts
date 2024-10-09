@@ -1,5 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { CodeService } from '../../services/code.service';
+import { VariablesService } from '../../services/variables.service';
+import { Context } from '../../classes/context';
 import { MatLabel } from '@angular/material/form-field';
 
 @Component({
@@ -10,22 +12,28 @@ import { MatLabel } from '@angular/material/form-field';
   styleUrl: './variable-view.component.css'
 })
 export class VariableViewComponent {
-  variables: { [key: string]: any } = {};
+  contexts: Map<Context, any> = new Map<Context, {[keys: string]: any}>();
   variableKeys: string[] = [];
   print: string = '';
+  contextsKeys: Context[] = [];
   //jsPlumbInstance: any;
-  constructor(private codeService: CodeService) { }
+  constructor(private variablesService: VariablesService, private codeService: CodeService) { }
 
   ngOnInit(): void {
-    this.codeService.variables.subscribe((value) => {
-      this.variables = value;
-      this.variableKeys = Object.keys(this.variables);
-        //this.updateDiagram();
+    this.variablesService.contexts.subscribe((value) => {
+      console.log("Contextos: "+value);
+      this.contexts = value;
+      this.contextsKeys = Array.from(this.contexts.keys());
     });
 
     this.codeService.print.subscribe((value) => {
       this.print = value;
     });
+  }
+
+  getVariableKeys(context: Context): string[] {
+    const dictionary = this.contexts.get(context);
+    return dictionary ? Object.keys(dictionary) : [];
   }
 
   // ngAfterViewInit(): void {

@@ -1,4 +1,6 @@
+import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
+import { Context } from "./context";
 import { Structure } from "./structure";
 
 export class IfStructure extends Structure{
@@ -10,8 +12,8 @@ export class IfStructure extends Structure{
     enterElif: boolean = false;
     elifIndex: number = 0;
     hasElse: boolean = false;
-    constructor(level: number, condition: string, codeService: any, variables: { [key: string]: any }) {
-        super(level, condition, codeService, variables);
+    constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
+        super(level, condition, codeService, variablesService, context);
     }
 
     setScope(code: any){     
@@ -46,10 +48,11 @@ export class IfStructure extends Structure{
     }
 
     override async execute(amountToAdd?: number): Promise<{amount: number, finish: boolean}>{
-        var condition_replaced = replaceOperators(replaceVariables(this.condition, this.variables));
+        const variables = this.variablesService.getVariables(this.context);
+        var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){
             const elif = this.elifs[this.elifIndex];
-            condition_replaced = replaceOperators(replaceVariables(elif.condition, this.variables));
+            condition_replaced = replaceOperators(replaceVariables(elif.condition, variables));
             if(evaluate(condition_replaced)){
                 this.enterElif = true;
                 this.currentLine += 1;

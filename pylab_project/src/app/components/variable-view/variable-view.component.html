@@ -5,8 +5,15 @@
         </p>
     </div>
     <div class="variables">
-        @for (variable of variableKeys; track $index) {
-            <mat-label> {{ variable }}: {{ variables[variable] }}</mat-label>
+        @for (context of contextsKeys; track $index) {
+            <div class="context">
+                <p class="title">{{ context.name }}</p>
+                @for (variable of getVariableKeys(context); track $index) {
+                    <div class="variable">
+                        <mat-label> {{ variable }}: {{ contexts.get(context)[variable][contexts.get(context)[variable].length - 1] }}</mat-label>
+                    </div>
+                }
+            </div>
         }
     </div>
 </div>

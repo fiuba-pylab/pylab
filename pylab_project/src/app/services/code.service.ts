@@ -1,7 +1,8 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, lastValueFrom, Observable, ReplaySubject, take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgramInput } from '../pages/program-display/program-input/program-input.component';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import { DefStructure } from '../classes/structure-def';
 export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 
 @Injectable({
@@ -10,20 +11,20 @@ export const CODE_LENGTH_TOKEN = new InjectionToken<number>('codeLength');
 export class CodeService {
   private length: number = 0;
   private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
-  private behaviorSubjectVariables = new BehaviorSubject<{
-    [key: string]: any;
-  }>({});
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
   private behaviorOpenDialog = new BehaviorSubject<{msg: string, varName: string}>({msg: "", varName: ""});
   behaviorCloseDialog = new BehaviorSubject<string>("");
+  private behaviorSubjectFunctions = new BehaviorSubject<{
+    [key: string]: DefStructure;
+  }>({});
   private codePath: number[] = [];
   private codePathIndex: number = -1;
   private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
   dialog:MatDialog | undefined; 
   inputs:any[] | undefined; 
   highlightLine = this.behaviorSubjectHighlight.asObservable();
-  variables = this.behaviorSubjectVariables.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
+  functions = this.behaviorSubjectFunctions.asObservable();
 
   constructor() {}
 
@@ -33,7 +34,7 @@ export class CodeService {
 
   nextLine(amount: number): void {
     var highlightLine = this.behaviorSubjectHighlight.value;
-    if (highlightLine !== null && highlightLine < this.length) {
+    if (highlightLine !== null && highlightLine < this.length+1) {
       this.codePathIndex++;
       if (this.codePathIndex > this.maxNext) {
         this.maxNext++;
@@ -48,10 +49,6 @@ export class CodeService {
 
       this.behaviorSubjectHighlight.next(highlightLine);
     }
-  }
-
-  updateVariables(variables: any): void {
-    this.behaviorSubjectVariables.next(variables);
   }
 
   previousLine() {
@@ -73,10 +70,10 @@ export class CodeService {
 
   reset(){
     this.behaviorSubjectHighlight.next(1);
-    this.behaviorSubjectVariables.next({});
     this.codePath = [];
     this.codePathIndex = -1;
     this.maxNext = -1;
+    this.behaviorSubjectFunctions.next({});
   }
   
   setPrint(value: string): void {
@@ -103,5 +100,14 @@ export class CodeService {
   }
   addInputs(inputs: any[]): void {
     this.inputs = inputs;
+  }
+  setFunction(name: string, structure: DefStructure): void {
+    var functions = this.behaviorSubjectFunctions.value;
+    functions[name] = structure;
+    this.behaviorSubjectFunctions.next(functions);
+  }
+
+  goToLine(line: number): void {
+    this.behaviorSubjectHighlight.next(line);
   }
 }
