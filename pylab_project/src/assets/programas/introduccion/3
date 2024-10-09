@@ -8,6 +8,6 @@ e = math.pow(b, 2)
 
 sqrt_term = math.sqrt(d + e)
 log_term = math.log10(c)
-resultado = math.round(sqrt_term + log_term)
+resultado = sqrt_term + log_term
 
 print(f'El resultado es: {resultado}')
