@@ -42,7 +42,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   
   constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
 
-  ngOnInit():void{
+  ngOnInit(): void {
     if(!this.inputs) return;
     this.codeService.addDialog(this.dialog);
     this.codeService.addInputs(this.inputs);
@@ -51,6 +51,9 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngAfterViewInit(): void { 
     this.initEditor();
+    this.codeService.pause.subscribe(async (value)=> {
+      this.isPaused = value;
+    });
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
