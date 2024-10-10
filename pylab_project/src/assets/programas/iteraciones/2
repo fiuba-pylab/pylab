@@ -17,4 +17,4 @@ while i >= 0:
         if(se_resto == False):
             nro_decimal  = nro_decimal + digito_romano
     i -= 1
-print(nro_decimal)
+print(f'{nro_decimal}')

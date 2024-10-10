@@ -6,6 +6,6 @@ while numero != 0:
     divide = 3
     while numero != 1: 
         while numero % divide == 0: 
-            print(divide)
+            print(f'{divide}')
             numero //= divide
         divide += 2

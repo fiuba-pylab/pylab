@@ -5,4 +5,4 @@ if n == 0:
 while n > 0:
     binario = str(n % 2) + binario
     n //= 2
-print(binario)
+print(f'{binario}')
