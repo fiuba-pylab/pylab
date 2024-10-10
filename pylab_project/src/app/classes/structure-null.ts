@@ -99,6 +99,7 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService.setVariables(this.context, variables);
+
         //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
