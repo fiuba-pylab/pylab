@@ -1,4 +1,4 @@
-import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constans";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constants";
 import { replace } from "lodash";
 import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
@@ -99,6 +99,7 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService.setVariables(this.context, variables);
+
         //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
@@ -125,7 +126,12 @@ export class NullStructure extends Structure {
                 var funcArgs = (args as string).split(',');
                 return (Math.pow(Number(funcArgs[0]), Number(funcArgs[1]))).toString();
             case NATIVE_FUNCTIONS.MATH_SQRT:
-                return (Math.sqrt(Number(evalArgs))).toString();
+                let imaginary = false
+                if(evalArgs < 0){
+                    evalArgs = evalArgs * -1;
+                    imaginary = true
+                }
+                return ((Math.sqrt(Number(evalArgs))).toString() + (imaginary?'i':''));
             case NATIVE_FUNCTIONS.MATH_ROUND:
                 var funcArgs = (args as string).split(',');
                 if (funcArgs.length > 1) {
@@ -184,9 +190,6 @@ export class NullStructure extends Structure {
     }
 }
 
-
-
-
  applyOperation(variableValue: number, operator: Operator, value: number): number {
     if (operator in operations) {
         return operations[operator](variableValue, value);
@@ -194,9 +197,6 @@ export class NullStructure extends Structure {
         throw new Error('Operador no soportado');
     }
 }
-
-
-
 
 async evaluateExpression(expression: string, varName?: string): Promise<string> {
     let previousExpression;
@@ -227,6 +227,7 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
  cleanPrintValue(value: string): string {
     value = value.replace(/^[^'"]*['"]/, '');
     value = value.replace(/^"|'(.*)"|'$/, '$1');
+    value = value.replace(/["']/g, '');
     value = value.replace(/\\n|\n/g, '<br>');
     value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
     return value;
@@ -234,8 +235,8 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
 
  replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
-        const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
-        return resultado.replace(regex, valor);
+        const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
+        return resultado.replace(regex, valor[valor.length - 1]);
     }, template);
 }
 

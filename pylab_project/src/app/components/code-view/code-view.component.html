@@ -19,12 +19,24 @@
     </div>
 
     <div class="buttons-container">
-        <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="previous-arrow" fontIcon="arrow_back_ios" (click)="(!isRunning || isPaused) && previousLine()"></mat-icon>
-        <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="next-arrow" fontIcon="arrow_forward_ios" (click)="(!isRunning || isPaused) && nextLine()"></mat-icon>
-        <mat-icon class="icon" [class]="isRunning && !isPaused? 'disabled': ''" aria-hidden="false" aria-label="play" fontIcon="play_arrow" (click)="(!isRunning || isPaused) && play()"></mat-icon>
-        <mat-icon class="icon" [class]="isPaused? 'disabled': ''" aria-hidden="false" aria-label="pause" fontIcon="pause" (click)="!isPaused && pause()"></mat-icon>
+        <button class="icon" [class]="isRunning && !isPaused? 'disabled': ''" mat-icon-button [disabled]="(isRunning && !isPaused) || highlightLine == 1" aria-label="previous-arrow" (click)="previousLine()">
+            <mat-icon aria-hidden="false" fontIcon="arrow_back_ios"></mat-icon>
+        </button>
+    
+        <button class="icon" [class]="isRunning && !isPaused? 'disabled': ''" mat-icon-button [disabled]="isFinished || (isRunning && !isPaused)" aria-label="next-arrow" (click)="nextLine()">
+            <mat-icon fontIcon="arrow_forward_ios"></mat-icon>
+        </button>
+
+        <button class="icon" [class]="isRunning && !isPaused? 'disabled': ''" mat-icon-button [disabled]="isRunning && !isPaused" aria-label="play" (click)="play()">
+            <mat-icon mat-icon aria-hidden="false" fontIcon="play_arrow"></mat-icon>
+        </button>
+
+        <button class="icon" mat-icon-button [disabled]="isPaused" aria-label="pause" (click)="pause()">
+            <mat-icon aria-hidden="false" fontIcon="pause"></mat-icon>
+        </button>
+
         <mat-icon class="icon" aria-hidden="false" aria-label="redo" fontIcon="redo" (click)="reset()"></mat-icon>
-        <button mat-button [matMenuTriggerFor]="menu" #menuTrigger class="velocity-button" [disabled]="isRunning && !isPaused">Velocidad</button>
+        <button mat-button [class]="isPaused? 'disabled': ''"  [matMenuTriggerFor]="menu" #menuTrigger class="velocity-button" [disabled]="isRunning && !isPaused">Velocidad</button>
         <mat-menu #menu="matMenu">
             @for (velocity of velocities; track $index) {
                 <mat-label mat-menu-item (click)="setVelocity(velocity)">{{velocity}}</mat-label>

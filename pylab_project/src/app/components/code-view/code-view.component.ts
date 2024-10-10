@@ -36,20 +36,24 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   mode = 'manual';
   isRunning: boolean = false;
   isPaused: boolean = false;
-  isFinished: boolean = false; // TODO
+  isFinished: boolean = false; 
   intervalId: any = null;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
   constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
 
-  ngOnInit():void{
+  ngOnInit(): void {
     if(!this.inputs) return;
     this.codeService.addDialog(this.dialog);
     this.codeService.addInputs(this.inputs);
+    this.codeService.reset()
   }
 
   ngAfterViewInit(): void { 
     this.initEditor();
+    this.codeService.pause.subscribe(async (value)=> {
+      this.isPaused = value;
+    });
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
@@ -121,13 +125,19 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }    
   }
 
-  nextLine() {
+  async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute();
+      await this.coordinator.execute();
     }    
+    if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
+      this.isFinished = true;
+    }
   }
 
   previousLine() {
+    if(this.isFinished){
+      this.isFinished = false;
+    }
     if (this.decorationsCollection && this.coordinator) {
       this.coordinator.execute(true);
     }

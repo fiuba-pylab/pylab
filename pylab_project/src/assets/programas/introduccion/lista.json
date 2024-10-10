@@ -16,14 +16,14 @@
             {
                 "name":"cadena_b",
                 "options":[
-                    "12.2",
+                    "8.0",
                     "6.2"
                 ]
             },
             {
                 "name":"cadena_c",
                 "options":[
-                    "-2.5",
+                    "8.0",
                     "5.0"
                 ]
             }
@@ -63,7 +63,31 @@
         "title": "Ecuación matemática",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario los valores a, b y c para resolver la siguiente ecuación matemática: <img src=\"assets/intro-3-func.png\"></img> <br> <br> <h4>Casos:</h4> <br>"
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario los valores a, b y c para resolver la siguiente ecuación matemática: <img src=\"assets/intro-3-func.png\"></img> <br> <br> <h4>Casos:</h4> Todas las combinaciones de los valores 2.5 y -5.2 para a, 4.8 y 3.3 para b y 100 y 1000 para c <br>",
+        "inputs": [
+            {
+                "name": "a",
+                "options": [
+                    "3.5",
+                    "-5.2"
+                ]
+            },
+            {
+                "name": "b",
+                "options": [
+                    "4.8",
+                    "3.3"
+                    
+                ]
+            },
+            {
+                "name": "c",
+                "options": [
+                    "100",
+                    "1000"
+                ]
+            }
+        ]
     },
     {
         "id": "division.py",

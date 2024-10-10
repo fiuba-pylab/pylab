@@ -1,6 +1,6 @@
 import { Structure } from "./structure";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
-import { REGEX_CONSTS } from "../constans";
+import { REGEX_CONSTS } from "../constants";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
