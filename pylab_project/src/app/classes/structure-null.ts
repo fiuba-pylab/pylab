@@ -35,7 +35,7 @@ export class NullStructure extends Structure {
         const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
-        if (variableDeclaration) {
+        if (variableDeclaration && !print) {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
@@ -63,7 +63,14 @@ export class NullStructure extends Structure {
             }
             let printValue = this.replaceVariablesInPrint(value, variables);
             printValue = await this.evaluateExpression(printValue);
-            printValue = this.cleanPrintValue(printValue)
+            printValue = this.cleanPrintValue(printValue);
+
+            const end = printValue.match(REGEX_CONSTS.REGEX_PRINT_END);
+            if(end){
+                printValue = printValue.replace(REGEX_CONSTS.REGEX_PRINT_END, ' ');
+            }else{
+                printValue = printValue + '<br>';
+            }
             this.codeService.setPrint(printValue);
         }
         if(collectionAdd){
@@ -150,45 +157,45 @@ export class NullStructure extends Structure {
     }
 
     async matchCollection(varValue:string, variables:any, collectionName:string){
-    let varMatch;
-    let collectionAccess;
-    //se crea una lista
-    if(varValue.match(REGEX_CONSTS.REGEX_LIST)){
-        console.log("se crea lista")
-        const values = varValue.slice(1, varValue.length -1 ).split(', ')
-        return new List(values)
-        
-        // se crea diccioario
-    }else if(varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)){
-        const dictionaryElements = varMatch[1].split(', ')
-        const dictionary = new Dictionary();
-        let element;
-        for(element of dictionaryElements){
-            dictionary.add(element.toString())
+        let varMatch;
+        let collectionAccess;
+        //se crea una lista
+        if(varValue.match(REGEX_CONSTS.REGEX_LIST)){
+            console.log("se crea lista")
+            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            return new List(values)
+            
+            // se crea diccioario
+        }else if(varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)){
+            const dictionaryElements = varMatch[1].split(', ')
+            const dictionary = new Dictionary();
+            let element;
+            for(element of dictionaryElements){
+                dictionary.add(element.toString())
+            }
+            return dictionary
+            
+            //se crea un set
+        }else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
+            console.log("se crea set")
+            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            return new Set(values)
+        //se crea una tupla
+        } else if(varValue.match(REGEX_CONSTS.REGGEX_TUPLE)){
+            console.log("se crea tupla")
+            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            return new Tuple(values)
         }
-        return dictionary
-        
-        //se crea un set
-    }else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
-        console.log("se crea set")
-        const values = varValue.slice(1, varValue.length -1 ).split(', ')
-        return new Set(values)
-    //se crea una tupla
-    } else if(varValue.match(REGEX_CONSTS.REGGEX_TUPLE)){
-        console.log("se crea tupla")
-        const values = varValue.slice(1, varValue.length -1 ).split(', ')
-        return new Tuple(values)
+        //se accede a una colecion
+        else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
+            const value = collectionAccess[1]
+            const index = collectionAccess[2]
+            const accessIndex = await this.applyFunctions(index, variables, value)
+            return variables[value].access(accessIndex)
+        }else {
+            return null
+        }
     }
-    //se accede a una colecion
-     else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
-        const value = collectionAccess[1]
-        const index = collectionAccess[2]
-        const accessIndex = await this.applyFunctions(index, variables, value)
-        return variables[value].access(accessIndex)
-    }else {
-        return null
-    }
-}
 
  applyOperation(variableValue: number, operator: Operator, value: number): number {
     if (operator in operations) {
@@ -235,7 +242,7 @@ async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args
 
  replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
-        const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
+        const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
         return resultado.replace(regex, valor[valor.length - 1]);
     }, template);
 }
