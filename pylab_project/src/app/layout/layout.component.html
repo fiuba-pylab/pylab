@@ -1,7 +1,7 @@
-<app-header (sidebarEvent)="drawer.toggle()"></app-header>
+<app-header (sidebarEvent)="drawer.toggle()" [currentPage]="currentPath"></app-header>
 
 <mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav #drawer mode="side" opened="false">
+  <mat-sidenav #drawer mode="side" opened="true">
 
     <mat-nav-list>
       @for (menu of menus; track menu) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -14,7 +14,7 @@ import { HelpDialogComponent } from '../../components/helpDialog/helpDialog.comp
 })
 export class HeaderComponent {
   @Output() sidebarEvent = new EventEmitter<any>();
-
+  @Input() currentPage: string|undefined;
   constructor(public dialog: MatDialog){}
 
   toggleSidebar(){

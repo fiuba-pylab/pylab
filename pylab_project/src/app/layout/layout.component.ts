@@ -1,6 +1,6 @@
 import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
@@ -14,7 +14,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
-export class LayoutComponent{
+export class LayoutComponent implements OnInit {
   menus = [
     {
       displayName: "Inicio",
@@ -23,7 +23,12 @@ export class LayoutComponent{
       profiles: [""]
     }
   ]
+  currentPath: string|undefined; 
   constructor(private router: Router) {
   }
+  async ngOnInit() {
+    this.currentPath = this.router.url.split('/').pop();
+  }
+
 
 }
