@@ -19,10 +19,9 @@ export class CodeService {
   private length: number = 0;
   private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
-  private behaviorOpenDialog = new BehaviorSubject<{
-    msg: string;
-    varName: string;
-  }>({ msg: '', varName: '' });
+
+  private behaviorSubjectPause = new BehaviorSubject<boolean>(false);
+  private behaviorOpenDialog = new BehaviorSubject<{msg: string, varName: string}>({msg: "", varName: ""});
   behaviorCloseDialog = new BehaviorSubject<string>('');
   private behaviorSubjectFunctions = new BehaviorSubject<{
     [key: string]: DefStructure;
@@ -35,6 +34,7 @@ export class CodeService {
   highlightLine = this.behaviorSubjectHighlight.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
   functions = this.behaviorSubjectFunctions.asObservable();
+  pause = this.behaviorSubjectPause.asObservable(); 
 
   constructor(private store: Store<AppState>) {}
 
@@ -102,7 +102,9 @@ export class CodeService {
   }
 
   async getInput(msg: string, varName: string): Promise<string> {
-    this.behaviorOpenDialog.next({ msg, varName });
+
+    this.behaviorSubjectPause.next(true); 
+    this.behaviorOpenDialog.next({msg, varName});
     let dialog = this.dialog?.open(ProgramInput, {
       data: {
         title: msg,
@@ -112,7 +114,11 @@ export class CodeService {
       disableClose: true,
     });
     if (dialog) {
-      return lastValueFrom(dialog.afterClosed());
+      
+      let ret = await lastValueFrom(dialog.afterClosed());
+      this.behaviorSubjectPause.next(false); 
+      // CVC play
+      return ret
     }
     return Promise.reject('Dialog is undefined');
   }
