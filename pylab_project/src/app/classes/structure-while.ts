@@ -1,6 +1,7 @@
 import { Structure } from "./structure";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
-import { REGEX_CONSTS } from "../constants";
+import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
 export class WhileStructure extends Structure{
     super(){}
     currentLine: number = 0;
@@ -21,8 +22,7 @@ export class WhileStructure extends Structure{
     }
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
-       
-        const variables = this.variablesService.getVariables(this.context);
+        const variables = this.variablesService!.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
             this.currentLine = 1;
@@ -53,5 +53,13 @@ export class WhileStructure extends Structure{
             return {amount: 1, finish: false};
         }
         return {amount: this.lines.length+1, finish: true};
+    }
+
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
+        let clone = new WhileStructure(this.level, this.condition, codeService, variablesService, this.context)
+        clone.currentLine = this.currentLine;
+        clone.lines = [...this.lines];
+
+        return clone;
     }
 }

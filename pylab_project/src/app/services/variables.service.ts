@@ -12,17 +12,51 @@ export class VariablesService {
 
     constructor() {}
 
-    getVariables(context: Context): { [key:string]: any }  {
-        return this.behaviorSubjectContexts.value.get(context) || {};
+    getVariables(p_context: Context): { [key:string]: any }  {
+        for (const [context, variables] of this.behaviorSubjectContexts.value.entries()) {
+            if (context.id === p_context.id) {
+                return variables;
+            }
+        }
+        return {};
     }
 
-    setVariables(context: Context, variables: any): void {
-        const contexts = this.behaviorSubjectContexts.value.set(context, variables);
+    setVariables(p_context: Context, variables: any): void {
+        let existingContext: Context | undefined;
+
+        for (const context of this.behaviorSubjectContexts.value.keys()) {
+            if (context.id === p_context.id) {
+                existingContext = context;
+                break;
+            }
+        }
+
+        let contexts = new Map<Context, { [key:string]: any }>(this.behaviorSubjectContexts.value);
+        if (existingContext) {
+            contexts = this.behaviorSubjectContexts.value.set(existingContext, variables);
+        } else {
+            contexts = this.behaviorSubjectContexts.value.set(p_context, variables);
+        }
+
+        this.behaviorSubjectContexts.next(contexts);
+    }
+
+    setPreviousVariables(p_contexts: Map<Context, { [key:string]: any }>){
+        const contexts = new Map<Context, { [key: string]: any }>();
+        for (const [context, variables] of p_contexts.entries()) {
+            const clonedContext = context.clone();
+            contexts.set(clonedContext, { ...variables });
+        }
         this.behaviorSubjectContexts.next(contexts);
     }
 
     deleteContext(context: Context): void {
-        this.behaviorSubjectContexts.value.delete(context);
+        for(const [key, _] of this.behaviorSubjectContexts.value.entries()){
+            if(key.id === context.id){
+                this.behaviorSubjectContexts.value.delete(key);
+                break;
+            }
+        }
         this.behaviorSubjectContexts.next(this.behaviorSubjectContexts.value);
     }
 
