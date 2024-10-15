@@ -50,7 +50,7 @@ export function evaluate(code: any): any {
     while (REGEX_CONSTS.REGEX_DIVISION.test(code)) {
         code = code.replace(REGEX_CONSTS.REGEX_DIVISION, (match: any, num1: string, num2: string) => {
             const result = Math.floor(parseInt(num1) / parseInt(num2));
-            return result.toString(); // Replace with the result
+            return result.toString();
         });
     }
 
@@ -65,7 +65,7 @@ export function evaluate(code: any): any {
     if(code.match(REGEX_CONSTS.IMAGINARY)){
         return complex_evaluation(code)
     }
-    
+
     try {
         return eval(code);
     } catch (e) {
