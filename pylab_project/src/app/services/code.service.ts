@@ -74,7 +74,6 @@ export class CodeService {
 
         this.behaviorSubjectHighlight.next(previousState.highlightLine);
         this.behaviorSubjectPrint.next(previousState.print);
-        //this.behaviorSubjectFunctions.next({...previousState.functions});
         this.codePath = [...previousState.codePath];
         this.codePathIndex = previousState.codePathIndex;
         this.maxNext = previousState.maxNext;
@@ -115,7 +114,6 @@ export class CodeService {
       
       let ret = await lastValueFrom(dialog.afterClosed());
       this.behaviorSubjectPause.next(false); 
-      // CVC play
       return ret
     }
     return Promise.reject('Dialog is undefined');

@@ -53,7 +53,6 @@ export function evaluate(code: any): any {
             return result.toString();
         });
     }
-
    
     while (REGEX_CONSTS.REGEX_EXPONENT.test(code)) {
         code = code.replace(REGEX_CONSTS.REGEX_EXPONENT, (match: any, num1: string, num2: string) => {
