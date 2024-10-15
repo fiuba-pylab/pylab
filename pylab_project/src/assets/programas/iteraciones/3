@@ -3,6 +3,6 @@ anteultimo = 0
 ultimo = 1
 while ultimo < tope:
     actual = anteultimo + ultimo
-    print(actual)
+    print(f'{actual}')
     anteultimo = ultimo
     ultimo = actual

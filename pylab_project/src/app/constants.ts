@@ -18,6 +18,7 @@ const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
 const REGEX_MULTIPLY_LETTERS = /(\d+)\*['"]([a-zA-Z])['"]/;
 const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
+const REGEX_PRINT_END = /,\s*end=\s*(['"][^'"]*['"]|['"]?)/g;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -60,7 +61,9 @@ export const REGEX_CONSTS = {
     REGEX_IN_OPERATION,
     IMAGINARY,
     REAL,
+    REGEX_PRINT_END,
     REGEX_MULTIPLY_LETTERS
+
 };
 
 export const STRUCTURES = {
