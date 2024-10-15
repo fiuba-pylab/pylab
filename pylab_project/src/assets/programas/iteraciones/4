@@ -1,7 +1,8 @@
 num = int(input('Ingrese un número: '))
+print("Sucesión malabatista de {num}: ", end=' ')
 while num > 1:
     if num % 2 == 0: 
         num = int(num**0.5)
     else: 
         num = int(num**1.5) 
-    print(f'{num}')
+    print(f'{num}', end=' ')
