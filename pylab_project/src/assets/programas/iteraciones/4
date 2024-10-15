@@ -4,4 +4,4 @@ while num > 1:
         num = int(num**0.5)
     else: 
         num = int(num**1.5) 
-    print(num)
+    print(f'{num}')

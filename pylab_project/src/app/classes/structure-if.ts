@@ -83,7 +83,7 @@ export class IfStructure extends Structure{
                     length += this.elifs[index].lines.length + 1;
                 }
                 length += this.elseLines.length + 1;
-                return {amount: length + 1, finish: true};
+                return {amount: length, finish: true};
             }
         }
 

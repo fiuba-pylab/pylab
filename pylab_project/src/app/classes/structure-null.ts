@@ -11,8 +11,8 @@ const operations = {
     '+=': (a: number, b: number) => a + b,
     '-=': (a: number, b: number) => a - b,
     '*=': (a: number, b: number) => a * b,
-    '/=': (a: number, b: number) => a / b,
     '//=': (a: number, b: number) => Math.floor(a / b),
+    '/=': (a: number, b: number) => a / b,
 };
 
 type Operator = keyof typeof operations;
@@ -35,10 +35,10 @@ export class NullStructure extends Structure {
         const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
-        if (variableDeclaration) {
-            const varName = variableDeclaration[1];
-            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
-            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
+        if (variableDeclaration && !print) {
+           const varName = variableDeclaration[1];
+           let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
+           let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
 
             if (!collection) {
                 variables[varName] = evaluate(varValue);
@@ -60,7 +60,14 @@ export class NullStructure extends Structure {
             }
             let printValue = this.replaceVariablesInPrint(value, variables);
             printValue = await this.evaluateExpression(printValue);
-            printValue = this.cleanPrintValue(printValue)
+            printValue = this.cleanPrintValue(printValue);
+
+            const end = printValue.match(REGEX_CONSTS.REGEX_PRINT_END);
+            if(end){
+                printValue = printValue.replace(REGEX_CONSTS.REGEX_PRINT_END, ' ');
+            }else{
+                printValue = printValue + '<br>';
+            }
             this.codeService!.setPrint(printValue);
         }
         if (collectionAdd) {
@@ -105,6 +112,7 @@ export class NullStructure extends Structure {
         let result = variableValue;
         result = replaceVariables(result, variables);
         result = await this.evaluateExpression(result, varName);
+        result = result.replace(/False/g, 'false').replace(/True/g, 'true')
         return result;
     }
 
@@ -156,7 +164,7 @@ export class NullStructure extends Structure {
             return new List(values)
 
             // se crea diccioario
-        } else if (varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)) {
+        } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
             const dictionaryElements = varMatch[1].split(', ')
             const dictionary = new Dictionary();
             let element;
@@ -194,6 +202,7 @@ export class NullStructure extends Structure {
 
     applyOperation(variableValue: number, operator: Operator, value: number): number {
         if (operator in operations) {
+            console.log("entra")
             return operations[operator](variableValue, value);
         } else {
             throw new Error('Operador no soportado');
@@ -227,6 +236,7 @@ export class NullStructure extends Structure {
         return str.replace(regex, () => data.shift()!);
     }
 
+
     cleanPrintValue(value: string): string {
         value = value.replace(/^[^'"]*['"]/, '');
         value = value.replace(/^"|'(.*)"|'$/, '$1');
@@ -238,7 +248,7 @@ export class NullStructure extends Structure {
 
     replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
         return Object.entries(valores).reduce((resultado, [clave, valor]) => {
-            const regex = new RegExp(`\\b${this.printVarRegex(clave)}\\b`, 'g');
+            const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
             return resultado.replace(regex, valor);
         }, template);
     }

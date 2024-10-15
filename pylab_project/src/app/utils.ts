@@ -19,11 +19,33 @@ function escapeRegExp(string: string): string {
 }
 
 export function replaceOperators(template: string): string {
-    return template.replace(/and/g, '&&').replace(/or/g, '||');
+    return template
+            .replace(/and/g, '&&')
+            .replace(/or/g, '||')
+            .replace(/is not/g, '!=')
+            .replace(/is/g, '==')
+            .replace(/False/g, 'false')
+            .replace(/True/g, 'true');
 }
 
 export function evaluate(code: any): any {
     // TODO: Sanitize input
+    const match_multiply = code.match(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS)
+    if(match_multiply){
+        return match_multiply[2].repeat(Number(eval(match_multiply[1])))
+    }
+
+    const regexMultiplyLetters = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
+    
+    // Reemplaza multiplicación de letras, evaluando la expresión numérica dentro de los paréntesis
+    code = code.replace(regexMultiplyLetters, (match: any, expr: string, letter: string) => {
+        // Evalúa la expresión matemática (unidad-5) dentro de los paréntesis
+        const number = eval(expr.trim());
+        // Repite la letra tantas veces como el resultado de la expresión
+        return `'${letter.repeat(number)}'`;
+    });
+
+
     const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
     if (match) {
         const [_, number, collection] = match;
@@ -50,6 +72,7 @@ export function evaluate(code: any): any {
         return complex_evaluation(code)
     }
     try {
+        console.log("code", code)
         return eval(code);
     } catch (e) {
         console.error(e);
