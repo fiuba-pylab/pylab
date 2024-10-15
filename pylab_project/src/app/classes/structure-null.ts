@@ -248,7 +248,7 @@ export class NullStructure extends Structure {
     replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
         return Object.entries(valores).reduce((resultado, [clave, valor]) => {
             const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
-            return resultado.replace(regex, valor[valor.length - 1]);
+            return resultado.replace(regex, valor);
         }, template);
     }
 
