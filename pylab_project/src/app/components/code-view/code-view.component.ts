@@ -64,7 +64,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   loadSelects():void{
     for(let {name, type, form} of this.forms){
       let option = this.parseOption(form.value, type);
-      console.log(name, option, type)
       if (option === null) {
         return ;
       }

@@ -50,8 +50,6 @@ export class CodeService {
   nextLine(amount: number, coordinator: Coordinator) {
     var highlightLine = this.behaviorSubjectHighlight.value;
       if (highlightLine !== null && highlightLine < this.length) {
-        console.log(this.codePathIndex);
-
         this.codePathIndex++;
         if (this.codePathIndex > this.maxNext) {
           this.maxNext++;
@@ -71,7 +69,6 @@ export class CodeService {
   getStateFromPreviousLine() {
     return new Promise(async (resolve, reject) => {
       const pastStates = await firstValueFrom(this.store.select(selectPastStates));
-      console.log('past states', pastStates);
       if (pastStates.length > 0) {
         const previousState = pastStates[pastStates.length - 1];
 

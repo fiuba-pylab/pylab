@@ -21,7 +21,6 @@ export class VariableViewComponent {
 
   ngOnInit(): void {
     this.variablesService.contexts.subscribe((value) => {
-      console.log("Contextos: "+value);
       this.contexts = value;
       this.contextsKeys = Array.from(this.contexts.keys());
     });
