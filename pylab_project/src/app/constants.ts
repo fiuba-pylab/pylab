@@ -17,7 +17,7 @@ const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
 const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
 const REGEX_MULTIPLY_LETTERS = /(\d+)\*['"]([a-zA-Z])['"]/;
-
+const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -57,6 +57,7 @@ export const REGEX_CONSTS = {
     REGEX_COLLECTION_ACCESS,
     REGEX_DICTIONARY,
     REGEX_FOR,
+    REGEX_IN_OPERATION,
     IMAGINARY,
     REAL,
     REGEX_MULTIPLY_LETTERS
