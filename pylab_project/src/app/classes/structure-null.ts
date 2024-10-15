@@ -11,8 +11,8 @@ const operations = {
     '+=': (a: number, b: number) => a + b,
     '-=': (a: number, b: number) => a - b,
     '*=': (a: number, b: number) => a * b,
-    '/=': (a: number, b: number) => a / b,
     '//=': (a: number, b: number) => Math.floor(a / b),
+    '/=': (a: number, b: number) => a / b,
 };
 
 type Operator = keyof typeof operations;
@@ -202,6 +202,7 @@ export class NullStructure extends Structure {
 
     applyOperation(variableValue: number, operator: Operator, value: number): number {
         if (operator in operations) {
+            console.log("entra")
             return operations[operator](variableValue, value);
         } else {
             throw new Error('Operador no soportado');

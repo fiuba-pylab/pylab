@@ -4,7 +4,18 @@
         "title": "Decimal a binario",
         "description": "Recibe un número decimal y lo convierte a binario.",
         "difficulty": 1,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo:</h4> Convierte a binario un número decimal elegido por el usuario <h4>Casos:</h4> 3, 11, 19, 32",
+        "inputs":[
+            {
+                "name":"n",
+                "options":[
+                    "3",
+                    "11",
+                    "19",
+                    "32"
+                ]
+            }
+        ]
     },
     {
         "id": 2,
