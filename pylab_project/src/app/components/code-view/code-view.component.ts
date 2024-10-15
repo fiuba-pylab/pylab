@@ -112,7 +112,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private updateDecorations(): void {
-    if (this.editor && this.decorationsCollection) {          
+    if (this.editor && this.decorationsCollection && !this.isFinished) {          
       const newDecorations = this.highlightLine !== null ? [{
         range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
@@ -134,6 +134,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }    
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
+      this.decorationsCollection?.clear();
     }
   }
 
