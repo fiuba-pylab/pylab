@@ -38,6 +38,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   isPaused: boolean = false;
   isFinished: boolean = false; 
   intervalId: any = null;
+  started: boolean = false;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
   constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
@@ -127,7 +128,10 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      await this.coordinator.execute();
+      if(!this.started){
+        this.started = true;
+      }
+      this.coordinator.executeForward();
     }    
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
@@ -139,7 +143,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       this.isFinished = false;
     }
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute(true);
+      this.coordinator.executePrevious();
     }
   }
 

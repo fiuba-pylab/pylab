@@ -8,8 +8,7 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
         if (valor instanceof Collection) {
             replacement = valor.values;
         } else {
-            const lastValue = valor[valor.length - 1];
-            replacement = typeof lastValue === 'string' ? `'${lastValue}'` : lastValue;
+            replacement = typeof valor === 'string' ? `'${valor}'` : valor;
         }
        
         return resultado.replace(regex, replacement);
