@@ -1,3 +1,4 @@
+import { CodeService } from "../services/code.service";
 import { REGEX_CONSTS } from "../constants";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
@@ -5,9 +6,9 @@ import { Context } from "./context";
 import { Structure } from "./structure";
 
 export class DefStructure extends Structure{
-    constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
+    constructor(level: number, condition: string, codeService: CodeService | null, variablesService: VariablesService | null, context: Context) {
         super(level, condition, codeService, variablesService, context);
-        this.position = codeService.behaviorSubjectHighlight.value;
+        if (codeService) this.position = codeService!.getHighlightLine();
         const definition = condition.match(REGEX_CONSTS.REGEX_DEF);
         if (definition != null) {
             const params = definition[2].split(",").map((arg: string) => arg.trim());
@@ -28,7 +29,7 @@ export class DefStructure extends Structure{
     name: string = "";
     position: number = 0;
     called: boolean = false;
-    myContext: any;
+    myContext: Context | undefined;
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
@@ -43,7 +44,7 @@ export class DefStructure extends Structure{
                 break;
             }
         }
-        this.codeService.setFunction(this.name, this);
+        this.codeService!.setFunction(this.name, this);
     }
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
@@ -58,7 +59,7 @@ export class DefStructure extends Structure{
         // llamaron a la funcion
         if(this.currentLine == 0 && !this.called){ 
             this.called = true;
-            this.codeService.goToLine(this.position);
+            this.codeService!.goToLine(this.position);
             return {amount: 0, finish: false};
         }
 
@@ -82,26 +83,28 @@ export class DefStructure extends Structure{
     }
 
     setParameters(args: string[]){
-        const variables = this.variablesService.getVariables(this.context);
+        const variables = this.variablesService!.getVariables(this.context);
         Object.keys(this.parameters).forEach((param, index) => {
             if(args[index]){
                 const match = args[index].match(REGEX_CONSTS.REGEX_NAMED_PARAMS);
                 if(match){
                     const key = match[1];
                     const value = match[2];
-                    this.parameters[key].push(evaluate(replaceVariables(value, variables)));
+                    this.parameters[key] = evaluate(replaceVariables(value, variables));
                     return;
                 }
                 if(!this.parameters[param]){
                     this.parameters[param] = []
                 }
                 if(args[index]){
-                    this.parameters[param].push(evaluate(replaceVariables(args[index], variables)));
+                    this.parameters[param] = evaluate(replaceVariables(args[index], variables));
                 }
             }
         });
 
-        this.variablesService.setVariables(this.myContext, this.parameters);
+        if (this.myContext) {
+            this.variablesService!.setVariables(this.myContext, this.parameters);
+        }
     }
 
     setContext(context: Context){
@@ -112,13 +115,13 @@ export class DefStructure extends Structure{
         return (this.context.name != 'global');
     }
 
-    clone(context: Context): DefStructure {
+    deepClone(context: Context): DefStructure {
         const clone = new DefStructure(
             this.level,
             this.condition,
             this.codeService,       
-            this.variablesService,  
-            context
+            this.variablesService!,  
+            context!
         );
         
         clone.currentLine = this.currentLine;
@@ -126,6 +129,27 @@ export class DefStructure extends Structure{
         clone.name = this.name;
         clone.position = this.position;
         clone.called = this.called;
+        
+        clone.lines = [...this.lines];
+        
+        return clone;
+    }
+
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): DefStructure {
+        const clone = new DefStructure(
+            this.level,
+            this.condition,
+            codeService,
+            variablesService,  
+            this.context.clone()
+        );
+        
+        clone.currentLine = this.currentLine;
+        clone.parameters = JSON.parse(JSON.stringify(this.parameters));
+        clone.name = this.name;
+        clone.position = this.position;
+        clone.called = this.called;
+        clone.myContext = this.myContext ? this.myContext.clone() : undefined;
         
         clone.lines = [...this.lines];
         

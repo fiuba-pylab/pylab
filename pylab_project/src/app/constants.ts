@@ -9,14 +9,15 @@ const REGEX_NAMED_PARAMS = /^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/;
 const REGEX_LIST = /^\[[^\]]*\]$/;
 const REGGEX_SET = /^\{[^}]+\}$/;
 const REGGEX_TUPLE = /^\( *(?:[^(),]+|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^()]*\|[ \t\n\r]*|(?:,\s*)?)*\) *$/;
-const REGGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
+const REGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
 const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
+const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
+const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
+const REGEX_MULTIPLY_LETTERS = /(\d+)\*['"]([a-zA-Z])['"]/;
 const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
-const IMAGINARY = /[-+]? ?\d*\.?\d+i/
-const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/
 const REGEX_PRINT_END = /,\s*end=\s*(['"][^'"]*['"]|['"]?)/g;
 
 const IF = 'if';
@@ -55,12 +56,14 @@ export const REGEX_CONSTS = {
     REGEX_COLLECTION_ADD,
     REGEX_COLLECTION_SUBSTRACT,
     REGEX_COLLECTION_ACCESS,
-    REGGEX_DICTIONARY,
+    REGEX_DICTIONARY,
     REGEX_FOR,
     REGEX_IN_OPERATION,
     IMAGINARY,
     REAL,
-    REGEX_PRINT_END
+    REGEX_PRINT_END,
+    REGEX_MULTIPLY_LETTERS
+
 };
 
 export const STRUCTURES = {

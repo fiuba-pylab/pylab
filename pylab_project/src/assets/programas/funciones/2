@@ -1,7 +1,8 @@
-def factorial(n):
+def factorial(x,n=0):
     if n == 0 or n == 1:
         return 1
     else:
+        print(x)
         f = factorial(n - 1)
         return n * f
 

@@ -1,5 +1,6 @@
+import { CodeService } from "../services/code.service";
+import { VariablesService } from "../services/variables.service";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constants";
-import { replace } from "lodash";
 import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
@@ -16,15 +17,14 @@ const operations = {
 
 type Operator = keyof typeof operations;
 export class NullStructure extends Structure {
-    super(){}
+    super() { }
     setScope(code: any) {
         const lines: any[] = code.split('\n');
         this.lines.push(lines[0]);
     }
 
     override async execute(): Promise<{ amount: number; finish: boolean; }> {
-        const variables = this.variablesService.getVariables(this.context);
-        console.log("variables", variables)
+        const variables = this.variablesService!.getVariables(this.context);
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -40,25 +40,22 @@ export class NullStructure extends Structure {
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
 
-           if(!variables[varName]){
-                variables[varName] = []
-           }
-           if(!collection){
-                variables[varName].push(evaluate(varValue));
-           } else {
+            if (!collection) {
+                variables[varName] = evaluate(varValue);
+            } else {
                 variables[varName] = collection
-           }
-           
+            }
+
         }
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
             const value = operations[3];
-            variables[variable].push(this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables))));
+            variables[variable] = this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables)));
         }
-        if(print){
+        if (print) {
             let value = print[1]
-            if(print[2]){
+            if (print[2]) {
                 value = print[2]
             }
             let printValue = this.replaceVariablesInPrint(value, variables);
@@ -71,33 +68,33 @@ export class NullStructure extends Structure {
             }else{
                 printValue = printValue + '<br>';
             }
-            this.codeService.setPrint(printValue);
+            this.codeService!.setPrint(printValue);
         }
-        if(collectionAdd){
+        if (collectionAdd) {
             const variable = collectionAdd[1];
             const operator = collectionAdd[2];
             const value = collectionAdd[3];
-            if(VALID_OPERATORS.validAddOperators.includes(operator)){
+            if (VALID_OPERATORS.validAddOperators.includes(operator)) {
                 variables[variable].add(await this.applyFunctions(value, variables, variable))
-            } else if(collectionAdd[5] == '+'){
+            } else if (collectionAdd[5] == '+') {
                 const tupleValues = collectionAdd[6].split(', ')
-                for(let tupleValue of tupleValues){
+                for (let tupleValue of tupleValues) {
                     variables[collectionAdd[4]].add(tupleValue)
                 }
             }
         }
-        if(collectionSubstract){
+        if (collectionSubstract) {
             const variable = collectionSubstract[1];
             const operator = collectionSubstract[2];
             const value = collectionSubstract[3];
-            if(VALID_OPERATORS.validSubstractOperators.includes(operator)){
+            if (VALID_OPERATORS.validSubstractOperators.includes(operator)) {
                 variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }
         }
-        
-        if(isReturn){
+
+        if (isReturn) {
             let values = isReturn[1].split(',').map((value: string) => value.trim());
-            if(values){
+            if (values) {
                 for (let i = 0; i < values.length; i++) {
                     let value = await this.applyFunctions(values[i], variables)
                     values[i] = evaluate(value);
@@ -105,19 +102,20 @@ export class NullStructure extends Structure {
                 this.context.setReturnValue(values);
             }
         }
-        this.variablesService.setVariables(this.context, variables);
+        this.variablesService!.setVariables(this.context, variables);
 
         //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 
-    async applyFunctions(variableValue: any, variables: any, varName?: string): Promise<any>{
+    async applyFunctions(variableValue: any, variables: any, varName?: string): Promise<any> {
         let result = variableValue;
         result = replaceVariables(result, variables);
         result = await this.evaluateExpression(result, varName);
+        result = result.replace(/False/g, 'false').replace(/True/g, 'true')
         return result;
     }
-    
+
     async evaluateFunction(funcName: string, args: string, varName?: string): Promise<string> {
         let evalArgs = evaluate(args);
         switch (funcName) {
@@ -126,7 +124,7 @@ export class NullStructure extends Structure {
             case NATIVE_FUNCTIONS.INT:
                 return String(parseInt(evalArgs));
             case NATIVE_FUNCTIONS.LEN:
-                return String((evalArgs as string).length); 
+                return String((evalArgs as string).length);
             case NATIVE_FUNCTIONS.STR:
                 return String(evalArgs);
             case NATIVE_FUNCTIONS.MATH_POW:
@@ -134,11 +132,11 @@ export class NullStructure extends Structure {
                 return (Math.pow(Number(funcArgs[0]), Number(funcArgs[1]))).toString();
             case NATIVE_FUNCTIONS.MATH_SQRT:
                 let imaginary = false
-                if(evalArgs < 0){
+                if (evalArgs < 0) {
                     evalArgs = evalArgs * -1;
                     imaginary = true
                 }
-                return ((Math.sqrt(Number(evalArgs))).toString() + (imaginary?'i':''));
+                return ((Math.sqrt(Number(evalArgs))).toString() + (imaginary ? 'i' : ''));
             case NATIVE_FUNCTIONS.MATH_ROUND:
                 var funcArgs = (args as string).split(',');
                 if (funcArgs.length > 1) {
@@ -149,107 +147,114 @@ export class NullStructure extends Structure {
                 return (Math.asin(Number(evalArgs))).toString();
             case NATIVE_FUNCTIONS.MATH_LOG10:
                 return (Math.log10(Number(evalArgs))).toString();
-            case NATIVE_FUNCTIONS.INPUT: 
-                return await this.codeService.getInput(evalArgs, varName??''); 
+            case NATIVE_FUNCTIONS.INPUT:
+                return await this.codeService!.getInput(evalArgs, varName ?? '');
             default:
-                return evalArgs; 
+                return evalArgs;
         }
     }
 
-    async matchCollection(varValue:string, variables:any, collectionName:string){
+    async matchCollection(varValue: string, variables: any, collectionName: string) {
         let varMatch;
         let collectionAccess;
         //se crea una lista
-        if(varValue.match(REGEX_CONSTS.REGEX_LIST)){
+        if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
             console.log("se crea lista")
-            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            const values = varValue.slice(1, varValue.length - 1).split(', ')
             return new List(values)
-            
+
             // se crea diccioario
-        }else if(varMatch = varValue.match(REGEX_CONSTS.REGGEX_DICTIONARY)){
+        } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
             const dictionaryElements = varMatch[1].split(', ')
             const dictionary = new Dictionary();
             let element;
-            for(element of dictionaryElements){
+            for (element of dictionaryElements) {
                 dictionary.add(element.toString())
             }
             return dictionary
-            
+
             //se crea un set
-        }else if(varValue.match(REGEX_CONSTS.REGGEX_SET)){
+        } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
             console.log("se crea set")
-            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            const values = varValue.slice(1, varValue.length - 1).split(', ')
             return new Set(values)
-        //se crea una tupla
-        } else if(varValue.match(REGEX_CONSTS.REGGEX_TUPLE)){
+            //se crea una tupla
+        } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
             console.log("se crea tupla")
-            const values = varValue.slice(1, varValue.length -1 ).split(', ')
+            const values = varValue.slice(1, varValue.length - 1).split(', ')
             return new Tuple(values)
         }
         //se accede a una colecion
-        else if(collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
+        else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
             const value = collectionAccess[1]
             const index = collectionAccess[2]
             const accessIndex = await this.applyFunctions(index, variables, value)
             return variables[value].access(accessIndex)
-        }else {
+        } else {
             return null
+        }
+
+    }
+
+    override clone(codeService: CodeService | null, variablesService: VariablesService | null): Structure {
+        return new NullStructure(this.level, this.condition, codeService, variablesService, this.context);
+    }
+
+    applyOperation(variableValue: number, operator: Operator, value: number): number {
+        if (operator in operations) {
+            return operations[operator](variableValue, value);
+        } else {
+            throw new Error('Operador no soportado');
         }
     }
 
- applyOperation(variableValue: number, operator: Operator, value: number): number {
-    if (operator in operations) {
-        return operations[operator](variableValue, value);
-    } else {
-        throw new Error('Operador no soportado');
+
+    async evaluateExpression(expression: string, varName?: string): Promise<string> {
+        let previousExpression;
+        let currentExpression = expression;
+
+        do {
+            previousExpression = currentExpression;
+            currentExpression = await this.replaceAsync(currentExpression, REGEX_CONSTS.REGEX_FUNCTIONS, async (match, funcName, args) => {
+                let evaluatedArgs = await Promise.all(args.split(',').map(async (arg: string) => await this.evaluateExpression(arg.trim(), varName)));
+                return await this.evaluateFunction(funcName, evaluatedArgs.join(','), varName);
+            });
+        } while (currentExpression !== previousExpression);
+
+        return currentExpression;
     }
-}
 
-async evaluateExpression(expression: string, varName?: string): Promise<string> {
-    let previousExpression;
-    let currentExpression = expression;
-
-    do {
-        previousExpression = currentExpression;
-        currentExpression = await this.replaceAsync(currentExpression, REGEX_CONSTS.REGEX_FUNCTIONS, async (match, funcName, args) => {
-            let evaluatedArgs = await Promise.all(args.split(',').map(async (arg: string) => await this.evaluateExpression(arg.trim(), varName)));
-            return await this.evaluateFunction(funcName, evaluatedArgs.join(','), varName);
+    async replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args: any[]) => Promise<string>): Promise<string> {
+        const promises: Promise<string>[] = [];
+        str.replace(regex, (match, ...args) => {
+            const promise = asyncFn(match, ...args);
+            promises.push(promise);
+            return match;
         });
-    } while (currentExpression !== previousExpression);
+        const data = await Promise.all(promises);
+        return str.replace(regex, () => data.shift()!);
+    }
 
-    return currentExpression;
-}
 
-async  replaceAsync(str: string, regex: RegExp, asyncFn: (match: string, ...args: any[]) => Promise<string>): Promise<string> {
-    const promises: Promise<string>[] = [];
-    str.replace(regex, (match, ...args) => {
-        const promise = asyncFn(match, ...args);
-        promises.push(promise);
-        return match;
-    });
-    const data = await Promise.all(promises);
-    return str.replace(regex, () => data.shift()!);
-}
+    cleanPrintValue(value: string): string {
+        value = value.replace(/^[^'"]*['"]/, '');
+        value = value.replace(/^"|'(.*)"|'$/, '$1');
+        value = value.replace(/["']/g, '');
+        value = value.replace(/\\n|\n/g, '<br>');
+        value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        return value;
+    }
 
- cleanPrintValue(value: string): string {
-    value = value.replace(/^[^'"]*['"]/, '');
-    value = value.replace(/^"|'(.*)"|'$/, '$1');
-    value = value.replace(/["']/g, '');
-    value = value.replace(/\\n|\n/g, '<br>');
-    value = value.replace(/\\t|\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-    return value;
-}
+    replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
+        return Object.entries(valores).reduce((resultado, [clave, valor]) => {
+            const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
+            return resultado.replace(regex, valor[valor.length - 1]);
+        }, template);
+    }
 
- replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
-    return Object.entries(valores).reduce((resultado, [clave, valor]) => {
-        const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
-        return resultado.replace(regex, valor[valor.length - 1]);
-    }, template);
-}
-
- printVarRegex(string: string): string {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+    printVarRegex(string: string): string {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
 
 }
 

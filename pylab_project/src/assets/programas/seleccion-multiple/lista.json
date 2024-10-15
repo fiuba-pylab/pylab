@@ -114,7 +114,22 @@
         "title": "Números romanos",
         "description": "",
         "difficulty": 5,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo."
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo.",
+        "inputs": [
+            {
+                "name": "numero",
+                "options": [
+                    "1",
+                    "5",
+                    "10",
+                    "50",
+                    "100",
+                    "500",
+                    "1000",
+                    "3999"
+                ]
+            }
+        ]
     },
     {
         "id": 6,
