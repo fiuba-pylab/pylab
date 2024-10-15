@@ -1,10 +1,12 @@
-nro_romano = input('Ingrese un número romano: ')
+nro_romano = 'XXVII'
+aux = nro_romano[1]
+print(f'{aux}')
 nro_decimal = 0
 se_resto = False
 i = len(nro_romano)
 while i >= 0:
     digito_romano = 0
-    if(i > 0):
+    if (i > 0):
         if(digito_romano >= nro_romano[i - 1]):
             if(se_resto == False): 
                 nro_decimal = nro_decimal + digito_romano + nro_romano[i - 1]
