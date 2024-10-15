@@ -19,7 +19,13 @@ function escapeRegExp(string: string): string {
 }
 
 export function replaceOperators(template: string): string {
-    return template.replace(/and/g, '&&').replace(/or/g, '||');
+    return template
+            .replace(/and/g, '&&')
+            .replace(/or/g, '||')
+            .replace(/is not/g, '!=')
+            .replace(/is/g, '==')
+            .replace(/False/g, 'false')
+            .replace(/True/g, 'true');
 }
 
 export function evaluate(code: any): any {
@@ -50,6 +56,7 @@ export function evaluate(code: any): any {
         return complex_evaluation(code)
     }
     try {
+        console.log("code", code)
         return eval(code);
     } catch (e) {
         console.error(e);

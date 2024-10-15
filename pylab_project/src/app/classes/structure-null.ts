@@ -36,9 +36,9 @@ export class NullStructure extends Structure {
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
         if (variableDeclaration) {
-            const varName = variableDeclaration[1];
-            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
-            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
+           const varName = variableDeclaration[1];
+           let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
+           let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
 
             if (!collection) {
                 variables[varName] = evaluate(varValue);
@@ -105,6 +105,7 @@ export class NullStructure extends Structure {
         let result = variableValue;
         result = replaceVariables(result, variables);
         result = await this.evaluateExpression(result, varName);
+        result = result.replace(/False/g, 'false').replace(/True/g, 'true')
         return result;
     }
 
