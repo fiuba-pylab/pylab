@@ -178,6 +178,15 @@ export class NullStructure extends Structure {
             const index = collectionAccess[2];
             const accessIndex = await this.applyFunctions(index, variables, value);
             return variables[value].access(accessIndex);
+        }else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+            const value = collectionAccess[1]
+            const index = collectionAccess[2]
+            //caso en que se indexa un string
+            if(typeof(variables[value]) == 'string'){
+                return variables[value][Number(index)]
+            }
+            const accessIndex = await this.applyFunctions(index, variables, value)
+            return variables[value].access(accessIndex)
         } else {
             return null;
         }
