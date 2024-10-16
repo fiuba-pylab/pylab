@@ -36,7 +36,7 @@ export class WhileStructure extends Structure{
                 variables['ForIteratorVariable'].push(inverseActualIndex)
                 //cambio el valor de la variable a iterar
                 const index = collectionIsArray?(collection.values.length-1 - inverseActualIndex):(Object.keys(collection?.values).length-1 - inverseActualIndex)
-                variables[this.collectionInfo.tempVarName].push(collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]])
+                variables[this.collectionInfo.tempVarName] = collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]]
             }
             return {amount: -(this.lines.length), finish: false};
 
