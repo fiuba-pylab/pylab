@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { AppState } from './models';
-import { addNew, goBack } from './actions';
+import { addNew, goBack, resetState } from './actions';
 
 const initialState: AppState = {
   past: [],
@@ -27,5 +27,12 @@ export const coordinatorReducer = createReducer(
     };
 
     return result;
+  }),
+  on(resetState, (state) => {
+    const initialState = state.past[1] ? state.past[1] : state.currentValues;
+    return {
+      past: [],
+      currentValues: {...initialState},
+    };
   })
 );
