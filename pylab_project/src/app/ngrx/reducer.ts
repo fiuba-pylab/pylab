@@ -29,9 +29,6 @@ export const coordinatorReducer = createReducer(
     return result;
   }),
   on(resetState, (state) => {
-    console.log(state.past[1]);
-    console.log(state.currentValues);
-    
     const initialState = state.past[1] ? state.past[1] : state.currentValues;
     return {
       past: [],
