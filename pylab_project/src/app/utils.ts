@@ -5,13 +5,15 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
         var replacement;
+        var collectionDelimiter = ''
         if (valor instanceof Collection) {
-            replacement = valor.values;
+            collectionDelimiter = '|'
+            replacement = valor.values
         } else {
             replacement = typeof valor === 'string' ? `'${valor}'` : valor;
         }
        
-        return resultado.replace(regex, replacement);
+        return resultado.replace(regex, collectionDelimiter + replacement + collectionDelimiter);
     }, template);
 }
 function escapeRegExp(string: string): string {
@@ -45,6 +47,10 @@ export function evaluate(code: any): any {
         return `'${letter.repeat(number)}'`;
     });
 
+    const collection_values = code.match(REGEX_CONSTS.COLLECTION_IDENTIFIER)
+    if(collection_values){
+        return code.replace(/,|\|/g, '')
+    }
 
     const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
     if (match) {

@@ -1,0 +1,17 @@
+[
+    {
+        "id":1,
+        "title":"Promedio",
+        "description": "Se recibe una lista de números y se calcula el promedio",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Dado una lista de números por el usuario, se calcula la media aritmética entre ellos.",
+        "inputs":[
+            {
+                "name":"lista_numeros",
+                "options":[
+                    "1, 2, 3, 4, 5, 6"
+                ]
+            }
+        ]
+    }
+]
