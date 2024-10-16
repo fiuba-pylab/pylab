@@ -26,9 +26,6 @@ export class CodeService {
   private behaviorSubjectFunctions = new BehaviorSubject<{
     [key: string]: DefStructure;
   }>({});
-  private codePath: number[] = [];
-  private codePathIndex: number = -1;
-  private maxNext = -1; // se usa para ubicar el límite antes de agregar un elemento al codePath
   dialog: MatDialog | undefined;
   inputs: any[] | undefined;
   highlightLine = this.behaviorSubjectHighlight.asObservable();
@@ -50,18 +47,7 @@ export class CodeService {
   nextLine(amount: number, coordinator: Coordinator) {
     var highlightLine = this.behaviorSubjectHighlight.value;
       if (highlightLine !== null && highlightLine < this.length) {
-        this.codePathIndex++;
-        if (this.codePathIndex > this.maxNext) {
-          this.maxNext++;
-        }
-
-        if (this.maxNext >= this.codePath.length) {
-          this.codePath.push(amount);
-          highlightLine = highlightLine + amount;
-        } else {
-          highlightLine = highlightLine + this.codePath[this.codePathIndex];
-        }
-
+        highlightLine = highlightLine + amount;
         this.behaviorSubjectHighlight.next(highlightLine);
       }
   }
@@ -74,9 +60,6 @@ export class CodeService {
 
         this.behaviorSubjectHighlight.next(previousState.highlightLine);
         this.behaviorSubjectPrint.next(previousState.print);
-        this.codePath = [...previousState.codePath];
-        this.codePathIndex = previousState.codePathIndex;
-        this.maxNext = previousState.maxNext;
         this.store.dispatch(actions.goBack());
 
         resolve({ previousState: previousState });
@@ -87,9 +70,6 @@ export class CodeService {
 
   reset() {
     this.behaviorSubjectHighlight.next(1);
-    this.codePath = [];
-    this.codePathIndex = -1;
-    this.maxNext = -1;
     this.behaviorSubjectFunctions.next({});
     this.behaviorSubjectPrint.next('');
   }
@@ -152,9 +132,6 @@ export class CodeService {
     let newCoordinator = coordinator.clone();
     newCoordinator.highlightLine = this.behaviorSubjectHighlight.value;
     newCoordinator.print = this.behaviorSubjectPrint.value;
-    newCoordinator.codePath = [...this.codePath];
-    newCoordinator.codePathIndex = this.codePathIndex;
-    newCoordinator.maxNext = this.maxNext;
 
     this.store.dispatch(actions.addNew({ newCoordinator }));
   }
