@@ -66,15 +66,15 @@
         "title": "Factorial",
         "description": "Recibe un número entero y devuelve el factorial del mismo.",
         "difficulty": 5,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero mayor o igual a 0 y se imprime su factorial n!: <ul> <li> 0! = 1</li> <li> 1! = 1 </li> <li> n! = 1*2*3*...*(n-1)*n </li></ul> <br> <h4> Casos:</h4> 1. n = 0 <br> 2. n = 1 <br> 3. n = 5 <br> 4. n = 10",
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero mayor o igual a 0 y se imprime su factorial n!: <ul> <li> 0! = 1</li> <li> 1! = 1 </li> <li> n! = 1*2*3*...*(n-1)*n </li></ul> <br> <h4> Casos:</h4> 1. n = 0 <br> 2. n = 5 <br> 3. n = 10 <br> 4. n = 20",
         "inputs": [
             {
                 "name": "n",
                 "options": [
                     "0",
-                    "1",
                     "5",
-                    "10"
+                    "10",
+                    "20"
                 ]
             }
         ]
@@ -84,14 +84,15 @@
         "title": "Factorización",
         "description": "Recibe un número entero y devuelve su factorización en números primos.",
         "difficulty": 4,
-        "introduction": "<h4>Objetivo:</h4> Solicita al usuario un número entero positivo mayor que 1 a factorizar. <br> El teorema fundamental de la aritmética o teorema de factorización única afirma que todo entero positivo mayor que 1 es un número primo o bien un único producto de números primos. Como la multiplicación es conmutativa, el orden de los factores es irrelevante, por esta razón, usualmente se enuncia el teorema como factorización única salvo en el orden de los factores. <br> <br> <h4>Casos:</h4> 1. n = 16 (factorización 2 2 2 2) <br> 2. n = 12 (factorización 2 2 3). <br> 3. n = 35 (factorización 5 7).",
+        "introduction": "<h4>Objetivo:</h4> Solicita al usuario un número entero positivo mayor que 1 a factorizar. <br> El teorema fundamental de la aritmética o teorema de factorización única afirma que todo entero positivo mayor que 1 es un número primo o bien un único producto de números primos. Como la multiplicación es conmutativa, el orden de los factores es irrelevante, por esta razón, usualmente se enuncia el teorema como factorización única salvo en el orden de los factores. <br> <br> <h4>Casos:</h4> 1. n = 16 (factorización 2 2 2 2) <br> 2. n = 12 (factorización 2 2 3). <br> 3. n = 35 (factorización 5 7). <br> 4. n = 100 (factorización 2 2 2 5 5)",
         "inputs": [
             {
-                "name": "n",
+                "name": "numero",
                 "options": [
                     "16",
                     "12",
-                    "35"
+                    "35",
+                    "100"
                 ]
             }
         ]

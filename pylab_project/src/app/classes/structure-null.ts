@@ -190,7 +190,6 @@ export class NullStructure extends Structure {
             const index = collectionAccess[2]
             //caso en que se indexa un string
             if(typeof(variables[value]) == 'string'){
-                console.log("index", index)
                 return variables[value][Number(index)]
             }
             const accessIndex = await this.applyFunctions(index, variables, value)
