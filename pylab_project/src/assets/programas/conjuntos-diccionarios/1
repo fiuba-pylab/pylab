@@ -3,7 +3,6 @@ list1.append('element4')
 aux = list1[1]
 print(f'{aux}')
 for element in list1:
-    print("entra a iteracion")
     print(f"{element}")
 
 tuple1 = (1, 2, 3)

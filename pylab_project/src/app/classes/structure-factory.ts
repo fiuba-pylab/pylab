@@ -49,8 +49,8 @@ function forConfiguration(code:string, variablesService: VariablesService, conte
         }
         variables['ForIteratorVariable'].push(numberValuesCollection - 1)
         //definición de la variable a iterar
-        variables[tempVarName] = []
-        variables[tempVarName].push(collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]])
+        /* variables[tempVarName] = [] */
+        variables[tempVarName] = collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]]//.push(collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]])
         newCondition = 'ForIteratorVariable > 0'
     }
     return {newCondition, collectionInfo}
