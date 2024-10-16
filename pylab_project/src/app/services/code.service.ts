@@ -95,6 +95,8 @@ export class CodeService {
     this.codePathIndex = -1;
     this.maxNext = -1;
     this.behaviorSubjectFunctions.next({});
+    this.behaviorSubjectPrint.next('');
+    this.store.dispatch(actions.resetState());
   }
 
   setPrint(value: string): void {

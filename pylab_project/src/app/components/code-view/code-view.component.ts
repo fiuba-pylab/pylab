@@ -47,7 +47,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if(!this.inputs) return;
     this.codeService.addDialog(this.dialog);
     this.codeService.addInputs(this.inputs);
-    this.codeService.reset()
   }
 
   ngAfterViewInit(): void { 
@@ -76,6 +75,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.editor) {
       if (changes['code']) {
         this.codeService.setLength(this.code.length);
+        this.reset();
         this.coordinator = new Coordinator(this.codeService, this.code, this.variablesService);
         this.editor.setValue(this.code);
         this.updateDecorations();
@@ -178,8 +178,10 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isPaused = true;
     this.isFinished = false;
     clearInterval(this.intervalId);
-    this.coordinator.reset();
     this.codeService.reset();
+    if(this.coordinator){
+      this.coordinator.reset();
+    }
   }
 
   ngOnDestroy(): void {
