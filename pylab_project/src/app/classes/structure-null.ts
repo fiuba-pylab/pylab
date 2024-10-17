@@ -6,6 +6,7 @@ import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Structure } from "./structure";
 import { Tuple } from "./tuple";
+import { Collection } from "./collection";
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -25,6 +26,7 @@ export class NullStructure extends Structure {
 
     override async execute(): Promise<{ amount: number; finish: boolean; }> {
         const variables = this.variablesService!.getVariables(this.context);
+        console.log("variables", variables)
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -35,6 +37,7 @@ export class NullStructure extends Structure {
         const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
+        const collectionIndexing = this.lines[0].match(REGEX_CONSTS.INDEXING_COLLECTION)
         if (variableDeclaration && !print) {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
@@ -90,6 +93,20 @@ export class NullStructure extends Structure {
             if (VALID_OPERATORS.validSubstractOperators.includes(operator)) {
                 variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }
+        }
+        if(collectionIndexing){
+            const collection_index = this.lines[0].split('=')[0]
+            const varnName = collection_index.split('[')[0]
+            let collection:Collection
+            if(collection = variables[varnName]){
+                const values = this.lines[0].split('=')[1]
+                let varValue = evaluate(await this.applyFunctions(values, variables));
+                const index_values = collection_index.split('[')[1].slice(0, -2)
+                const evaluate_index = evaluate(await this.applyFunctions(index_values, variables))
+                collection.insert(evaluate_index, varValue)
+            }
+            
+
         }
 
         if (isReturn) {
@@ -188,8 +205,8 @@ export class NullStructure extends Structure {
         else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
             const value = collectionAccess[1]
             const index = collectionAccess[2]
-            const accessIndex = await this.applyFunctions(index, variables, value)
-            return variables[value].access(accessIndex)
+            const accessIndex = evaluate(await this.applyFunctions(index, variables))
+            return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
         } else {
             return null
         }

@@ -12,4 +12,7 @@ export class Tuple extends Collection{
     override access(index:string){
         return this.values[Number(index)]
     }
+
+    override insert(index:number, value:any){
+    }
 }

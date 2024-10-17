@@ -18,4 +18,8 @@ export class Dictionary extends Collection{
     access(index:string){
         return this.values[index]
     }
+
+    override insert(index:string, value:any){
+        this.values[index] = value
+    }
 }

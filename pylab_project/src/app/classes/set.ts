@@ -12,4 +12,7 @@ export class Set extends Collection{
     override access(index: string): void {
         
     }
+
+    override insert(index:number, value:any){
+    }
 }

@@ -1,5 +1,5 @@
 import { Collection } from "./classes/collection";
-import { REGEX_CONSTS } from "./constants";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "./constants";
 
 export function replaceVariables(template: string, valores: { [clave: string]: any[] }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
@@ -7,10 +7,18 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
         var replacement;
         var collectionDelimiter = ''
         if (valor instanceof Collection) {
-            collectionDelimiter = '|'
+            collectionDelimiter = '%'
             replacement = valor.values
         } else {
-            replacement = typeof valor === 'string' ? `'${valor}'` : valor;
+            if(typeof valor === 'string'){
+                if(`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)){
+                    replacement = 'None'
+                } else {
+                    replacement = `'${valor}'`
+                }
+            } else {
+                replacement = valor
+            }
         }
        
         return resultado.replace(regex, collectionDelimiter + replacement + collectionDelimiter);
@@ -37,6 +45,8 @@ export function evaluate(code: any): any {
         return match_multiply[2].repeat(Number(eval(match_multiply[1])))
     }
 
+    code = code.replace(NATIVE_FUNCTIONS.NONE, "'None'")
+
     const regexMultiplyLetters = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
     
     // Reemplaza multiplicación de letras, evaluando la expresión numérica dentro de los paréntesis
@@ -49,7 +59,11 @@ export function evaluate(code: any): any {
 
     const collection_values = code.match(REGEX_CONSTS.COLLECTION_IDENTIFIER)
     if(collection_values){
-        return code.replace(/,|\|/g, '')
+        let dummy_string = ''
+        for(let el of code.split(',')){
+            dummy_string = dummy_string + 'X'
+        }
+        return dummy_string
     }
 
     const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
