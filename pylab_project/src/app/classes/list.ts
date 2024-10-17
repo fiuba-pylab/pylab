@@ -13,4 +13,9 @@ export class List extends Collection{
     override access(index:string){
         return this.values[Number(index)]
     }
+
+    override print(): string {
+        return '['+this.values+']';
+    }
+
 }

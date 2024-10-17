@@ -12,4 +12,8 @@ export class Set extends Collection{
     override access(index: string): void {
         
     }
+
+    override print(): string {
+        return '('+this.values+')';
+    }
 }
