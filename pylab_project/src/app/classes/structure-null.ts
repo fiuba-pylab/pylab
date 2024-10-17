@@ -203,10 +203,17 @@ export class NullStructure extends Structure {
         }
         //se accede a una colecion
         else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+            
             const value = collectionAccess[1]
             const index = collectionAccess[2]
             const accessIndex = evaluate(await this.applyFunctions(index, variables))
+            //caso en que se indexa un string
+            if(typeof(variables[value]) == 'string'){
+                return variables[value][Number(index)]
+            }
             return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+
+            
         } else {
             return null
         }
