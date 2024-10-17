@@ -30,7 +30,6 @@ export class Coordinator {
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-        //const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/); // cambiar regex para detectar cuando hay algo asi: a = funcion_propia(param) o q busque las keys de funciones en la linea
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
         if(call != null){
             const context = new Context(uuidv4(), this.currentLine, call);
@@ -49,7 +48,6 @@ export class Coordinator {
             if(params != null){
                 const args = params[1].split(',').map((arg: string) => arg.trim());
                 func.setParameters(args);
-                // TODO: ver parametros por nombre
             }
             this.contexts.push(context);
             this.structures.push(func);
@@ -71,7 +69,6 @@ export class Coordinator {
 
     async executePrevious() {
         await this.codeService.getStateFromPreviousLine().then((response: any) => {
-            console.log("response", response);
             if (response.previousState){
                 this.currentLine = response.previousState.currentLine;
                 this.structures = [];
@@ -88,7 +85,6 @@ export class Coordinator {
     }
 
     async executeForward() {
-        console.log("structures", this.structures)
         let prevAmount = 0;
         let lastStructure = null;
         this.analize();

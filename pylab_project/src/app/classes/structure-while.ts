@@ -27,13 +27,13 @@ export class WhileStructure extends Structure{
         if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
             this.currentLine = 1;
             if(this.collectionInfo){
-                const collection = variables[this.collectionInfo.varIteratorName]
-                const collectionIsArray = collection?.values.length
-                const variableForArray = variables['ForIteratorVariable']
+                const collection = variables[this.collectionInfo.varIteratorName];
+                const collectionIsArray = collection?.values.length;
+                const variableForArray = variables['ForIteratorVariable'];
 
-                const inverseActualIndex = Number(variableForArray[variableForArray.length-1])-1
-                //decremento la variables inyterna del for
-                variables['ForIteratorVariable'].push(inverseActualIndex)
+                const inverseActualIndex = Number(variableForArray[variableForArray.length - 1]) - 1;
+                //decremento la variables interna del for
+                variables['ForIteratorVariable'].push(inverseActualIndex);
                 //cambio el valor de la variable a iterar
                 const index = collectionIsArray?(collection.values.length-1 - inverseActualIndex):(Object.keys(collection?.values).length-1 - inverseActualIndex)
                 variables[this.collectionInfo.tempVarName] = collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]]

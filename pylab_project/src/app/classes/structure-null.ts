@@ -103,8 +103,6 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService!.setVariables(this.context, variables);
-
-        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 
@@ -157,35 +155,30 @@ export class NullStructure extends Structure {
     async matchCollection(varValue: string, variables: any, collectionName: string) {
         let varMatch;
         let collectionAccess;
-        //se crea una lista
+    
         if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
-            console.log("se crea lista")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new List(values)
-
-            // se crea diccioario
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new List(values);
         } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
-            const dictionaryElements = varMatch[1].split(', ')
+            const dictionaryElements = varMatch[1].split(', ');
             const dictionary = new Dictionary();
             let element;
             for (element of dictionaryElements) {
-                dictionary.add(element.toString())
+                dictionary.add(element.toString());
             }
-            return dictionary
-
-            //se crea un set
+            return dictionary;
         } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
-            console.log("se crea set")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new Set(values)
-            //se crea una tupla
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new Set(values);
         } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
-            console.log("se crea tupla")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new Tuple(values)
-        }
-        //se accede a una colecion
-        else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new Tuple(values);
+        } else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+            const value = collectionAccess[1];
+            const index = collectionAccess[2];
+            const accessIndex = await this.applyFunctions(index, variables, value);
+            return variables[value].access(accessIndex);
+        }else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
             const value = collectionAccess[1]
             const index = collectionAccess[2]
             //caso en que se indexa un string
@@ -195,7 +188,7 @@ export class NullStructure extends Structure {
             const accessIndex = await this.applyFunctions(index, variables, value)
             return variables[value].access(accessIndex)
         } else {
-            return null
+            return null;
         }
 
     }
@@ -206,13 +199,11 @@ export class NullStructure extends Structure {
 
     applyOperation(variableValue: number, operator: Operator, value: number): number {
         if (operator in operations) {
-            console.log("entra")
             return operations[operator](variableValue, value);
         } else {
             throw new Error('Operador no soportado');
         }
     }
-
 
     async evaluateExpression(expression: string, varName?: string): Promise<string> {
         let previousExpression;

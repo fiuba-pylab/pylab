@@ -5,10 +5,9 @@ export class Dictionary extends Collection{
         super()
         this.values = {}
     }
+    
     override add(element:string){
-        console.log("elements",element)
         const components = element.split(": ")
-        console.log("components", components) 
         this.values[components[0]] = components[1]
     }
 
