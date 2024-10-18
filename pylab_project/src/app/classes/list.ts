@@ -14,6 +14,9 @@ export class List extends Collection{
         return this.values[Number(index)]
     }
 
+    override insert(index:number, value:any){
+        this.values[index] = value
+    }
     override print(): string {
         return '['+this.values+']';
     }

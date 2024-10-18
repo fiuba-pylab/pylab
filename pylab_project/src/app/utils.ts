@@ -1,17 +1,27 @@
 import { Collection } from "./classes/collection";
-import { REGEX_CONSTS } from "./constants";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "./constants";
 
 export function replaceVariables(template: string, valores: { [clave: string]: any[] }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
         var replacement;
+        var collectionDelimiter = ''
         if (valor instanceof Collection) {
-            replacement = valor.values;
+            collectionDelimiter = '%'
+            replacement = valor.values
         } else {
-            replacement = typeof valor === 'string' ? `'${valor}'` : valor;
+            if(typeof valor === 'string'){
+                if(`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)){
+                    replacement = 'None'
+                } else {
+                    replacement = `'${valor}'`
+                }
+            } else {
+                replacement = valor
+            }
         }
        
-        return resultado.replace(regex, replacement);
+        return resultado.replace(regex, collectionDelimiter + replacement + collectionDelimiter);
     }, template);
 }
 function escapeRegExp(string: string): string {
@@ -34,12 +44,24 @@ export function evaluate(code: any): any {
     if(match_multiply){
         return match_multiply[2].repeat(Number(eval(match_multiply[1])))
     }
+
+    code = code.replace(NATIVE_FUNCTIONS.NONE, "'None'")
+
+    const regexMultiplyLetters = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
     
     code = code.replace(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS, (match: any, expr: string, letter: string) => {
         const number = eval(expr.trim());
         return `'${letter.repeat(number)}'`;
     });
 
+    const collection_values = code.match(REGEX_CONSTS.COLLECTION_IDENTIFIER)
+    if(collection_values){
+        let dummy_string = ''
+        for(let el of code.split(',')){
+            dummy_string = dummy_string + 'X'
+        }
+        return dummy_string
+    }
 
     const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
     if (match) {

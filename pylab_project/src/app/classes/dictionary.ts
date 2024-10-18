@@ -18,6 +18,10 @@ export class Dictionary extends Collection{
         return this.values[index]
     }
 
+    override insert(index:string, value:any){
+        this.values[index] = value
+    }
+
     override print(): string {
         const cleanedValues = Object.fromEntries(
           Object.entries(this.values).map(([key, value]) => [

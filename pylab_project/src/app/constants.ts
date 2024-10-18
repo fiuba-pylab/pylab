@@ -19,6 +19,8 @@ const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
 const REGEX_MULTIPLY_LETTERS = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
 const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
 const REGEX_PRINT_END = /,\s*end=\s*(['"][^'"]*['"]|['"]?)/g;
+const COLLECTION_IDENTIFIER = /\%.*?\%/
+const INDEXING_COLLECTION = /^\w+\[.*\]/
 const REGEX_DIVISION = /(\d+)\s*\/\/\s*(\d+)/;
 const REGEX_EXPONENT = /(\d+(?:\.\d+)?)\s*\*\*\s*(\d+(?:\.\d+)?)/;
 
@@ -39,6 +41,8 @@ const MATH_ASIN = 'math.asin';
 const MATH_LOG10 = 'math.log10';
 const PRINT = 'print';
 const INPUT = 'input';
+const RANGE = 'range';
+const NONE = /None/g
 
 const validAddOperators = ['append', 'add'];
 const validSubstractOperators = ['remove', 'discard'];
@@ -65,6 +69,8 @@ export const REGEX_CONSTS = {
     REAL,
     REGEX_PRINT_END,
     REGEX_MULTIPLY_LETTERS,
+    COLLECTION_IDENTIFIER,
+    INDEXING_COLLECTION,
     REGEX_DIVISION,
     REGEX_EXPONENT
 };
@@ -89,6 +95,8 @@ export const NATIVE_FUNCTIONS = {
     MATH_LOG10, 
     PRINT, 
     INPUT,
+    RANGE,
+    NONE
 };
 
 export const VALID_OPERATORS = {
