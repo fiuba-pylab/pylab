@@ -69,6 +69,14 @@ export class IfStructure extends Structure{
     
         this.currentLine += amountToAdd ?? 0;
 
+        if(this.elifIndex >= this.elifs.length && this.checkElifs){
+            this.checkElifs = false;
+            this.enterElif = false;
+            if(this.elseLines.length > 0){
+                this.checkElse = true;
+            }
+        }
+
         if(this.checkElifs){
             var totalLength = 0;
             for (let index = 0; index < this.elifIndex; index++) {
