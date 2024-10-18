@@ -17,4 +17,8 @@ export class List extends Collection{
     override insert(index:number, value:any){
         this.values[index] = value
     }
+    override print(): string {
+        return '['+this.values+']';
+    }
+
 }

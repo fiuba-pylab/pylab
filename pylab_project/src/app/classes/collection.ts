@@ -11,5 +11,7 @@ export abstract class Collection{
     abstract access(index:string):void
 
     abstract insert(index: number | string, value:any):void
+
+    abstract print():string
 }
 

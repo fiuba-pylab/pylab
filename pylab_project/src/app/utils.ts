@@ -49,11 +49,8 @@ export function evaluate(code: any): any {
 
     const regexMultiplyLetters = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
     
-    // Reemplaza multiplicación de letras, evaluando la expresión numérica dentro de los paréntesis
-    code = code.replace(regexMultiplyLetters, (match: any, expr: string, letter: string) => {
-        // Evalúa la expresión matemática (unidad-5) dentro de los paréntesis
+    code = code.replace(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS, (match: any, expr: string, letter: string) => {
         const number = eval(expr.trim());
-        // Repite la letra tantas veces como el resultado de la expresión
         return `'${letter.repeat(number)}'`;
     });
 
@@ -72,18 +69,16 @@ export function evaluate(code: any): any {
         return collection.split(',').map((num: string) => parseInt(num)).includes(parseInt(number));
     }
 
-    const divisionRegex = /(\d+)\s*\/\/\s*(\d+)/;
-    while (divisionRegex.test(code)) {
-        code = code.replace(divisionRegex, (match: any, num1: string, num2: string) => {
+    while (REGEX_CONSTS.REGEX_DIVISION.test(code)) {
+        code = code.replace(REGEX_CONSTS.REGEX_DIVISION, (match: any, num1: string, num2: string) => {
             const result = Math.floor(parseInt(num1) / parseInt(num2));
-            return result.toString(); // Replace with the result
+            return result.toString();
         });
     }
-
-    const exponentRegex = /(\d+)\s*\*\*\s*(\d+)/;
-    while (exponentRegex.test(code)) {
-        code = code.replace(exponentRegex, (match: any, num1: string, num2: string) => {
-            const result = Math.pow(parseInt(num1), parseInt(num2));
+   
+    while (REGEX_CONSTS.REGEX_EXPONENT.test(code)) {
+        code = code.replace(REGEX_CONSTS.REGEX_EXPONENT, (match: any, num1: string, num2: string) => {
+            const result = Math.pow(parseFloat(num1), parseFloat(num2));
             return result.toString();
         });
     }
@@ -91,8 +86,8 @@ export function evaluate(code: any): any {
     if(code.match(REGEX_CONSTS.IMAGINARY)){
         return complex_evaluation(code)
     }
+
     try {
-        console.log("code", code)
         return eval(code);
     } catch (e) {
         console.error(e);

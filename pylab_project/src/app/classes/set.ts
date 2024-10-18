@@ -13,6 +13,11 @@ export class Set extends Collection{
         
     }
 
-    override insert(index:number, value:any){
+
+    override insert(index:number, value:any){}
+    
+    override print(): string {
+        return '('+this.values+')';
+
     }
 }

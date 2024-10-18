@@ -13,6 +13,11 @@ export class Tuple extends Collection{
         return this.values[Number(index)]
     }
 
-    override insert(index:number, value:any){
+
+    override insert(index:number, value:any){}
+
+    override print(): string {
+        return '('+this.values+')';
+
     }
 }
