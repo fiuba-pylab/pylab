@@ -66,14 +66,22 @@ export class IfStructure extends Structure{
                 }
             }
         }
-    
+
+        if(this.elifIndex >= this.elifs.length && this.checkElifs){
+            this.checkElifs = false;
+            this.enterElif = false;
+            if(this.elseLines.length > 0){
+                this.checkElse = true;
+            }
+        }
+
         this.currentLine += amountToAdd ?? 0;
 
+        var totalLength = 0;
+        for (let index = 0; index < this.elifIndex; index++) {
+            totalLength += (this.elifs[index].lines.length + 1);
+        }
         if(this.checkElifs){
-            var totalLength = 0;
-            for (let index = 0; index < this.elifIndex; index++) {
-                totalLength += (this.elifs[index].lines.length + 1);
-            }
             if(this.currentLine > totalLength + this.lines.length && this.currentLine <= this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length + 1){
                 return {amount: 0, finish: false};
             }else if(this.currentLine > this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length){ // termine de ejecutar elif que estaba
@@ -104,7 +112,7 @@ export class IfStructure extends Structure{
         }
 
         // No se cumplió la condición del if y ya ejecuté todo lo de adentro del else
-        if(this.currentLine > this.lines.length + this.elseLines.length && this.checkElse){
+        if(this.currentLine > this.lines.length + this.elseLines.length + totalLength && this.checkElse){
             return {amount: 0, finish: true};
         }
 
@@ -114,7 +122,7 @@ export class IfStructure extends Structure{
         }
 
         // Estoy ejecutando lo de adentro del else
-        if(this.currentLine > this.lines.length+1 && this.currentLine <= this.lines.length + this.elseLines.length && this.checkElse){
+        if(this.currentLine > this.lines.length + totalLength + 1 && this.currentLine <= this.lines.length + this.elseLines.length + totalLength && this.checkElse){
             return {amount: 0, finish: false};
         }
 
