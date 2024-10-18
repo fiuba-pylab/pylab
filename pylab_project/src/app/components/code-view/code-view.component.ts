@@ -122,6 +122,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       }] : [];
       this.decorationsCollection.clear()      
       this.decorationsCollection.set(newDecorations)
+      this.editor.revealLineInCenter(this.highlightLine);
     }    
   }
 
@@ -130,7 +131,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       if(!this.started){
         this.started = true;
       }
-      this.coordinator.executeForward();
+      await this.coordinator.executeForward();
     }    
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
@@ -138,12 +139,15 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  previousLine() {
+  async previousLine() {
     if(this.isFinished){
       this.isFinished = false;
     }
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.executePrevious();
+      await this.coordinator.executePrevious();
+    }
+    if(this.highlightLine == 1){
+      this.started = false;
     }
   }
 
