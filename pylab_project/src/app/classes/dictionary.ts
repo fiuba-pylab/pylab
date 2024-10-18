@@ -17,4 +17,15 @@ export class Dictionary extends Collection{
     access(index:string){
         return this.values[index]
     }
+
+    override print(): string {
+        const cleanedValues = Object.fromEntries(
+          Object.entries(this.values).map(([key, value]) => [
+            key.replace(/^"|"$/g, ''),  
+            (value as string).replace(/^"|"$/g, '') 
+          ])
+        );
+        return JSON.stringify(cleanedValues);
+    }
+      
 }

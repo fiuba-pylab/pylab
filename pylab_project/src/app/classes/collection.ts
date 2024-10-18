@@ -9,5 +9,7 @@ export abstract class Collection{
     abstract substract(element?:any):void
 
     abstract access(index:string):void
+
+    abstract print():string
 }
 
