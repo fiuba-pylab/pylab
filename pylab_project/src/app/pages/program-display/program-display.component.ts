@@ -55,7 +55,7 @@ export class ProgramDisplayComponent implements OnInit {
     const dialogRef = this.dialog.open(ProgramIntroModalComponent,{
       data: {
         program
-      },
+      }
     });
   }
 
