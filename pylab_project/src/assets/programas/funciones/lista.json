@@ -219,6 +219,50 @@
                 ]
             }
         ]
-
+    },
+    {
+        "id": 10,
+        "title": "Sucesiones Alícuotas",
+        "description": "Sucesiones Alícuotas",
+        "difficulty": 5,
+        "introduction": "<h4>Objetivos:</h4> <br> <h5>Del programa:</h5> Solicitar al usuario números naturales mayores que 1 hasta que ingrese 0, para cada número (excepto para el 0) imprimir su sucesión alícuota, y, según el último término calculado de la sucesión, imprimir qué tipo de sucesión es. <br> <br> <h5>De las funciones:</h5> &bull; Función suma_divisores: Devuelve la suma de divisores propios del número. <br> &bull; Función alicuota: Muestra número como origen de su sucesión alícuota y los términos de esta sucesión, y al final clasifica número o aclara si la sucesión termina en 1 o si se corta por tener más de 28 términos abundantes. <br> <br> <h4>Casos: </h4> 1. 496 es perfecto. <br> 2. 220 284 son amigos <br> 3. 12496 14288 15472 14536 14264 son socios <br> 4. 95 25 6 - 95 es ambicioso. <br> 5. 4274 2140 2396 1804 1724 1300 1738 1142 574 434 334 170 154 134 70 74 40 50 43 1 es finita. <br> 6. Más de 28 términos se presume infinita.",
+        "inputs":[
+            {
+                "name": "natural",
+                "options": [
+                    "496",
+                    "220",
+                    "284",
+                    "12496",
+                    "14288",
+                    "15472",
+                    "14536",
+                    "14264",
+                    "95",
+                    "25",
+                    "6",
+                    "4274",
+                    "2140",
+                    "2396",
+                    "1804",
+                    "1724",
+                    "1300",
+                    "1738",
+                    "1142",
+                    "574",
+                    "434",
+                    "334",
+                    "170",
+                    "154",
+                    "134",
+                    "70",
+                    "74",
+                    "40",
+                    "50",
+                    "43",
+                    "0"
+                ]
+            }
+        ]
     }
 ]
