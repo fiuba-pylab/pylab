@@ -153,5 +153,72 @@
                 ]
             }
         ]
+    },
+    {
+        "id": 7,
+        "title": "Exponencial secuencial",
+        "description": "Exponencial secuencial",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y calcular valores de la función exponencial para ese número, de forma secuencial por serie de Maclaurin. Se suman términos de la serie de Maclaurin mientras sus valores absolutos sean mayores que 10<sup>(-12)</sup>, es decir, mientras afecten al resultado hasta el duodécimo dígito significativo. <br> <br> <h4>Casos:</h4> 1. 1 = 2,718281828459 <br> 2. 0,5 = 1,648721270700. <br> 3. 0,2 = 1,221402758160 <br> 4. 0,1 = 1,105170918076 <br> 5. -0,1 = 0,904837418036 <br> 6. -0,2 = 0,818730753078 <br> 7. 2 = 7,389056098930",
+        "inputs": [
+            {
+                "name": "x",
+                "options": [
+                    "0",
+                    "1",
+                    "0.5",
+                    "0.2",
+                    "0.1",
+                    "-0.1",
+                    "-0.2",
+                    "2"
+                ]
+            }
+        ] 
+    },
+    {
+        "id": 8,
+        "title": "Exponencial recursiva",
+        "description": "Exponencial recursiva",
+        "difficulty": 5,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y calcular valores de la función exponencial para ese número, de forma recursiva. Se calcula la exponencial de x sumando términos de la serie de Maclaurin mientras sus valores absolutos sean mayores que 10<sup>(-12)</sup>, es decir, mientras afecten al resultado hasta el duodécimo dígito significativo. <br> <br> <h4>Casos:</h4> 1. 1 = 2,718281828459 <br> 2. 0,5 = 1,648721270700. <br> 3. 0,2 = 1,221402758160 <br> 4. 0,1 = 1,105170918076 <br> 5. -0,1 = 0,904837418036 <br> 6. -0,2 = 0,818730753078 <br> 7. 2 = 7,389056098930",
+        "inputs": [
+            {
+                "name": "x",
+                "options": [
+                    "0",
+                    "1",
+                    "0.5",
+                    "0.2",
+                    "0.1",
+                    "-0.1",
+                    "-0.2",
+                    "2"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Exponencial recursiva 2 (optimizada)",
+        "description": "Exponencial recursiva 2 (optimizada)",
+        "difficulty": 5,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y calcular valores de la función exponencial para ese número, de forma recursiva optimizada por serie de Maclaurin b<sup>x</sup> = (b<sup>x/2</sup> * b<sup>x/2</sup>). <br> <br> <h4>Casos:</h4> 1. 1 = 2,718281828459 <br> 2. 0,5 = 1,648721270700. <br> 3. 0,2 = 1,221402758160 <br> 4. 0,1 = 1,105170918076 <br> 5. -0,1 = 0,904837418036 <br> 6. -0,2 = 0,818730753078 <br> 7. 2 = 7,389056098930",
+        "inputs": [
+            {
+                "name": "x",
+                "options": [
+                    "0",
+                    "1",
+                    "0.5",
+                    "0.2",
+                    "0.1",
+                    "-0.1",
+                    "-0.2",
+                    "2"
+                ]
+            }
+        ]
+
     }
 ]
