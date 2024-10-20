@@ -19,10 +19,22 @@
     },
     {
         "id": 2,
-        "title": "Números romanos a decimal",
-        "description": "Recibe un número romano y lo convierte a decimal.",
-        "difficulty": 2,
-        "introduction": "Objetivo: Se recibe un string representando el número romano válido, con 1, 5, 10, 50, 100, 500, 1000 reemplazando I, V, X, L, C, D, M respectivamente"
+        "title": "Números felices",
+        "description": "Números felices",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número positivo mayor a 1 y buscar el primer número feliz a partir del mismo. Un número es feliz si la sucesión que lo tiene como origen en la que cada término es igual a la suma de cuadrados de las cifras del término anterior llega a un término igual a 1. Si la sucesión no llega a 1, siempre llega a un término que inicia un período de 8, a partir de cualquiera de los valores 4, 16, 37, 58, 89, 145, 42 o 20, en cuyo caso el número origen se dice infeliz o triste. <br> <br> <h4>Casos:</h4> 1. 7 es feliz. <br> 2. 9 no es feliz. <br> 3. 19 es feliz. <br> 4. 23 es feliz. <br> 5. 4 no es feliz.",
+        "inputs": [
+            {
+                "name": "n",
+                "options": [
+                    "7",
+                    "9",
+                    "19",
+                    "23",
+                    "4"
+                ]
+            }
+        ]
     },
     {
         "id": 3,
