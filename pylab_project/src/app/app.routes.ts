@@ -6,6 +6,15 @@ export const routes: Routes = [
         loadComponent: () => import('./layout/layout.component').then((m) => m.LayoutComponent),
         children: [
             { 
+                path: '', 
+                redirectTo: 'intro',
+                pathMatch: 'full'
+            },
+            { 
+                path: 'intro', 
+                loadComponent: () => import('./pages/intro/intro.component').then((m) => m.IntroComponent)
+            },
+            { 
                 path: 'home', 
                 loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
             },
