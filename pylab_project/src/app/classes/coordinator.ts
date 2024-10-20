@@ -91,8 +91,17 @@ export class Coordinator {
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure : Structure = this.structures[i];
             const result = await structure.execute(prevAmount);
-            if (result.finish && structure == this.structures[this.structures.length - 1]) {
-                lastStructure = this.structures.pop();
+            if (result.finish) {
+                if(structure == this.structures[this.structures.length - 1]){
+                    lastStructure = this.structures.pop();
+                }else if(structure.isFunction() && structure != this.structures[this.structures.length - 1]){
+                    let j = this.structures.length - 1;
+                    while(j >= 0 && !this.structures[j].isFunction() && this.structures[j] != structure){
+                        this.structures.pop();
+                        j--;
+                    }
+                    lastStructure = this.structures.pop();
+                }
                 if(this.executingFunction && structure.isFunction()){
                     const lastContext = this.contexts.pop();
                     this.codeService.goToLine(lastContext!.getCallLine() + 1, this);
