@@ -6,6 +6,7 @@ import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Structure } from "./structure";
 import { Tuple } from "./tuple";
+import { Collection } from "./collection";
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
@@ -25,6 +26,7 @@ export class NullStructure extends Structure {
 
     override async execute(): Promise<{ amount: number; finish: boolean; }> {
         const variables = this.variablesService!.getVariables(this.context);
+        console.log("variables", variables)
         this.lines[0] = this.lines[0].trim();
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
@@ -35,6 +37,7 @@ export class NullStructure extends Structure {
         const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
+        const collectionIndexing = this.lines[0].match(REGEX_CONSTS.INDEXING_COLLECTION)
         if (variableDeclaration && !print) {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
@@ -91,6 +94,20 @@ export class NullStructure extends Structure {
                 variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }
         }
+        if(collectionIndexing){
+            const collection_index = this.lines[0].split('=')[0]
+            const varnName = collection_index.split('[')[0]
+            let collection:Collection
+            if(collection = variables[varnName]){
+                const values = this.lines[0].split('=')[1]
+                let varValue = evaluate(await this.applyFunctions(values, variables));
+                const index_values = collection_index.split('[')[1].slice(0, -2)
+                const evaluate_index = evaluate(await this.applyFunctions(index_values, variables))
+                collection.insert(evaluate_index, varValue)
+            }
+            
+
+        }
 
         if (isReturn) {
             let values = isReturn[1].split(',').map((value: string) => value.trim());
@@ -103,8 +120,6 @@ export class NullStructure extends Structure {
             }
         }
         this.variablesService!.setVariables(this.context, variables);
-
-        //  this.codeService.updateVariables(this.variables);
         return { amount: 1, finish: true };
     }
 
@@ -157,45 +172,38 @@ export class NullStructure extends Structure {
     async matchCollection(varValue: string, variables: any, collectionName: string) {
         let varMatch;
         let collectionAccess;
-        //se crea una lista
+    
         if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
-            console.log("se crea lista")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new List(values)
-
-            // se crea diccioario
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new List(values);
         } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
-            const dictionaryElements = varMatch[1].split(', ')
+            const dictionaryElements = varMatch[1].split(', ');
             const dictionary = new Dictionary();
             let element;
             for (element of dictionaryElements) {
-                dictionary.add(element.toString())
+                dictionary.add(element.toString());
             }
-            return dictionary
-
-            //se crea un set
+            return dictionary;
         } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
-            console.log("se crea set")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new Set(values)
-            //se crea una tupla
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new Set(values);
         } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
-            console.log("se crea tupla")
-            const values = varValue.slice(1, varValue.length - 1).split(', ')
-            return new Tuple(values)
-        }
-        //se accede a una colecion
-        else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+
+            const values = varValue.slice(1, varValue.length - 1).split(', ');
+            return new Tuple(values);
+        } else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
             const value = collectionAccess[1]
             const index = collectionAccess[2]
+            const accessIndex = evaluate(await this.applyFunctions(index, variables))
             //caso en que se indexa un string
             if(typeof(variables[value]) == 'string'){
                 return variables[value][Number(index)]
             }
-            const accessIndex = await this.applyFunctions(index, variables, value)
-            return variables[value].access(accessIndex)
+            return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+
+            
         } else {
-            return null
+            return null;
         }
 
     }
@@ -206,13 +214,11 @@ export class NullStructure extends Structure {
 
     applyOperation(variableValue: number, operator: Operator, value: number): number {
         if (operator in operations) {
-            console.log("entra")
             return operations[operator](variableValue, value);
         } else {
             throw new Error('Operador no soportado');
         }
     }
-
 
     async evaluateExpression(expression: string, varName?: string): Promise<string> {
         let previousExpression;

@@ -63,7 +63,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   loadSelects():void{
     for(let {name, type, form} of this.forms){
       let option = this.parseOption(form.value, type);
-      console.log(name, option, type)
       if (option === null) {
         return ;
       }
@@ -113,7 +112,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private updateDecorations(): void {
-    if (this.editor && this.decorationsCollection) {          
+    if (this.editor && this.decorationsCollection && !this.isFinished) {          
       const newDecorations = this.highlightLine !== null ? [{
         range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
@@ -123,6 +122,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       }] : [];
       this.decorationsCollection.clear()      
       this.decorationsCollection.set(newDecorations)
+      this.editor.revealLineInCenter(this.highlightLine);
     }    
   }
 
@@ -131,19 +131,23 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       if(!this.started){
         this.started = true;
       }
-      this.coordinator.executeForward();
+      await this.coordinator.executeForward();
     }    
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
+      this.decorationsCollection?.clear();
     }
   }
 
-  previousLine() {
+  async previousLine() {
     if(this.isFinished){
       this.isFinished = false;
     }
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.executePrevious();
+      await this.coordinator.executePrevious();
+    }
+    if(this.highlightLine == 1){
+      this.started = false;
     }
   }
 
