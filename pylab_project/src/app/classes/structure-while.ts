@@ -49,7 +49,7 @@ export class WhileStructure extends Structure{
             this.currentLine += amountToAdd ?? 0;
             return {amount: 0, finish: false};
         }
-        if(eval(condition_replaced)){
+        if(evaluate(condition_replaced)){
             this.currentLine++;
             return {amount: 1, finish: false};
         }
