@@ -53,8 +53,9 @@ export class NullStructure extends Structure {
         if (operations) {
             const variable = operations[1];
             const operator = operations[2];
-            const value = operations[3];
-            variables[variable] = this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(replaceVariables(value, variables)));
+            let value = operations[3];
+            value = await this.applyFunctions(value, variables);
+            variables[variable] = this.applyOperation(Number(replaceVariables(variable, variables)), operator, Number(evaluate(value)));
         }
         if (print) {
             let value = print[1]
