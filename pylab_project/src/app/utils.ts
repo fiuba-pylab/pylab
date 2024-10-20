@@ -93,10 +93,6 @@ export function evaluate(code: any): any {
     try {
         return eval(code);
     } catch (e) {
-        const collection = matchCollection(code)
-        if(collection && !code.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
-            return collection
-        } 
         console.error(e);
         return code;
     }
@@ -109,35 +105,4 @@ function complex_evaluation(code:string){
     return real_part + ` ${imaginary[0][0]} ` + imaginary_part + 'i'
 }
 
-export function matchCollection(varValue: string, variables?:any) {
-    let varMatch;
-    if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
-        const values:any = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
-        for(let i = 0; i<values.length; i++){
-            let variable;
-            if(variables && (variable = variables[values[i]])){
-                values[i] = variable
-            }
-            
-        }
-        return new List(values);
-    } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
-        const dictionaryElements = varMatch[1].replace(', ', ',').split(',');
-        const dictionary = new Dictionary();
-        let element;
-        for (element of dictionaryElements) {
-            dictionary.add(element.toString());
-        }
-        return dictionary;
-    } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
-        const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
-        return new Set(values);
-    } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
-        const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
-        return new Tuple(values);
-    }  else {
-        return null;
-    }
-
-}
 

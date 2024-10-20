@@ -1,7 +1,7 @@
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constants";
-import { evaluate, replaceVariables, matchCollection } from "../utils";
+import { evaluate, replaceVariables } from "../utils";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Structure } from "./structure";
@@ -190,12 +190,34 @@ export class NullStructure extends Structure {
         if(variable && variable instanceof Collection){
             varValue = variable.values
         }
-        const result = matchCollection(varValue, variables)
-        if(result){
-            return result
+        let varMatch;
+        if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
+            const values:any = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
+            for(let i = 0; i<values.length; i++){
+                let variable;
+                if(variables && (variable = variables[values[i]])){
+                    values[i] = variable
+                }
+                
+            }
+            return new List(values);
+        } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
+            const dictionaryElements = varMatch[1].replace(', ', ',').split(',');
+            const dictionary = new Dictionary();
+            let element;
+            for (element of dictionaryElements) {
+                dictionary.add(element.toString());
+            }
+            return dictionary;
+        } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
+            const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+            return new Set(values);
+        } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
+            const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+            return new Tuple(values);
+        }  else {
+            return null;
         }
-   
-        return null;
 
 
     }
