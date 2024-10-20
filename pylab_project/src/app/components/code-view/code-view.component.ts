@@ -181,6 +181,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isRunning = false;
     this.isPaused = true;
     this.isFinished = false;
+    this.previousActivated = false;
     clearInterval(this.intervalId);
     this.codeService.reset();
     if(this.coordinator){
