@@ -29,7 +29,7 @@ button:hover {
 /* For WebKit-based browsers (Chrome, Safari, newer versions of Edge) */
 @supports (-webkit-appearance:none) {
 	*::-webkit-scrollbar {
-		width: 10px;
+		width: 5px;
 	}
 
 	*::-webkit-scrollbar-track {
