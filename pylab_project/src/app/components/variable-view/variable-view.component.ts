@@ -39,7 +39,6 @@ export class VariableViewComponent {
 
   getVariableValues(context: Context, key: string): any {
     const dictionary = this.contexts.get(context);
-    console.log(dictionary);
   
     if (dictionary) {
       const value = dictionary[key];

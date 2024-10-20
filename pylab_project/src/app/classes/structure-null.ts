@@ -1,7 +1,7 @@
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS, VALID_OPERATORS } from "../constants";
-import { evaluate, replaceVariables } from "../utils";
+import { evaluate, replaceVariables, matchCollection } from "../utils";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Structure } from "./structure";
@@ -42,7 +42,7 @@ export class NullStructure extends Structure {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2])
-
+           
             if (!collection) {
                 variables[varName] = evaluate(varValue);
             } else {
@@ -139,6 +139,9 @@ export class NullStructure extends Structure {
             case NATIVE_FUNCTIONS.INT:
                 return String(parseInt(evalArgs));
             case NATIVE_FUNCTIONS.LEN:
+                if(evalArgs instanceof Collection){
+                    return String(evalArgs.values.length)
+                }
                 return String((evalArgs as string).length);
             case NATIVE_FUNCTIONS.STR:
                 return String(evalArgs);
@@ -170,28 +173,8 @@ export class NullStructure extends Structure {
     }
 
     async matchCollection(varValue: string, variables: any, collectionName: string) {
-        let varMatch;
         let collectionAccess;
-    
-        if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
-            const values = varValue.slice(1, varValue.length - 1).split(', ');
-            return new List(values);
-        } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
-            const dictionaryElements = varMatch[1].split(', ');
-            const dictionary = new Dictionary();
-            let element;
-            for (element of dictionaryElements) {
-                dictionary.add(element.toString());
-            }
-            return dictionary;
-        } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
-            const values = varValue.slice(1, varValue.length - 1).split(', ');
-            return new Set(values);
-        } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
-
-            const values = varValue.slice(1, varValue.length - 1).split(', ');
-            return new Tuple(values);
-        } else if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
+        if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
             const value = collectionAccess[1]
             const index = collectionAccess[2]
             const accessIndex = evaluate(await this.applyFunctions(index, variables))
@@ -202,9 +185,18 @@ export class NullStructure extends Structure {
             return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
 
             
-        } else {
-            return null;
         }
+        const variable = variables[varValue]
+        if(variable && variable instanceof Collection){
+            varValue = variable.values
+        }
+        const result = matchCollection(varValue, variables)
+        if(result){
+            return result
+        }
+   
+        return null;
+
 
     }
 
@@ -256,8 +248,11 @@ export class NullStructure extends Structure {
         return value;
     }
 
-    replaceVariablesInPrint(template: string, valores: { [clave: string]: string }): string {
+    replaceVariablesInPrint(template: string, valores: { [clave: string]: any }): string {
         return Object.entries(valores).reduce((resultado, [clave, valor]) => {
+            if(valor instanceof Collection){
+                valor = valor.values
+            }
             const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
             return resultado.replace(regex, valor);
         }, template);

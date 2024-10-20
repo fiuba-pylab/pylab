@@ -1,15 +1,26 @@
 import { Collection } from "./classes/collection";
+import { Dictionary } from "./classes/dictionary";
+import { List } from "./classes/list";
+import { Tuple } from "./classes/tuple";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "./constants";
 
 export function replaceVariables(template: string, valores: { [clave: string]: any[] }): string {
+
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
         var replacement;
-        var collectionDelimiter = ''
-        if (valor instanceof Collection) {
-            collectionDelimiter = '%'
+        let leftCollectionDelimeter = ''
+        let rightCollectionDelimeter = ''
+        if (valor instanceof List) {
+            leftCollectionDelimeter = '['
+            rightCollectionDelimeter = ']'
             replacement = valor.values
-        } else {
+        }else if(valor instanceof Dictionary){
+            leftCollectionDelimeter = '{'
+            rightCollectionDelimeter = '}'
+        } else if (valor instanceof Tuple) {
+            replacement = `${clave}`
+        } else{
             if(typeof valor === 'string'){
                 if(`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)){
                     replacement = 'None'
@@ -21,7 +32,7 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
             }
         }
        
-        return resultado.replace(regex, collectionDelimiter + replacement + collectionDelimiter);
+        return resultado.replace(regex, leftCollectionDelimeter + replacement + rightCollectionDelimeter);
     }, template);
 }
 function escapeRegExp(string: string): string {
@@ -53,15 +64,7 @@ export function evaluate(code: any): any {
         const number = eval(expr.trim());
         return `'${letter.repeat(number)}'`;
     });
-
-    const collection_values = code.match(REGEX_CONSTS.COLLECTION_IDENTIFIER)
-    if(collection_values){
-        let dummy_string = ''
-        for(let el of code.split(',')){
-            dummy_string = dummy_string + 'X'
-        }
-        return dummy_string
-    }
+    
 
     const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
     if (match) {
@@ -90,6 +93,10 @@ export function evaluate(code: any): any {
     try {
         return eval(code);
     } catch (e) {
+        const collection = matchCollection(code)
+        if(collection && !code.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)){
+            return collection
+        } 
         console.error(e);
         return code;
     }
@@ -100,5 +107,37 @@ function complex_evaluation(code:string){
     const real_part = eval(code.replace(imaginary[0], ''))
     const imaginary_part = eval(code.replace(REGEX_CONSTS.REAL, '').replace('i',''))
     return real_part + ` ${imaginary[0][0]} ` + imaginary_part + 'i'
+}
+
+export function matchCollection(varValue: string, variables?:any) {
+    let varMatch;
+    if (varValue.match(REGEX_CONSTS.REGEX_LIST)) {
+        const values:any = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
+        for(let i = 0; i<values.length; i++){
+            let variable;
+            if(variables && (variable = variables[values[i]])){
+                values[i] = variable
+            }
+            
+        }
+        return new List(values);
+    } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
+        const dictionaryElements = varMatch[1].replace(', ', ',').split(',');
+        const dictionary = new Dictionary();
+        let element;
+        for (element of dictionaryElements) {
+            dictionary.add(element.toString());
+        }
+        return dictionary;
+    } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
+        const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+        return new Set(values);
+    } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
+        const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+        return new Tuple(values);
+    }  else {
+        return null;
+    }
+
 }
 

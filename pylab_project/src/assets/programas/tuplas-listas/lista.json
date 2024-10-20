@@ -42,5 +42,49 @@
                 ]
             }
         ]
+    },
+    {
+        "id":3,
+        "title":"Distancia",
+        "description": "Se recibe dos puntos de coordenadas x e y, y se calcula la distancia entre ellos y la recta que los une.",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Dado dos puntos en el plano caracterizados por sus coordenadas, se calcula la distancia entre ellos y los datos de la recta que une a ambos.<h4>Casos:</h4><br>(5, 8), (-3, 10), (-2, -7), (1, -1), (6, 6), (-21, 11), (0, -3), (0, 0)",
+        "inputs":[
+            {
+                "name":"p1",
+                "options":[
+                    "5, 8",
+                    "-3, 10",
+                    "-2, -7",
+                    "1, -1"
+                ]
+            },
+            {
+                "name":"p2",
+                "options":[
+                    "6, 6",
+                    "-21, 11",
+                    "0, -3",
+                    "0, 0"
+                ]
+            }
+        ]
+    },
+    {
+        "id":4,
+        "title":"Distancias ordenadas",
+        "description": "Se recibe una lista de números y se calcula el promedio",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Dado una lista de números por el usuario, se calcula la media aritmética entre ellos.<h4>Casos:</h4>1. [1, 2, 3, 4, 5, 6] <br> 2. [10, 12, 30, 54, 87, 91] <br> 3. [50, 50, 50, 50, 50, 1]",
+        "inputs":[
+            {
+                "name":"lista_numeros",
+                "options":[
+                    "1, 2, 3, 4, 5, 6",
+                    "10, 12, 30, 54, 87, 91",
+                    "50, 50, 50, 50, 50, 1"
+                ]
+            }
+        ]
     }
 ]

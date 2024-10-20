@@ -1,7 +1,7 @@
 export abstract class Collection{
     values:any[] | any
     constructor(initialValues?:any[] | any){
-        this.values = initialValues
+        this.values = (initialValues[0]  == '' ? [] : initialValues)
     }
     
     abstract add(element:any):void

@@ -18,7 +18,15 @@ export class List extends Collection{
         this.values[index] = value
     }
     override print(): string {
-        return '['+this.values+']';
+        let values_aux = []
+        for(let value of this.values){
+            if(value instanceof Collection){
+                values_aux.push(value.print())
+            } else {
+                values_aux.push(value)
+            }
+        }
+        return '['+values_aux+']';
     }
 
 }
