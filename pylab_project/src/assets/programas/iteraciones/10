@@ -1,0 +1,9 @@
+n = int(input('Ingrese un número entero positivo: '))
+
+suma_cuadrados = 0 
+while n > 0: 
+    digito = n % 10
+    digito = digito**2 
+    suma_cuadrados += digito 
+    n = n // 10
+print(f'La suma de cuadrados de sus dígitos es {suma_cuadrados}')
