@@ -45,7 +45,11 @@ mat-card-content{
     justify-content: center;
 
     mat-icon{
-        color: var(--pylab-primary)
+        color: var(--pylab-primary);
+
+        &.not-filled{
+            color: rgba(var(--pylab-accent-rgb), 0.2);
+        }
     }
 }
 

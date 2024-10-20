@@ -11,7 +11,7 @@
                         <span style="margin-right: 5px;">Dificultad:</span>
                         <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
                             <mat-icon *ngIf="star <= program.difficulty">star</mat-icon>
-                            <mat-icon *ngIf="star > program.difficulty">star_border</mat-icon>
+                            <mat-icon *ngIf="star > program.difficulty" class="not-filled">star_border</mat-icon>
                         </ng-container>
                     </div>
                 </mat-card-content>
@@ -20,8 +20,6 @@
         </ng-container>
     </div>
 
-    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
-    </mat-paginator>
 </div>
 } @else {
 <app-spinner [loading]="loadingList"></app-spinner>
