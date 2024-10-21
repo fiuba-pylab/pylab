@@ -19,14 +19,14 @@ def divresto(dividendo, divisor):
         resto -= divisor
     return cociente, resto
 
-operador = int(input('Ingrese * para producto, o / para división y resto: '))
-while operador==1 or operador==2:
+operador = input('Ingrese * para producto, o / para división y resto: ')
+while operador == '*' or operador == '/':
     a = int(input('Primer operando: '))
     b = int(input('Segundo operando: '))
-    if operador==1:
+    if operador == '*':
        prod = producto(a, b)
        print(f'El producto es {prod}')
     else:
         cociente, resto = divresto(a, b)
         print(f'El cociente es {cociente}, y el resto {resto}')
-    operador = int(input('Ingrese * para producto, / para división y resto, otra cosa para terminar: '))
+    operador = input('Ingrese * para producto, / para división y resto, otra cosa para terminar: ')

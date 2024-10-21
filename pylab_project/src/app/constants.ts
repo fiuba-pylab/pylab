@@ -1,7 +1,7 @@
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
 const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
 const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
-const REGEX_FUNCTIONS = /\b(input|float|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
+const REGEX_FUNCTIONS = /\b(input|float|abs|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
@@ -42,7 +42,8 @@ const MATH_LOG10 = 'math.log10';
 const PRINT = 'print';
 const INPUT = 'input';
 const RANGE = 'range';
-const NONE = /None/g
+const NONE = /None/g;
+const ABS = 'abs';
 
 const validAddOperators = ['append', 'add'];
 const validSubstractOperators = ['remove', 'discard'];
@@ -96,7 +97,8 @@ export const NATIVE_FUNCTIONS = {
     PRINT, 
     INPUT,
     RANGE,
-    NONE
+    NONE,
+    ABS
 };
 
 export const VALID_OPERATORS = {
