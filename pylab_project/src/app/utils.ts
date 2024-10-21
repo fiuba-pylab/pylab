@@ -1,15 +1,26 @@
 import { Collection } from "./classes/collection";
+import { Dictionary } from "./classes/dictionary";
+import { List } from "./classes/list";
+import { Tuple } from "./classes/tuple";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "./constants";
 
 export function replaceVariables(template: string, valores: { [clave: string]: any[] }): string {
+
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         const regex = new RegExp(`\\b${escapeRegExp(clave)}\\b`, 'g');
         var replacement;
-        var collectionDelimiter = ''
-        if (valor instanceof Collection) {
-            collectionDelimiter = '%'
+        let leftCollectionDelimeter = ''
+        let rightCollectionDelimeter = ''
+        if (valor instanceof List) {
+            leftCollectionDelimeter = '['
+            rightCollectionDelimeter = ']'
             replacement = valor.values
-        } else {
+        }else if(valor instanceof Dictionary){
+            leftCollectionDelimeter = '{'
+            rightCollectionDelimeter = '}'
+        } else if (valor instanceof Tuple) {
+            replacement = `${clave}`
+        } else{
             if(typeof valor === 'string'){
                 if(`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)){
                     replacement = 'None'
@@ -21,7 +32,7 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
             }
         }
        
-        return resultado.replace(regex, collectionDelimiter + replacement + collectionDelimiter);
+        return resultado.replace(regex, leftCollectionDelimeter + replacement + rightCollectionDelimeter);
     }, template);
 }
 function escapeRegExp(string: string): string {
@@ -53,15 +64,7 @@ export function evaluate(code: any): any {
         const number = eval(expr.trim());
         return `'${letter.repeat(number)}'`;
     });
-
-    const collection_values = code.match(REGEX_CONSTS.COLLECTION_IDENTIFIER)
-    if(collection_values){
-        let dummy_string = ''
-        for(let el of code.split(',')){
-            dummy_string = dummy_string + 'X'
-        }
-        return dummy_string
-    }
+    
 
     while (REGEX_CONSTS.REGEX_IN_OPERATION.test(code)) {
         code = code.replace(REGEX_CONSTS.REGEX_IN_OPERATION, (match: any, number: string, collection: any) => {
@@ -113,4 +116,5 @@ function complex_evaluation(code:string){
     const imaginary_part = eval(code.replace(REGEX_CONSTS.REAL, '').replace('i',''))
     return real_part + ` ${imaginary[0][0]} ` + imaginary_part + 'i'
 }
+
 
