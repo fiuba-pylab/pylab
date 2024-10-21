@@ -69,6 +69,10 @@ export class DefStructure extends Structure{
             return {amount: 1, finish: false};
         }
 
+        if(this.lines[this.currentLine-1].trim().match(REGEX_CONSTS.REGEX_RETURN) && this.currentLine != this.lines.length){
+            return {amount: 1, finish: true};
+        }
+
         this.currentLine += amountToAdd ?? 1;
 
         // ejecutando la función
