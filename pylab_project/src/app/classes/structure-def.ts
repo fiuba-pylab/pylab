@@ -4,6 +4,7 @@ import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Context } from "./context";
 import { Structure } from "./structure";
+import { Collection } from "./collection";
 
 export class DefStructure extends Structure{
     constructor(level: number, condition: string, codeService: CodeService | null, variablesService: VariablesService | null, context: Context) {
@@ -97,7 +98,11 @@ export class DefStructure extends Structure{
                     this.parameters[param] = []
                 }
                 if(args[index]){
-                    this.parameters[param] = evaluate(replaceVariables(args[index], variables));
+                    if(variables[args[index]] instanceof Collection){
+                        this.parameters[param] = variables[args[index]]
+                    } else {
+                        this.parameters[param] = evaluate(replaceVariables(args[index], variables));
+                    }
                 }
             }
         });
