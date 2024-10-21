@@ -57,8 +57,6 @@ export function evaluate(code: any): any {
     }
 
     code = code.replace(NATIVE_FUNCTIONS.NONE, "'None'")
-
-    const regexMultiplyLetters = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
     
     code = code.replace(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS, (match: any, expr: string, letter: string) => {
         const number = eval(expr.trim());

@@ -19,10 +19,22 @@
     },
     {
         "id": 2,
-        "title": "Números romanos a decimal",
-        "description": "Recibe un número romano y lo convierte a decimal.",
-        "difficulty": 2,
-        "introduction": "Objetivo: Se recibe un string representando el número romano válido, con 1, 5, 10, 50, 100, 500, 1000 reemplazando I, V, X, L, C, D, M respectivamente"
+        "title": "Números felices",
+        "description": "Números felices",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número positivo mayor a 1 y buscar el primer número feliz a partir del mismo. Un número es feliz si la sucesión que lo tiene como origen en la que cada término es igual a la suma de cuadrados de las cifras del término anterior llega a un término igual a 1. Si la sucesión no llega a 1, siempre llega a un término que inicia un período de 8, a partir de cualquiera de los valores 4, 16, 37, 58, 89, 145, 42 o 20, en cuyo caso el número origen se dice infeliz o triste. <br> <br> <h4>Casos:</h4> 1. 7 es feliz. <br> 2. 9 no es feliz. <br> 3. 19 es feliz. <br> 4. 23 es feliz. <br> 5. 4 no es feliz.",
+        "inputs": [
+            {
+                "name": "n",
+                "options": [
+                    "7",
+                    "9",
+                    "19",
+                    "23",
+                    "4"
+                ]
+            }
+        ]
     },
     {
         "id": 3,
@@ -93,6 +105,91 @@
                     "12",
                     "35",
                     "100"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Triangulares",
+        "description": "Recibe un número entero y devuelve el número triangular correspondiente.",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y muestra la sucesión de números triangulares hasta ese número, usando fórmula triangular. <br> <br> <h4>Casos:</h4> 1. n = 0 <br> 2. n = 5 <br> 3. n = 10 <br> 4. n = 20",
+        "inputs": [
+            {
+                "name": "nt_final",
+                "options": [
+                    "0",
+                    "5",
+                    "10",
+                    "20"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Primalidad",
+        "description": "Recibe un número entero y devuelve si es primo o no.",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero positivo mayor que 1 y determinar si es primo o no. <br> Un número primo es aquel que solo es divisible por 1 y por sí mismo. <br> <br> <h4>Casos:</h4> 1. 2 es primo. <br> 2. 4 no es primo. <br> 3. 19 es primo. <br> 4. 10 no es primo. <br> 5. 25 no es primo.",
+        "inputs": [
+            {
+                "name": "numero",
+                "options": [
+                    "2",
+                    "4",
+                    "19",
+                    "10",
+                    "25"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Primos",
+        "description": "Recibe un número entero y devuelve los números primos menores",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario dos números naturales tales que a > 1 y a <= b, y mostrar por pantalla los números primos entre a y b. <br> Estrategia de búsqueda de divisores para detectar si un número es primo: si no se encuentra un divisor menor o igual a la parte entera de su raíz cuadrada, entonces el número es primo. Se prueban posibles divisores comenzando por 2 y siguiendo con los enteros sucesores mientras no se encuentre uno que sea divisor (el resto de dividir al número por el posible divisor sea cero) y además sea menor o igual a la parte entera de su raiz cuadrada. <br> <br> <h4>Casos:</h4> 1. a = 2, b = 10 <br> 2. a = 10, b = 20 <br> 3. a = 20, b = 30 <br> 4. a = 30, b = 40",
+        "inputs": [
+            {
+                "name": "a",
+                "options": [
+                    "2",
+                    "10",
+                    "20",
+                    "30"
+                ]
+            },
+            {
+                "name": "b",
+                "options": [
+                    "10",
+                    "20",
+                    "30",
+                    "40"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Suma cuadrados",
+        "description": "Recibe un número entero y devuelve la suma de los cuadrados de los números menores o iguales al mismo.",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero positivo y mostrar la suma de cuadrados de sus dígitos. <br> <br> <h4>Casos:</h4> 1. n = 11 <br> 2. n = 5 <br> 3. n = 1 <br> 4. n = 18 <br> 5. n = 27 <br> 6. n = 32 <br> 7. n = 104",
+        "inputs": [
+            {
+                "name": "n",
+                "options": [
+                    "11",
+                    "5",
+                    "1",
+                    "18",
+                    "27",
+                    "32",
+                    "104"
                 ]
             }
         ]
