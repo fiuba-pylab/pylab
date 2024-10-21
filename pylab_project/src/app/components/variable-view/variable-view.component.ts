@@ -34,12 +34,13 @@ export class VariableViewComponent {
 
   getVariableKeys(context: Context): string[] {
     const dictionary = this.contexts.get(context);
-    return dictionary ? Object.keys(dictionary) : [];
+    return dictionary 
+      ? Object.keys(dictionary).filter(key => !key.includes("ForIteratorVariable"))
+      : [];
   }
 
   getVariableValues(context: Context, key: string): any {
     const dictionary = this.contexts.get(context);
-    console.log(dictionary);
   
     if (dictionary) {
       const value = dictionary[key];
