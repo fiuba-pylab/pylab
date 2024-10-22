@@ -38,7 +38,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   isPaused: boolean = false;
   isFinished: boolean = false; 
   intervalId: any = null;
-  started: boolean = false;
+  previousActivated: boolean = false;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
   constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
@@ -57,6 +57,9 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.codeService.highlightLine.subscribe(async (value)=> {
       this.highlightLine = Number(value);
       this.updateDecorations();
+    });
+    this.codeService.previousActivated.subscribe(async (value)=> {
+      this.previousActivated = value;
     });
   }
 
@@ -128,11 +131,11 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
 
   async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      if(!this.started){
-        this.started = true;
-      }
       await this.coordinator.executeForward();
-    }    
+    }
+    if(!this.previousActivated){
+      this.previousActivated = true;
+    }
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
       this.decorationsCollection?.clear();
@@ -145,9 +148,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     }
     if (this.decorationsCollection && this.coordinator) {
       await this.coordinator.executePrevious();
-    }
-    if(this.highlightLine == 1){
-      this.started = false;
     }
   }
 
@@ -181,6 +181,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isRunning = false;
     this.isPaused = true;
     this.isFinished = false;
+    this.previousActivated = false;
     clearInterval(this.intervalId);
     this.codeService.reset();
     if(this.coordinator){
