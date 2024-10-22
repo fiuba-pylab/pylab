@@ -49,14 +49,14 @@ export class ProgramListComponent implements OnInit {
 
   async loadFiles() {
     this.loadingList = true;
-    await lastValueFrom(of(this.fileService.getList(this.type)))
-    .then((programs: Program[]) => {
+    try {
+      const programs: Program[] = await lastValueFrom(this.fileService.getList(this.type));
       this.loadingList = false;
-      this.programs = programs;
-    })
-    .catch((error: any) => {
-      console.error('Error al cargar los programas:', error);
-    })
+      this.programs = programs.sort((a, b) => a.difficulty - b.difficulty);
+    } catch (error) {
+      console.log('Error loading files:', error);
+      
+    }
   }
 
   goToDisplay(program: Program) {

@@ -1,7 +1,9 @@
-import { REGEX_CONSTS, STRUCTURES } from "../constants";
+import { NATIVE_FUNCTIONS, REGEX_CONSTS, STRUCTURES } from "../constants";
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
+import { Collection } from "./collection";
 import { Context } from "./context";
+import { List } from "./list";
 import { DefStructure } from "./structure-def";
 import { IfStructure } from "./structure-if";
 import { NullStructure } from "./structure-null";
@@ -37,21 +39,34 @@ function forConfiguration(code:string, variablesService: VariablesService, conte
     let collectionInfo:any = {}
     if(collectionIteration){
         const varIteratorName = condition.split(' ')[2]
-        collectionInfo['varIteratorName'] = varIteratorName
+        let collection:Collection
+        if(varIteratorName.includes(NATIVE_FUNCTIONS.RANGE)){
+            const auxiliar_array = []
+            const var_name = varIteratorName.replace(/[\(\)]|range/g,'')
+            const array_size = variables[var_name].values.length
+            for(let i = 0; i< array_size; i++){
+                auxiliar_array.push(i)
+            }
+            collectionInfo['varIteratorName'] = 'range_' + var_name
+            collection = new List(auxiliar_array)
+            variables['range_' + var_name] = collection
+        } else {
+            collectionInfo['varIteratorName'] = varIteratorName
+            collection = variables[varIteratorName]
+        }
+        
         const tempVarName = condition.split(' ')[0]
         collectionInfo['tempVarName'] = tempVarName
-        const collection = variables[varIteratorName]
         const collectionIsArray = collection?.values.length
         const numberValuesCollection = collectionIsArray?collectionIsArray:(Object.keys(collection?.values).length)
         //definición del iterador
-        if(!variables['ForIteratorVariable']){
-            variables['ForIteratorVariable'] = []
+        if(!variables['ForIteratorVariable' + tempVarName]){
+            variables['ForIteratorVariable' + tempVarName] = []
         }
-        variables['ForIteratorVariable'].push(numberValuesCollection - 1)
+        variables['ForIteratorVariable' + tempVarName].push(numberValuesCollection - 1)
         //definición de la variable a iterar
-        variables[tempVarName] = []
-        variables[tempVarName].push(collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]])
-        newCondition = 'ForIteratorVariable > 0'
+        variables[tempVarName] = collection?.values[collectionIsArray?0:Object.keys(collection?.values)[0]]
+        newCondition = `ForIteratorVariable${tempVarName} > 0`
     }
     return {newCondition, collectionInfo}
 }

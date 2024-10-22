@@ -24,12 +24,12 @@ export class Coordinator {
         this.codeService.functions.subscribe(async (value: { [key: string]: DefStructure; })=> {
             this.functions = value;
         });
+        this.codeService.addNewState(this);
     }
 
     private analize() {
         const matchResult = this.code[this.currentLine].match(/^\s*/);
         const level = matchResult ? matchResult[0].length / 4 : 0;
-        //const call = this.code[this.currentLine].match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/); // cambiar regex para detectar cuando hay algo asi: a = funcion_propia(param) o q busque las keys de funciones en la linea
         const call = containsFunctionName(this.code[this.currentLine], this.functions);
         if(call != null){
             const context = new Context(uuidv4(), this.currentLine, call);
@@ -42,16 +42,12 @@ export class Coordinator {
                 context.setReturnVarName(varNames);
             }   
 
-            const func = this.functions[call].clone(this.contexts[this.contexts.length-1]);
+            const func = this.functions[call].deepClone(this.contexts[this.contexts.length-1]);
             func.setContext(context);
             const params = this.code[this.currentLine].match(/\(([^)]+)\)/);
             if(params != null){
                 const args = params[1].split(',').map((arg: string) => arg.trim());
-                for(let i = 0; i < args.length; i++){
-                    args[i] = evaluate(replaceVariables(args[i], this.variablesService.getVariables(this.contexts[this.contexts.length - 1])));
-                }
                 func.setParameters(args);
-                // TODO: ver parametros por nombre
             }
             this.contexts.push(context);
             this.structures.push(func);
@@ -60,43 +56,60 @@ export class Coordinator {
             return;
         }
 
-        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variablesService, this.contexts[this.contexts.length - 1]);
+        const lastContext = this.contexts.pop();
+        let clonedContext = null;
+        if(lastContext){
+            clonedContext = lastContext.clone();
+        }
+        const structure = StructureFactory.analize(this.code[this.currentLine], level, this.codeService, this.variablesService, lastContext ? clonedContext! : this.contexts[this.contexts.length - 1]);
+        this.contexts.push(clonedContext ? clonedContext : this.contexts[this.contexts.length - 1]);
         this.structures.push(structure);
         structure.setScope(this.code.slice(this.currentLine).join('\n')); 
     }
 
-    async execute(isPrevious: boolean = false) {
-        console.log("structures", this.structures)
-        if(isPrevious){
-            const prevAmount = this.codeService.previousLine();
-            if(prevAmount){
-                this.currentLine -= prevAmount;
-                const currentLine = this.code[this.currentLine].trim()
-                /* if(currentLine.split(' ')[0] == 'if'){ */
-                    this.structures.pop();
-                // /* } */
-                const varName = currentLine.split(' ')[0];
-                const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
-                if(variables[currentLine.split(' ')[0]]){
-                    variables[currentLine.split(' ')[0]].pop()
-                    this.variablesService.setVariables(this.contexts[this.contexts.length - 1], variables);
-                    // esto no funciona, lo acomode asi para que use el variable service pero hay q revisar
+    async executePrevious() {
+        await this.codeService.getStateFromPreviousLine().then((response: any) => {
+            if (response.previousState){
+                this.currentLine = response.previousState.currentLine;
+                this.structures = [];
+                for (let i = 0; i < response.previousState.structures.length; i++) {
+                    this.structures[i] = response.previousState.structures[i].clone(this.codeService, this.variablesService);
                 }
-                
-            }
-            return
+                this.codeService.setPreviousFunctions(response.previousState.functions, this.variablesService);
+                this.contexts = [...response.previousState.contexts.keys()]; 
+                this.variablesService.setPreviousVariables(response.previousState.contexts);
+                this.executingFunction = response.previousState.executingFunction;
+                return;
+            } 
+        });
+        if(this.currentLine == 0 && this.executingFunction){
+            this.codeService.previousState(true);
+        }else if(this.currentLine == 0 && !this.executingFunction){
+            this.codeService.previousState(false);
         }
+    }
+
+    async executeForward() {
         let prevAmount = 0;
         let lastStructure = null;
         this.analize();
         for (let i = this.structures.length - 1; i >= 0; i--){
             const structure : Structure = this.structures[i];
             const result = await structure.execute(prevAmount);
-            if (result.finish && structure == this.structures[this.structures.length - 1]) {
-                lastStructure = this.structures.pop();
+            if (result.finish) {
+                if(structure == this.structures[this.structures.length - 1]){
+                    lastStructure = this.structures.pop();
+                }else if(structure.isFunction() && structure != this.structures[this.structures.length - 1]){
+                    let j = this.structures.length - 1;
+                    while(j >= 0 && !this.structures[j].isFunction() && this.structures[j] != structure){
+                        this.structures.pop();
+                        j--;
+                    }
+                    lastStructure = this.structures.pop();
+                }
                 if(this.executingFunction && structure.isFunction()){
                     const lastContext = this.contexts.pop();
-                    this.codeService.goToLine(lastContext!.getCallLine() + 1);
+                    this.codeService.goToLine(lastContext!.getCallLine() + 1, this);
                     this.currentLine = lastContext!.getCallLine();
                     const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
                     const returnVar = lastContext?.getReturnValue();
@@ -106,7 +119,7 @@ export class Coordinator {
                         }
                     }
                     this.variablesService.deleteContext(lastContext);
-                    this.variablesService.setVariables(variables);
+                    this.variablesService.setVariables(this.contexts[this.contexts.length-1], variables);
                 }
             }
             if(lastStructure && lastStructure.isFunction()){
@@ -116,12 +129,35 @@ export class Coordinator {
                 prevAmount += result.amount;
             }
             this.currentLine += result.amount;
-            this.codeService.nextLine(result.amount);
+            this.codeService.nextLine(result.amount, this);
 
             if (structure.isFunction() && !result.finish) {
                 break;
             }
         }
+        this.codeService.addNewState(this);
+    }
+
+    clone() {
+        const newCoordinator:any = {}
+        newCoordinator.currentLine = this.currentLine;
+        newCoordinator.structures = this.structures.map(structure => structure.clone());
+        let clonedFunctions: { [key: string]: DefStructure } = {};
+        for (const key in this.functions) {
+            if (this.functions.hasOwnProperty(key)) {
+              clonedFunctions[key] = this.functions[key].clone();
+            }
+          }
+        newCoordinator.functions = clonedFunctions;
+        newCoordinator.contexts = new Map<Context, { [key: string]: any }>(
+          this.contexts.map((context) => {
+            const clonedContext = context.clone();
+            const clonedVariables = this.variablesService.getVariables(clonedContext);
+            return [clonedContext, { ...clonedVariables }];
+          })
+        );
+        newCoordinator.executingFunction = this.executingFunction;
+        return newCoordinator;
     }
 
     reset(){

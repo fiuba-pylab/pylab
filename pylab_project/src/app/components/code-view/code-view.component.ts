@@ -38,6 +38,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   isPaused: boolean = false;
   isFinished: boolean = false; 
   intervalId: any = null;
+  previousActivated: boolean = false;
   readonly menuTrigger = viewChild.required(MatMenuTrigger);
   
   constructor(private codeService: CodeService, private dialog: MatDialog, private variablesService: VariablesService) { }
@@ -46,7 +47,6 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if(!this.inputs) return;
     this.codeService.addDialog(this.dialog);
     this.codeService.addInputs(this.inputs);
-    this.codeService.reset()
   }
 
   ngAfterViewInit(): void { 
@@ -58,12 +58,14 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       this.highlightLine = Number(value);
       this.updateDecorations();
     });
+    this.codeService.previousActivated.subscribe(async (value)=> {
+      this.previousActivated = value;
+    });
   }
 
   loadSelects():void{
     for(let {name, type, form} of this.forms){
       let option = this.parseOption(form.value, type);
-      console.log(name, option, type)
       if (option === null) {
         return ;
       }
@@ -75,6 +77,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.editor) {
       if (changes['code']) {
         this.codeService.setLength(this.code.length);
+        this.reset();
         this.coordinator = new Coordinator(this.codeService, this.code, this.variablesService);
         this.editor.setValue(this.code);
         this.updateDecorations();
@@ -112,7 +115,7 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   private updateDecorations(): void {
-    if (this.editor && this.decorationsCollection) {          
+    if (this.editor && this.decorationsCollection && !this.isFinished) {          
       const newDecorations = this.highlightLine !== null ? [{
         range: new monaco.Range(this.highlightLine, 1, this.highlightLine, 1),
         options: {
@@ -122,24 +125,29 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
       }] : [];
       this.decorationsCollection.clear()      
       this.decorationsCollection.set(newDecorations)
+      this.editor.revealLineInCenter(this.highlightLine);
     }    
   }
 
   async nextLine() {
     if (this.decorationsCollection && this.coordinator) {
-      await this.coordinator.execute();
-    }    
+      await this.coordinator.executeForward();
+    }
+    if(!this.previousActivated){
+      this.previousActivated = true;
+    }
     if(this.code != "" && this.highlightLine === this.code.split('\n').length + 1){
       this.isFinished = true;
+      this.decorationsCollection?.clear();
     }
   }
 
-  previousLine() {
+  async previousLine() {
     if(this.isFinished){
       this.isFinished = false;
     }
     if (this.decorationsCollection && this.coordinator) {
-      this.coordinator.execute(true);
+      await this.coordinator.executePrevious();
     }
   }
 
@@ -173,9 +181,12 @@ export class CodeViewComponent implements AfterViewInit, OnDestroy, OnInit {
     this.isRunning = false;
     this.isPaused = true;
     this.isFinished = false;
+    this.previousActivated = false;
     clearInterval(this.intervalId);
-    this.coordinator.reset();
     this.codeService.reset();
+    if(this.coordinator){
+      this.coordinator.reset();
+    }
   }
 
   ngOnDestroy(): void {

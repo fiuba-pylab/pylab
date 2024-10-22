@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,8 @@ import { SvgComponent } from '../../components/svg/svg.component';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
   cards: any[] = [
     {titulo: 'Introducción', imagen: 'introduccion.png', tipo: 'introduccion'},
     {titulo: 'Selección simple', imagen: 'seleccion_simple1.png', tipo: 'seleccion-simple'},

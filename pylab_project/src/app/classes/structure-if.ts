@@ -1,3 +1,4 @@
+import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
 import { Context } from "./context";
@@ -12,7 +13,7 @@ export class IfStructure extends Structure{
     enterElif: boolean = false;
     elifIndex: number = 0;
     hasElse: boolean = false;
-    constructor(level: number, condition: string, codeService: any, variablesService: VariablesService, context: Context) {
+    constructor(level: number, condition: string, codeService: CodeService | null, variablesService: VariablesService | null, context: Context) {
         super(level, condition, codeService, variablesService, context);
     }
 
@@ -48,7 +49,7 @@ export class IfStructure extends Structure{
     }
 
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
-        const variables = this.variablesService.getVariables(this.context);
+        const variables = this.variablesService!.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
         if(this.checkElifs && !this.enterElif && this.elifIndex < this.elifs.length){
             const elif = this.elifs[this.elifIndex];
@@ -65,14 +66,22 @@ export class IfStructure extends Structure{
                 }
             }
         }
-    
+
+        if(this.elifIndex >= this.elifs.length && this.checkElifs){
+            this.checkElifs = false;
+            this.enterElif = false;
+            if(this.elseLines.length > 0){
+                this.checkElse = true;
+            }
+        }
+
         this.currentLine += amountToAdd ?? 0;
 
+        var totalLength = 0;
+        for (let index = 0; index < this.elifIndex; index++) {
+            totalLength += (this.elifs[index].lines.length + 1);
+        }
         if(this.checkElifs){
-            var totalLength = 0;
-            for (let index = 0; index < this.elifIndex; index++) {
-                totalLength += (this.elifs[index].lines.length + 1);
-            }
             if(this.currentLine > totalLength + this.lines.length && this.currentLine <= this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length + 1){
                 return {amount: 0, finish: false};
             }else if(this.currentLine > this.lines.length + totalLength + this.elifs[this.elifIndex].lines.length){ // termine de ejecutar elif que estaba
@@ -82,7 +91,7 @@ export class IfStructure extends Structure{
                     length += this.elifs[index].lines.length + 1;
                 }
                 length += this.elseLines.length + 1;
-                return {amount: length + 1, finish: true};
+                return {amount: length, finish: true};
             }
         }
 
@@ -103,7 +112,7 @@ export class IfStructure extends Structure{
         }
 
         // No se cumplió la condición del if y ya ejecuté todo lo de adentro del else
-        if(this.currentLine > this.lines.length + this.elseLines.length && this.checkElse){
+        if(this.currentLine > this.lines.length + this.elseLines.length + totalLength && this.checkElse){
             return {amount: 0, finish: true};
         }
 
@@ -113,7 +122,7 @@ export class IfStructure extends Structure{
         }
 
         // Estoy ejecutando lo de adentro del else
-        if(this.currentLine > this.lines.length+1 && this.currentLine <= this.lines.length + this.elseLines.length && this.checkElse){
+        if(this.currentLine > this.lines.length + totalLength + 1 && this.currentLine <= this.lines.length + this.elseLines.length + totalLength && this.checkElse){
             return {amount: 0, finish: false};
         }
 
@@ -132,6 +141,27 @@ export class IfStructure extends Structure{
         } else{ // No se cumple la condición del if y no hay else, se termina el if
             return {amount: this.lines.length+1, finish: true};
         }
+    }
+
+    override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
+        const clone = new IfStructure(
+            this.level,
+            this.condition,
+            codeService,
+            variablesService,
+            this.context
+        );
+
+        clone.currentLine = this.currentLine;
+        clone.elseLines = [...this.elseLines];
+        clone.checkElse = this.checkElse;
+        clone.elifs = this.elifs.map(elif => ({ condition: elif.condition, lines: [...elif.lines] }));
+        clone.checkElifs = this.checkElifs;
+        clone.enterElif = this.enterElif;
+        clone.elifIndex = this.elifIndex;
+        clone.hasElse = this.hasElse;
+        clone.lines = [...this.lines];
+        return clone;
     }
 }
 

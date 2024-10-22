@@ -74,7 +74,7 @@
         "title": "Ventas en local",
         "description": "Se recibe un método de pago, precio por unidad de un producto y cantidad a comprar. En base al método de pago y cantidad, se realiza un descuento o un recargo.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un método de pago, precio por unidad y cantidad a comprar de un producto. En base a eso se realiza un descuento o recargo y se imprime el valor final que tendrá que pagar. <br><br><h4> Casos: </h4>",
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un método de pago, precio por unidad y cantidad a comprar de un producto. En base a eso se realiza un descuento o recargo y se imprime el valor final que tendrá que pagar. <br><br><h4> Casos:</h4>1. Utilizando el método de pago efectivo y comprando una cantidad mayor a 20, equivale a un descuento del 10% <br> 2. Utilizando método qr y comprando una cantidad menor o igual a 20, equivale a un incremento del 15% <br> 3. En cualquier otro caso el costo total es el costo base",
         "inputs": [
             {
                 "name": "metodo_pago",
@@ -95,9 +95,9 @@
             {
                 "name": "cantidad",
                 "options": [
-                    "1",
-                    "5",
-                    "10"
+                    "10",
+                    "20",
+                    "50"
                 ]
             }
         ]
@@ -107,14 +107,48 @@
         "title": "Números imaginarios",
         "description": "",
         "difficulty": 4,
-        "introduction": "Objetivo: "
+        "introduction": "<h4>Objetivo:</h4> calcular el ángulo resultante entre la parte real y la parte imaginaria de un número complejo formado por el usuario <h4>Casos: </h4> 1. Parte real positiva, parte imaginaria positiva <br> 2. Parte real negativa, parte imaginaria positiva <br> 3. Parte real positiva, parte imaginaria negativa <br> 4. Parte real negativa, parte imaginaria negativa",
+        "inputs":[
+            {
+                "name":"real",
+                "options":[
+                    "1",
+                    "-1",
+                    "5",
+                    "-3"
+                ]
+            },
+            {
+                "name":"imaginario",
+                "options":[
+                    "2",
+                    "-1",
+                    "3",
+                    "-10"
+                ]
+            }
+        ]
     },
     {
         "id": "romanos.py",
         "title": "Números romanos",
         "description": "",
         "difficulty": 5,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo."
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número entero entre 1 y 3999 y hallar la representación romana del mismo.<h4>Casos:</h4>3, 27, 99, 240, 500, 3750",
+        "inputs":[
+            {
+                "name":"numero",
+                "options":[
+                    "3",
+                    "27",
+                    "99",
+                    "240",
+                    "500",
+                    "3750"
+
+                ]
+            }
+        ]
     },
     {
         "id": "triangulo2.py",

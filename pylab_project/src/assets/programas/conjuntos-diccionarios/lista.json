@@ -14,18 +14,32 @@
         "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
     }, 
     {
-        "id": "ventas_lectura.py",
-        "title": "Ventas de un negocio (lectura de archivo)",
+        "id": "diccionario_intro1.py",
+        "title": "Introduccion a Diccionarios - Parte 1",
+        "description": ".",
+        "difficulty": 3,
+        "introduction": ""
+    },
+    {
+        "id": "diccionario_intro1.py",
+        "title": "Introduccion a Diccionarios - Parte 1",
+        "description": ".",
+        "difficulty": 3,
+        "introduction": ""
+    },
+    {
+        "id": "topicos.py",
+        "title": "Ventas de un negocio",
         "description": "Totales de ventas en un dia en un negocio.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>", 
-        "inputs": [
-            {
-                "name": "archVentas",
-                "options": [
-                    "20240521.txt"
-                ]
-            }
-        ]
+        "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
+    }, 
+    {
+        "id": "tiene_duplicados.py",
+        "title": "Ventas de un negocio",
+        "description": "Totales de ventas en un dia en un negocio.",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
     }
+
 ]

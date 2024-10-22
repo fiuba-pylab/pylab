@@ -21,9 +21,10 @@ export class VariableViewComponent {
 
   ngOnInit(): void {
     this.variablesService.contexts.subscribe((value) => {
-      console.log("Contextos: "+value);
       this.contexts = value;
       this.contextsKeys = Array.from(this.contexts.keys());
+      console.log(this.contexts);
+      
     });
 
     this.codeService.print.subscribe((value) => {
@@ -33,8 +34,24 @@ export class VariableViewComponent {
 
   getVariableKeys(context: Context): string[] {
     const dictionary = this.contexts.get(context);
-    return dictionary ? Object.keys(dictionary) : [];
+    return dictionary 
+      ? Object.keys(dictionary).filter(key => !key.includes("ForIteratorVariable"))
+      : [];
   }
+
+  getVariableValues(context: Context, key: string): any {
+    const dictionary = this.contexts.get(context);
+  
+    if (dictionary) {
+      const value = dictionary[key];
+      if(value?.print){
+        return value.print();
+      }
+      return value;
+    }
+    return '';
+  }
+  
 
   // ngAfterViewInit(): void {
   //   this.jsPlumbInstance = jsPlumb.getInstance();
