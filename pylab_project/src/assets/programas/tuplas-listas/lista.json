@@ -72,17 +72,33 @@
     },
     {
         "id":4,
-        "title":"Distancias ordenadas",
-        "description": "Solicitar al usuario una lista de números y calcular el promedio",
-        "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4>Dado una lista de números por el usuario, se calcula la media aritmética entre ellos.<h4>Casos:</h4>1. [1, 2, 3, 4, 5, 6] <br> 2. [10, 12, 30, 54, 87, 91] <br> 3. [50, 50, 50, 50, 50, 1]",
+        "title":"Lista de distancias",
+        "description": "Solicitar al usuario 3 puntos, calcular las distancias, agregarlas a una lista e imprimirlas",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4>Dado una lista de números por el usuario, se calcula la media aritmética entre ellos.<h4>Casos:</h4>(3, 7), (-2, 10),(-5, -5),(-1, 1),(2, -9),(0, 0),(0, 15),(-2, 12),(-6, 0)",
         "inputs":[
             {
-                "name":"lista_numeros",
+                "name":"p1",
                 "options":[
-                    "1, 2, 3, 4, 5, 6",
-                    "10, 12, 30, 54, 87, 91",
-                    "50, 50, 50, 50, 50, 1"
+                    "3, 7",
+                    "-2, 10",
+                    "-5, -5"
+                ]
+            },
+            {
+                "name":"p2",
+                "options":[
+                    "-1, 1",
+                    "2, -9",
+                    "0, 0"
+                ]
+            },
+            {
+                "name":"p3",
+                "options":[
+                    "0, 15",
+                    "-2, 12",
+                    "-6, 0"
                 ]
             }
         ]
