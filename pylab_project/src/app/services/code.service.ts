@@ -19,19 +19,20 @@ export class CodeService {
   private length: number = 0;
   private behaviorSubjectHighlight = new BehaviorSubject<number>(1);
   private behaviorSubjectPrint = new BehaviorSubject<string>('');
-
   private behaviorSubjectPause = new BehaviorSubject<boolean>(false);
   private behaviorOpenDialog = new BehaviorSubject<{msg: string, varName: string}>({msg: "", varName: ""});
-  behaviorCloseDialog = new BehaviorSubject<string>('');
   private behaviorSubjectFunctions = new BehaviorSubject<{
     [key: string]: DefStructure;
   }>({});
   dialog: MatDialog | undefined;
+  private behaviorSubjectPreviousActivated = new BehaviorSubject<boolean>(false);
+
   inputs: any[] | undefined;
   highlightLine = this.behaviorSubjectHighlight.asObservable();
   print = this.behaviorSubjectPrint.asObservable();
   functions = this.behaviorSubjectFunctions.asObservable();
   pause = this.behaviorSubjectPause.asObservable(); 
+  previousActivated = this.behaviorSubjectPreviousActivated.asObservable();
 
   constructor(private store: Store<AppState>) {}
 
@@ -42,7 +43,6 @@ export class CodeService {
   getHighlightLine(): number {
     return this.behaviorSubjectHighlight.value;
   }
-
 
   nextLine(amount: number, coordinator: Coordinator) {
     var highlightLine = this.behaviorSubjectHighlight.value;
@@ -135,5 +135,9 @@ export class CodeService {
     newCoordinator.print = this.behaviorSubjectPrint.value;
 
     this.store.dispatch(actions.addNew({ newCoordinator }));
+  }
+
+  previousState(state: boolean): void {
+    this.behaviorSubjectPreviousActivated.next(state);
   }
 }
