@@ -64,10 +64,22 @@ export function evaluate(code: any): any {
     });
     
 
-    const match = code.match(REGEX_CONSTS.REGEX_IN_OPERATION);
-    if (match) {
-        const [_, number, collection] = match;
-        return collection.split(',').map((num: string) => parseInt(num)).includes(parseInt(number));
+    while (REGEX_CONSTS.REGEX_IN_OPERATION.test(code)) {
+        code = code.replace(REGEX_CONSTS.REGEX_IN_OPERATION, (match: any, number: string, collection: any) => {
+            if(collection.split(',').map((num: string) => parseInt(num)).includes(parseInt(number))){
+                return 'true';
+            }
+            return 'false';
+        });
+    }
+
+    while (REGEX_CONSTS.REGEX_NOT_IN_OPERATION.test(code)) {
+        code = code.replace(REGEX_CONSTS.REGEX_NOT_IN_OPERATION, (match: any, number: string, collection: any) => {
+            if(!collection.split(',').map((num: string) => parseInt(num)).includes(parseInt(number))){
+                return 'true';
+            }
+            return 'false';
+        });
     }
 
     while (REGEX_CONSTS.REGEX_DIVISION.test(code)) {

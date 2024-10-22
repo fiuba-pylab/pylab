@@ -1,6 +1,6 @@
 const REGEX_RETURN_VARIABLES = /^\s*([a-zA-Z_][a-zA-Z0-9_]*(?:\s*,\s*[a-zA-Z_][a-zA-Z0-9_]*)*)\s*=/;
 const REGEX_VARIABLE_DECLARATION = /(\w+)\s*=\s*(.+)/;
-const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=)\s*(.+)/;
+const REGEX_OPERATIONS = /(\w+)\s*(\+=|-=|\*=|\/=|\/\/=)\s*(.+)/;
 const REGEX_FUNCTIONS = /\b(input|float|abs|int|len|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
@@ -18,6 +18,7 @@ const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
 const REGEX_MULTIPLY_LETTERS = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
 const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
+const REGEX_NOT_IN_OPERATION = /(\d+)\s+not\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}/;
 const REGEX_PRINT_END = /,\s*end=\s*(['"][^'"]*['"]|['"]?)/g;
 const COLLECTION_IDENTIFIER = /\%.*?\%/;
 const INDEXING_COLLECTION = /^\w+\[.*\]/;
@@ -73,7 +74,8 @@ export const REGEX_CONSTS = {
     COLLECTION_IDENTIFIER,
     INDEXING_COLLECTION,
     REGEX_DIVISION,
-    REGEX_EXPONENT
+    REGEX_EXPONENT,
+    REGEX_NOT_IN_OPERATION
 };
 
 export const STRUCTURES = {
