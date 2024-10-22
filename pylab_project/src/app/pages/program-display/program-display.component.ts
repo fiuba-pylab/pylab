@@ -48,6 +48,10 @@ export class ProgramDisplayComponent implements OnInit {
         });
       }
     );
+  }
+
+  ngAfterViewInit() {
+    window.scrollTo(0, 0);
     this.openDialog(this.program);
   }
 
@@ -55,7 +59,7 @@ export class ProgramDisplayComponent implements OnInit {
     const dialogRef = this.dialog.open(ProgramIntroModalComponent,{
       data: {
         program
-      },
+      }
     });
   }
 

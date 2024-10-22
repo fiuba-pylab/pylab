@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Program } from '../classes/program';
 
 @Injectable({
@@ -22,15 +22,27 @@ export class FileService {
     return this.http.get(fileUrl, { responseType: 'text' });
   }
 
-  getList(folderName: string): Program[] {
+  getList(folderName: string): Observable<Program[]> {
     const folderUrl = `${this.filesUrl}/${folderName}/lista.json`;
     let programs: Program[] = [];
-    this.http.get(folderUrl, { responseType: 'json' }).subscribe((data: any) => {
+    /* this.http.get(folderUrl, { responseType: 'json' }).subscribe((data: any) => {
       for (let i = 0; i < data.length; i++) {
         let program = new Program(data[i].id, data[i].title, data[i].description, data[i].difficulty, data[i].introduction, data[i].inputs);
         programs.push(program);
       }
     });
-    return programs
+    return programs */
+    return this.http.get<any[]>(folderUrl).pipe(
+      map(data => {
+          return data.map(item => new Program(
+              item.id,
+              item.title,
+              item.description,
+              item.difficulty,
+              item.introduction,
+              item.inputs
+          ));
+      })
+  );
   }
 }

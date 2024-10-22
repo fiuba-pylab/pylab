@@ -17,14 +17,7 @@ export class HeaderComponent {
 
   constructor(public dialog: MatDialog){}
 
-  toggleSidebar(){
-    this.sidebarEvent.emit();
-  }
-
   openHelpDialog(){
-    const dialogRef = this.dialog.open(HelpDialogComponent, {
-      width: '500px',
-      height: '500px'
-    });
+    const dialogRef = this.dialog.open(HelpDialogComponent, {});
   }
 }

@@ -2,7 +2,7 @@
     <section class="header">
         <h2>{{data.title}}</h2>
     </section>
-    <mat-chip-listbox>
+    <div class="chips">
         <mat-chip *ngFor="let option of data.options" (click)="onOptionSelected(option)">{{option}}</mat-chip>
-    </mat-chip-listbox>
+    </div>
 </div>

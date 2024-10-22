@@ -1,7 +1,8 @@
+<section class="header">
+    <h2>{{data.program.title}}</h2>
+    <mat-icon (click)="onClose()" class="x-close">close</mat-icon>
+</section>
 <div class="intro-container">
-    <section class="header">
-        <h2>{{data.program.title}}</h2>
-        <mat-icon (click)="onClose()" class="x-close">close</mat-icon>
-    </section>
-    <div [innerHTML]="data.program.introduction"></div>
+    
+    <div [innerHTML]="data.program.introduction" class="information"></div>
 </div>
