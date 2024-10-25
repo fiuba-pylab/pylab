@@ -14,9 +14,9 @@ def calculate_distance(punto1, punto2):
     result = math.sqrt(squares_sum)
     return result
 
-p1 = (1, 2)
-p2 = (3, -5)
-p3 = (-2, 2)
+p1 = (input("Solicitar primer punto:"))
+p2 = (input("Solicitar segundo punto:"))
+p3 = (input("Solicitar tercer punto:"))
 
 aux = p1[0]
 
