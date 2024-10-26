@@ -2,15 +2,17 @@ import { Structure } from "./structure";
 import { evaluate, replaceOperators, replaceVariables } from "../utils";
 import { CodeService } from "../services/code.service";
 import { VariablesService } from "../services/variables.service";
-export class WhileStructure extends Structure{
+
+export class IterableStructure extends Structure{
     super(){}
     currentLine: number = 0;
+    
     setScope(code: any){
         const lines: any[] = code.split('\n');
         for (let i = 1; i < lines.length; i++) {
             const line = lines[i];
             
-            const tabs = line.match(/^\s*/)[0].length / 4;
+            const tabs = Math.floor(line.match(/^\s*/)[0].length / 4);
             if(tabs > this.level){
                 this.lines.push(line);
             }
@@ -24,6 +26,9 @@ export class WhileStructure extends Structure{
     override execute(amountToAdd?: number): {amount: number, finish: boolean}{
         const variables = this.variablesService!.getVariables(this.context);
         var condition_replaced = replaceOperators(replaceVariables(this.condition, variables));
+        if(this.currentLine + (amountToAdd ?? 0) > this.lines.length){
+            this.currentLine = this.lines.length;
+        }
         if(this.currentLine == this.lines.length && evaluate(condition_replaced)){
             this.currentLine = 1;
             if(this.collectionInfo){
@@ -31,13 +36,13 @@ export class WhileStructure extends Structure{
                 const collectionIsArray = collection?.values.length
                 const variableForArray = variables['ForIteratorVariable'+this.collectionInfo.tempVarName]
 
-                const inverseActualIndex = Number(variableForArray[variableForArray.length-1])-1
+                const inverseActualIndex = Number(variableForArray) - 1;
                 //decremento la variables inyterna del for
-                variables['ForIteratorVariable'+this.collectionInfo.tempVarName].push(inverseActualIndex)
+                variables['ForIteratorVariable'+this.collectionInfo.tempVarName] = inverseActualIndex;
 
                 //cambio el valor de la variable a iterar
-                const index = collectionIsArray?(collection.values.length-1 - inverseActualIndex):(Object.keys(collection?.values).length-1 - inverseActualIndex)
-                variables[this.collectionInfo.tempVarName] = collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]]
+                const index = collectionIsArray?(collection.values.length-1 - inverseActualIndex):(Object.keys(collection?.values).length-1 - inverseActualIndex);
+                variables[this.collectionInfo.tempVarName] = collection.values[collectionIsArray?index:Object.keys(collection?.values)[index]];
             }
             return {amount: -(this.lines.length), finish: false};
 
@@ -57,9 +62,10 @@ export class WhileStructure extends Structure{
     }
 
     override clone(codeService: CodeService | null = null, variablesService: VariablesService | null = null): Structure {
-        let clone = new WhileStructure(this.level, this.condition, codeService, variablesService, this.context)
+        let clone = new IterableStructure(this.level, this.condition, codeService, variablesService, this.context)
         clone.currentLine = this.currentLine;
         clone.lines = [...this.lines];
+        clone.collectionInfo = this.collectionInfo;
 
         return clone;
     }
