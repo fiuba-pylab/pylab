@@ -197,6 +197,8 @@ export class NullStructure extends Structure {
                 return (Math.asin(Number(evalArgs))).toString();
             case NATIVE_FUNCTIONS.MATH_LOG10:
                 return (Math.log10(Number(evalArgs))).toString();
+            case NATIVE_FUNCTIONS.LEN:
+                return (evalArgs.length).toString();
             case NATIVE_FUNCTIONS.INPUT:
                 return await this.codeService!.getInput(evalArgs, varName ?? '');
             case NATIVE_FUNCTIONS.ABS:
