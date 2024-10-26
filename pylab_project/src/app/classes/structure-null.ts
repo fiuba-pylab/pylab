@@ -91,16 +91,16 @@ export class NullStructure extends Structure {
         if (collectionSubstract) {
             const variable = collectionSubstract[1];
             const operator = collectionSubstract[2];
-            const value = collectionSubstract[3];
-            variables[variable].pop()
-        }
-        if(collectionPop){
-            const variable = collectionSubstract[1];
-            const operator = collectionSubstract[2];
             const value = collectionSubstract[3]; 
             if (VALID_OPERATORS.validSubstractOperators.includes(operator)) {
                 variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }
+        }
+        if(collectionPop){
+            const variable = collectionPop[1];
+            const operator = collectionPop[2];
+            const value = collectionPop[3];
+            variables[variable].pop()
         }
         if(collectionIndexing){
             const collection_index = this.lines[0].split('=')[0]
