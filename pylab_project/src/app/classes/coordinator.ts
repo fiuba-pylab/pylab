@@ -176,7 +176,7 @@ export class Coordinator {
 
 function containsFunctionName(str: string, dict: {[key: string]: any}): string | null{
     for (let key in dict) {
-        if (str.includes(key+'(')) {
+        if (new RegExp(`\\b${key}\\(`).test(str)) {
             return key; 
         }
     }
