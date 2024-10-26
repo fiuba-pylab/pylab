@@ -9,6 +9,11 @@ export class Tuple extends Collection{
         
     }
 
+    override pop(): any {
+
+    }
+
+
     override access(index:string){
         return this.values[Number(index)]
     }

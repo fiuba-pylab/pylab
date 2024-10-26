@@ -35,6 +35,7 @@ export class NullStructure extends Structure {
         const operations = this.lines[0].match(REGEX_CONSTS.REGEX_OPERATIONS);
         const collectionAdd = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_ADD);
         const collectionSubstract = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_SUBSTRACT);
+        const collectionPop = this.lines[0].match(REGEX_CONSTS.REGEX_COLLECTION_POP);
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
         const collectionIndexing = this.lines[0].match(REGEX_CONSTS.INDEXING_COLLECTION)
@@ -91,6 +92,12 @@ export class NullStructure extends Structure {
             const variable = collectionSubstract[1];
             const operator = collectionSubstract[2];
             const value = collectionSubstract[3];
+            variables[variable].pop()
+        }
+        if(collectionPop){
+            const variable = collectionSubstract[1];
+            const operator = collectionSubstract[2];
+            const value = collectionSubstract[3]; 
             if (VALID_OPERATORS.validSubstractOperators.includes(operator)) {
                 variables[variable].substract(await this.applyFunctions(value, variables, variable))
             }

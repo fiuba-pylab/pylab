@@ -12,6 +12,12 @@ export class Dictionary extends Collection{
     }
 
     override substract(element?: any): void {
+        this.values.remove(element); 
+    }
+
+    override pop(): any {
+        let idx = this.access(this.values.len()); 
+        return this.values.remove(this.values[idx])
     }
 
     access(index:string){

@@ -10,8 +10,9 @@ const REGEX_LIST = /^\[[^\]]*\]$/;
 const REGGEX_SET = /^\{[^}]+\}$/;
 const REGGEX_TUPLE = /^\( *(?:[^(),]+|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^()]*\|[ \t\n\r]*|(?:,\s*)?)*\) *$/;
 const REGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
-const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
+const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add|push)\((.+?)\)$|^(\w+)\s*(\+)\s*\((.+?)\)$/;
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
+const REGEX_COLLECTION_POP = /^(\w+)\.(pop)\((.+?)\)$/
 const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
 const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
@@ -63,6 +64,7 @@ export const REGEX_CONSTS = {
     REGGEX_TUPLE,
     REGEX_COLLECTION_ADD,
     REGEX_COLLECTION_SUBSTRACT,
+    REGEX_COLLECTION_POP,
     REGEX_COLLECTION_ACCESS,
     REGEX_DICTIONARY,
     REGEX_FOR,

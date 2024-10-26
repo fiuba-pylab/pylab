@@ -10,6 +10,10 @@ export class List extends Collection{
         this.values.splice(this.values.indexOf(element), 1)
     }
 
+    override pop(): any {
+        return this.values.pop()
+    }
+
     override access(index:string){
         return this.values[Number(index)]
     }
