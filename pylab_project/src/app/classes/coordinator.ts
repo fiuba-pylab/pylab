@@ -97,30 +97,7 @@ export class Coordinator {
             const structure : Structure = this.structures[i];
             const result = await structure.execute(prevAmount);
             if (result.finish) {
-                if(structure == this.structures[this.structures.length - 1]){
-                    lastStructure = this.structures.pop();
-                }else if(structure.isFunction() && structure != this.structures[this.structures.length - 1]){
-                    let j = this.structures.length - 1;
-                    while(j >= 0 && !this.structures[j].isFunction() && this.structures[j] != structure){
-                        this.structures.pop();
-                        j--;
-                    }
-                    lastStructure = this.structures.pop();
-                }
-                if(this.executingFunction && structure.isFunction()){
-                    const lastContext = this.contexts.pop();
-                    this.codeService.goToLine(lastContext!.getCallLine() + 1, this);
-                    this.currentLine = lastContext!.getCallLine();
-                    const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
-                    const returnVar = lastContext?.getReturnValue();
-                    if(returnVar){
-                        for(let i = 0; i < returnVar.names.length; i++){
-                            variables[returnVar.names[i]] = returnVar.values[i];
-                        }
-                    }
-                    this.variablesService.deleteContext(lastContext);
-                    this.variablesService.setVariables(this.contexts[this.contexts.length-1], variables);
-                }
+                lastStructure = this.finishStructure(lastStructure, structure);
             }
             if(lastStructure && lastStructure.isFunction()){
                 prevAmount = 1;
@@ -166,6 +143,34 @@ export class Coordinator {
         this.executingFunction = false;
         this.contexts = this.contexts.slice(0, 1);
         this.variablesService.reset();
+    }
+
+    private finishStructure(lastStructure: any, structure: Structure){
+        if(structure == this.structures[this.structures.length - 1]){
+            lastStructure = this.structures.pop();
+        }else if(structure.isFunction() && structure != this.structures[this.structures.length - 1]){
+            let j = this.structures.length - 1;
+            while(j >= 0 && !this.structures[j].isFunction() && this.structures[j] != structure){
+                this.structures.pop();
+                j--;
+            }
+            lastStructure = this.structures.pop();
+        }
+        if(this.executingFunction && structure.isFunction()){
+            const lastContext = this.contexts.pop();
+            this.codeService.goToLine(lastContext!.getCallLine() + 1, this);
+            this.currentLine = lastContext!.getCallLine();
+            const variables = this.variablesService.getVariables(this.contexts[this.contexts.length - 1]);
+            const returnVar = lastContext?.getReturnValue();
+            if(returnVar){
+                for(let i = 0; i < returnVar.names.length; i++){
+                    variables[returnVar.names[i]] = returnVar.values[i];
+                }
+            }
+            this.variablesService.deleteContext(lastContext);
+            this.variablesService.setVariables(this.contexts[this.contexts.length-1], variables);
+        }
+        return lastStructure;
     }
 }
 
