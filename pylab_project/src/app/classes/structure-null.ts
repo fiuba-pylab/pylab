@@ -52,6 +52,7 @@ export class NullStructure extends Structure {
            
            if(collectionFunctions){
                variables[varName] = variables[collectionFunctions[1]]?.len();
+               this.variablesService!.setVariables(this.context, variables);
                return { amount: 1, finish: true };
            }
 
@@ -60,6 +61,7 @@ export class NullStructure extends Structure {
                 const variable = collectionsIn[2];
                 if(variables[variable].in(elemento)){
                     variables[varName] = 'True';
+                    this.variablesService!.setVariables(this.context, variables);
                     return { amount: 1, finish: true };
                 }
             }
@@ -71,6 +73,7 @@ export class NullStructure extends Structure {
                 const sets = values.map((value: string) => variables[value]);
                 if (collectionOperations[operation]) {
                     variables[varName] = collectionOperations[operation](variables[variable], ...sets);
+                    this.variablesService!.setVariables(this.context, variables);
                 }
                 return { amount: 1, finish: true };
             }
