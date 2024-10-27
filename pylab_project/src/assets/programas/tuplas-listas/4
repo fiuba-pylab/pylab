@@ -33,5 +33,4 @@ for point1 in points:
             distance = calculate_distance(point1, point2)
             distances.append(distance)
     
-
 print(f'{distances}')
