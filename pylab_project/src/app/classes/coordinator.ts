@@ -24,6 +24,7 @@ export class Coordinator {
         this.codeService.functions.subscribe(async (value: { [key: string]: DefStructure; })=> {
             this.functions = value;
         });
+        this.variablesService.reset();
         this.codeService.addNewState(this);
     }
 
