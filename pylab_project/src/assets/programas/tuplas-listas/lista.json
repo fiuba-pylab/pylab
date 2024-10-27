@@ -47,7 +47,7 @@
         "id":3,
         "title":"Distancia",
         "description": "Solicitar al usuario dos puntos de coordenadas x e y, y calcular la distancia entre ellos y la recta que los une.",
-        "difficulty": 1,
+        "difficulty": 2,
         "introduction": "<h4>Objetivo:</h4>Dado dos puntos en el plano caracterizados por sus coordenadas, se calcula la distancia entre ellos y los datos de la recta que une a ambos.<h4>Casos:</h4><br>(5, 8), (-3, 10), (-2, -7), (1, -1), (6, 6), (-21, 11), (0, -3), (0, 0)",
         "inputs":[
             {
@@ -99,6 +99,24 @@
                     "0, 15",
                     "-2, 12",
                     "-6, 0"
+                ]
+            }
+        ]
+    },
+    {
+        "id":5,
+        "title":"Divisores",
+        "description": "Solicitar al usuario un número natural y se calcula los divisores del mismo, agregandolos a una list.",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Se agrega a una lista todos los divisores del número dado:<h4>Casos:</h4>24, 17, 30, 8",
+        "inputs":[
+            {
+                "name":"n",
+                "options":[
+                    "24",
+                    "17",
+                    "30",
+                    "8"
                 ]
             }
         ]
