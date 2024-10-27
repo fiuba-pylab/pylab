@@ -81,8 +81,14 @@ export class NullStructure extends Structure {
             if (VALID_OPERATORS.validAddOperators.includes(operator)) {
                 variables[variable].add(await this.applyFunctions(value, variables, variable))
             } else if (collectionAdd[5] == '+') {
-                const tupleValues = collectionAdd[6].split(', ')
-                for (let tupleValue of tupleValues) {
+                let tuple;
+                let values = []
+                if(tuple = variables[collectionAdd[6]]){
+                    values = tuple.values
+                } else {
+                    values = collectionAdd[6].split(', ')
+                }
+                for (let tupleValue of values) {
                     variables[collectionAdd[4]].add(tupleValue)
                 }
             }
