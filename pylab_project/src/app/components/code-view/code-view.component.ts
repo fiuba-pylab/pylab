@@ -6,6 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import * as monaco from 'monaco-editor';
 import { CodeService } from '../../services/code.service';
 import { Coordinator } from '../../classes/coordinator';
+import * as pr from '../../classes/program' ;
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
