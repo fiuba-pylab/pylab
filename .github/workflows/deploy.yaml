@@ -9,7 +9,6 @@ on:
       - main
     types:
       - closed
-  workflow_dispatch:
 
 jobs:
   push-to-public:
