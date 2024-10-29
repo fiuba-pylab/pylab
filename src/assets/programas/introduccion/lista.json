@@ -1,6 +1,6 @@
 [
     {
-        "id":"raices.py",
+        "id":1,
         "title":"Raíces - ecuación cuadrática",
         "description": "Ejemplo de programa con todos los atributos",
         "difficulty": 1,
@@ -30,7 +30,7 @@
         ]
     },
     {
-        "id": "pitagoras.py",
+        "id": 2,
         "title": "Teorema Pitágoras",
         "description": "Variables y tipos de datos en Python",
         "difficulty": 2,
@@ -59,7 +59,7 @@
         ]
     },
     {
-        "id": "ecuacion.py",
+        "id": 3,
         "title": "Ecuación matemática",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 3,
@@ -90,7 +90,7 @@
         ]
     },
     {
-        "id": "division.py",
+        "id": 4,
         "title": "División",
         "description": "Operadores aritméticos, lógicos y de comparación en Python",
         "difficulty": 2,

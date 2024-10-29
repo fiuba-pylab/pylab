@@ -1,6 +1,6 @@
 [
     {
-        "id":"triangulo.py",
+        "id":1,
         "title":"Clasificación triángulo",
         "description": "Recibe tres valores de distintos angulos para cierto triangulo.",
         "difficulty": 1,
@@ -39,7 +39,7 @@
         ]
     },
     {
-        "id": "intereses.py",
+        "id": 2,
         "title": "Plazos e intereses",
         "description": "Se recibe un monto a pagar y el plazo, en base a eso calcula los intereses.",
         "difficulty": 1,
@@ -70,7 +70,7 @@
         ]
     },
     {
-        "id": "ventas.py",
+        "id": 3,
         "title": "Ventas en local",
         "description": "Se recibe un método de pago, precio por unidad de un producto y cantidad a comprar. En base al método de pago y cantidad, se realiza un descuento o un recargo.",
         "difficulty": 3,
@@ -103,7 +103,7 @@
         ]
     },
     {
-        "id": "imaginarios.py",
+        "id": 4,
         "title": "Números imaginarios",
         "description": "",
         "difficulty": 4,
@@ -130,7 +130,7 @@
         ]
     },
     {
-        "id": "romanos.py",
+        "id": 5,
         "title": "Números romanos",
         "description": "",
         "difficulty": 5,
@@ -151,7 +151,7 @@
         ]
     },
     {
-        "id": "triangulo2.py",
+        "id": 6,
         "title": "Clasificación triángulo 2",
         "description": "clasificación de triángulos",
         "difficulty": 2,

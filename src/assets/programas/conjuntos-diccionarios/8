@@ -9,6 +9,6 @@ def fibonacci(n, memo={}):
     return memo[n]
 
 
-n = input('ingrese número para realizar la sucesión de Fibonacci')
+n = input('Ingrese número para realizar la sucesión de Fibonacci')
 fibo = fibonacci(n)
 print(f'{fibo}')

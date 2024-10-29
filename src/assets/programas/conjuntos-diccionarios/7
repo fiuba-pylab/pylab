@@ -1,4 +1,4 @@
-texto = "este es un ejemplo de un texto donde el ejemplo es repetido"
+texto = input("Introduce un texto: ")
 frecuencia_palabras = {}
 texto_split = texto.split()
 

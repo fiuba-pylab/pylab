@@ -1,6 +1,6 @@
 [
     {
-        "id": "calculadora.py",
+        "id": 1,
         "title": "Calculadora",
         "description": "calculadora básica",
         "difficulty": 1,
@@ -37,7 +37,7 @@
         ]
     },
     {
-        "id": "primos.py",
+        "id": 2,
         "title": "Números primos",
         "description": "Números primos",
         "difficulty": 2,

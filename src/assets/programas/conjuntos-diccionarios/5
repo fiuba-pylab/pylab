@@ -1,6 +1,8 @@
 def tiene_duplicados(lista):
     valores_unicos = list(set(lista))
-    if len(lista) == len(valores_unicos):
+    len_lista = len(lista)
+    len_valores_unicos = len(valores_unicos)
+    if len_lista == len_valores_unicos:
         return False
     else:
         return True
