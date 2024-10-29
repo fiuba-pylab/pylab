@@ -26,5 +26,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
         run: |
-          git remote add public https://github.com/fiuba-pylab/pylab-deploy.git
+          git remote add public https://fiuba-pylab:${{ secrets.PUSH_TOKEN }}@github.com/fiuba-pylab/pylab-deploy.git
           git push public main
+
