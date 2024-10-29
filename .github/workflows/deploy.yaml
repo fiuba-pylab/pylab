@@ -23,7 +23,8 @@ jobs:
 
       - name: Push to Deploy Repo
         env:
-          GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
         run: |
           git remote add public https://github.com/fiuba-pylab/pylab-deploy.git
           git push public main
