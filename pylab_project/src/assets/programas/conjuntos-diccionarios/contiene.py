@@ -4,8 +4,9 @@ palabras['FIUBA']=1
 
 palabras['UBA']=5
 
-boolean = 'UBA' in palabras; 
-print(boolean)
+contieneFiuba = 'UBA' in palabras
+
+print(contieneFiuba)
 
 palabras['FIUBA']+=1
 

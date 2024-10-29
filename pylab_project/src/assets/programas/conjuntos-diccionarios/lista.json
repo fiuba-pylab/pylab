@@ -1,12 +1,5 @@
 [
     {
-        "id": "colecciones.py",
-        "title": "Ejemplo colecciones",
-        "description": "Colecciones prueba",
-        "difficulty": 1,
-        "introduction": ""
-    }, 
-    {
         "id": "ventas.py",
         "title": "Ventas de un negocio",
         "description": "Totales de ventas en un dia en un negocio.",
@@ -14,32 +7,46 @@
         "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
     }, 
     {
-        "id": "diccionario_intro1.py",
-        "title": "Introduccion a Diccionarios - Parte 1",
-        "description": ".",
-        "difficulty": 3,
-        "introduction": ""
+        "id": "frutas.py",
+        "title": "Frutas y cantidades",
+        "description": "Uso de diccionario para contar la cantidad y variedad de frutas.",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4> Crear un diccionario donde cada tipo de fruta sea una clave y su valor sea la suma de todas las cantidades asociadas a ese tipo de fruta. Trabajamos con una lista de frutas, donde cada elemento es una cadena que combina el nombre de la fruta y una cantidad. El objetivo es procesar esta lista y obtener un diccionario que agrupe cada tipo de fruta, sumando sus cantidades respectivas. Para lograrlo, dividimos cada cadena, extraemos el nombre y la cantidad, y luego utilizamos un diccionario para almacenar y actualizar las cantidades. Este ejercicio es útil para comprender cómo manipular y estructurar datos, realizar operaciones aritméticas en diccionarios y verificar la existencia de claves en estructuras de datos."
     },
     {
-        "id": "diccionario_intro1.py",
-        "title": "Introduccion a Diccionarios - Parte 1",
-        "description": ".",
-        "difficulty": 3,
-        "introduction": ""
+        "id": "contiene.py",
+        "title": "Contiene palabras",
+        "description": "Agregamos palabras a un diccionario para luego iterarlo.",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4> Este código crea un diccionario llamado palabras para almacenar pares clave-valor, donde las claves son palabras y los valores son números asociados a cada palabra. Primero, asigna el valor 1 a la clave 'FIUBA' y 5 a la clave 'UBA'. Luego, usa la expresión 'UBA' in palabras para verificar si la clave 'UBA' existe en el diccionario, guardando el resultado (True o False) en la variable contieneFiuba. Posteriormente, incrementa el valor asociado a 'FIUBA' en 1, cambiándolo de 1 a 2. Finalmente, un bucle for recorre cada clave y valor del diccionario, imprimiendo ambos. En la salida, se muestra si 'UBA' está en el diccionario (True) y luego las claves y sus valores actualizados: 'FIUBA' 2 y 'UBA' 5."
     },
+    {
+        "id": "operaciones.py",
+        "title": "Operaciones con conjuntos",
+        "description": "Realizar distintas operaciones entre dos conjuntos.",
+        "difficulty": 2,
+        "introduction": "<p>This code uses sets in Python to perform various operations between two sets of names, <code>A</code> and <code>B</code>. Here is the explanation of each operation:</p> <ul> <li><code>A - B</code>: Shows the elements that are in <code>A</code> but not in <code>B</code>. This is the <strong>difference</strong> of sets, resulting in <code>{'Juan', 'Federico', 'Lorena'}</code>.</li> <li><code>B - A</code>: Shows the elements that are in <code>B</code> but not in <code>A</code>. This is the <strong>difference</strong> of <code>B</code> relative to <code>A</code>, resulting in <code>{'Agustín', 'Ana', 'Alejo'}</code>.</li> <li><code>A | B</code>: Shows all elements from both <code>A</code> and <code>B</code>, eliminating duplicates. This is the <strong>union</strong> of the sets, resulting in <code>{'Juan', 'Esteban', 'Laura', 'Federico', 'Lorena', 'Agustín', 'Alejo', 'Ana'}</code>.</li> <li><code>A &amp; B</code>: Shows the elements common to both <code>A</code> and <code>B</code>. This is the <strong>intersection</strong> of the sets, resulting in <code>{'Esteban', 'Laura'}</code>.</li> <li><code>A ^ B</code>: Shows elements that are in <code>A</code> or <code>B</code> but not in both. This is called the <strong>symmetric difference</strong>, resulting in <code>{'Juan', 'Federico', 'Lorena', 'Agustín', 'Ana', 'Alejo'}</code>.</li> <li><code>(A - B) | (B - A)</code>: Another way to express the symmetric difference between <code>A</code> and <code>B</code>, gathering elements that are in one of the sets but not both. The result is the same as <code>A ^ B</code>: <code>{'Juan', 'Federico', 'Lorena', 'Agustín', 'Ana', 'Alejo'}</code>.</li> <li><code>(A | B) - (A &amp; B)</code>: Also represents the symmetric difference, as it takes all elements of <code>A</code> and <code>B</code> and removes the common ones. This gives the same result: <code>{'Juan', 'Federico', 'Lorena', 'Agustín', 'Ana', 'Alejo'}</code>.</li> </ul> <p>In summary, these operations demonstrate how to find unique elements, common elements, and elements exclusive to one of the sets.</p>"
+    }, 
     {
         "id": "topicos.py",
         "title": "Ventas de un negocio",
-        "description": "Totales de ventas en un dia en un negocio.",
+        "description": "",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
+        "introduction": "<h4>Objetivo:</h4>"
     }, 
     {
         "id": "tiene_duplicados.py",
         "title": "Ventas de un negocio",
-        "description": "Totales de ventas en un dia en un negocio.",
+        "description": "",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> En un archivo de texto precios.txt se dispone de los precios de cada artículo, y en otro las cantidades de artículos de cada venta de un día. El programa carga en un diccionario los precios de los artículos, totaliza en otro diccionario las unidades vendidas de cada artículo a partir del archivo de texto cuyo nombre indica el usuario y que representa el detalle de ventas de un día, y finalmente reporta las totalizaciones en pantalla. <br><br> <h4>Casos:</h4>"
-    }
+        "introduction": "<h4>Objetivo:</h4>"
+    }, 
+    {
+        "id": "filtrar_palabras.py",
+        "title": "Filtrar palabras únicas",
+        "description": "Palabras en comun y únicas entre 2 conjuntos.",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4> A partir de una lista de palabras que se guardan en un set, obtenemos las palabras únicas, es decir, las que están en un conjunto pero no en el otro, y aquellas que no están en ninguno. <br><br> <h4>Casos:</h4>"
+    }, 
 
 ]
