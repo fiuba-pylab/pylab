@@ -83,6 +83,7 @@ export class Coordinator {
                 return;
             } 
         });
+        
         if(this.currentLine == 0 && this.executingFunction){
             this.codeService.previousState(true);
         }else if(this.currentLine == 0 && !this.executingFunction){

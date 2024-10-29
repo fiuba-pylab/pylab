@@ -120,8 +120,14 @@ export class NullStructure extends Structure {
             if (VALID_OPERATORS.validAddOperators.includes(operator)) {
                 variables[variable].add(await this.applyFunctions(value, variables, variable))
             } else if (collectionAdd[5] == '+') {
-                const tupleValues = collectionAdd[6].split(', ')
-                for (let tupleValue of tupleValues) {
+                let tuple;
+                let values = []
+                if(tuple = variables[collectionAdd[6]]){
+                    values = tuple.values
+                } else {
+                    values = collectionAdd[6].split(', ')
+                }
+                for (let tupleValue of values) {
                     variables[collectionAdd[4]].add(tupleValue)
                 }
             }
@@ -239,7 +245,7 @@ export class NullStructure extends Structure {
             }
             return new List(values);
         } else if (varMatch = varValue.match(REGEX_CONSTS.REGEX_DICTIONARY)) {
-            const dictionaryElements = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');;
+            const dictionaryElements = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
             const dictionary = new Dictionary();
             let element;
             if(dictionaryElements[0] != ''){
@@ -249,10 +255,10 @@ export class NullStructure extends Structure {
             }
             return dictionary;
         } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
-            const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+            const values = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
             return new Set(values);
         } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
-            const values = varValue.slice(1, varValue.length - 1).replace(', ', ',').split(',');
+            const values = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
             return new Tuple(values);
         }  else {
             return null;
