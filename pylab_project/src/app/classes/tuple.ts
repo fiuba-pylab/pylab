@@ -5,9 +5,7 @@ export class Tuple extends Collection{
         this.values.push(element)
     }
 
-    override substract(element?: any): void {
-        
-    }
+    override substract(element?: any): void {}
 
     override access(index:string){
         return this.values[Number(index)]
