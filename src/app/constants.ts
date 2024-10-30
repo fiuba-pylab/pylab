@@ -5,15 +5,15 @@ const REGEX_FUNCTIONS = /\b(input|float|abs|int|str|math\.\w+)\s*\(([^()]+)\)/g;
 const REGEX_PRINT = /print\s*\(\s*(['"]?)(.*?)\1\s*\)/;
 const REGEX_RETURN = /^\s*return(?:\s+(.*))?$/;
 const REGEX_DEF = /^def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(([^)]*)\)/;
-const REGEX_NAMED_PARAMS = /^\s*(\w+)\s*=\s*([\w\s+\-*/]+)\s*$/;
+const REGEX_NAMED_PARAMS = /^\s*(\w+)\s*=\s*([\w\s+\-*/]+|{\s*})\s*$/
 const REGEX_LIST = /^\[[^\]]*\]$/;
-const REGGEX_SET = /^\{[^}]+\}$/;
+const REGGEX_SET = /^\{[^}]+\}$|^set\(\s*\)$/;
 const REGGEX_TUPLE = /^\( *(?:[^(),]+|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\([^()]*\|[ \t\n\r]*|(?:,\s*)?)*\) *$/;
 const REGEX_DICTIONARY = /^\{(\s*".+?"\s*:\s*".+?"\s*(,\s*".+?"\s*:\s*".+?"\s*)*)?\}$/
 const REGEX_COLLECTION_ADD = /^(\w+)\.(append|add)\((.+?)\)$|^(\w+)\s*(\+)\s*(\((.+?)\)|(\w+))$/;
 const REGEX_COLLECTION_SUBSTRACT = /^(\w+)\.(remove|discard)\((.+?)\)$/
 const REGEX_COLLECTION_LEN = /^len\((\w+)\)$/;
-const REGEX_COLLECTION_ACCESS = /^(\w+)\[(.+?)\]$/;
+const REGEX_COLLECTION_ACCESS = /^(int\((\w+)\[(.+?)\])|(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
 const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
@@ -28,6 +28,8 @@ const REGEX_EXPONENT = /(\d+(?:\.\d+)?)\s*\*\*\s*(\d+(?:\.\d+)?)/;
 const REGEX_IN_COLLECTIONS = /^([^ ]+)\s+in\s+(\w+)$/;
 const REGEX_BETWEEN_SET_OPERATIONS = /^(\w+)\s*([.&|+\-^])\s*(\w+)$|^(\w+)\.(intersection|difference|union|symmetricDifference)\(([^)]+)\)$/;
 const REGEX_SET_OPERATIONS = /^(\w+)\s*([|&=+-])=\s*{([^}]+)}$/;
+const REGEX_SPLIT = /^\s*(\w+)\s*\.split\s*\(\s*\)\s*;?\s*$/;
+
 
 const IF = 'if';
 const WHILE = 'while';
@@ -83,7 +85,8 @@ export const REGEX_CONSTS = {
     REGEX_COLLECTION_LEN,
     REGEX_IN_COLLECTIONS,
     REGEX_BETWEEN_SET_OPERATIONS,
-    REGEX_SET_OPERATIONS
+    REGEX_SET_OPERATIONS,
+    REGEX_SPLIT
 };
 
 export const STRUCTURES = {

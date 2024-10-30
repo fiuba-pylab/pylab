@@ -56,10 +56,18 @@ export class NullStructure extends Structure {
         const collectionSetOperations = this.lines[0].match(REGEX_CONSTS.REGEX_SET_OPERATIONS);
         if (variableDeclaration && !print) {
            const varName = variableDeclaration[1];
-           let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
+           let varValue = variableDeclaration[2];
            let collectionFunctions = varValue.match(REGEX_CONSTS.REGEX_COLLECTION_LEN);
            let collectionsIn = varValue.match(REGEX_CONSTS.REGEX_IN_COLLECTIONS);
            let collectionsOperations = varValue.match(REGEX_CONSTS.REGEX_BETWEEN_SET_OPERATIONS);
+           let split = varValue.match(REGEX_CONSTS.REGEX_SPLIT);
+
+           if(split){
+                const variable = split[1];
+                variables[varName] = new List(variables[variable].replace(/,/g, '').replace(/'/g, '').split(' '));
+                this.variablesService!.setVariables(this.context, variables);
+                return { amount: 1, finish: true };
+           }
            
            if(collectionFunctions){
                variables[varName] = variables[collectionFunctions[1]]?.len();
@@ -68,7 +76,7 @@ export class NullStructure extends Structure {
            }
 
             if(collectionsIn){
-                const elemento = collectionsIn[1];
+                const elemento = await this.applyFunctions(collectionsIn[1], variables);
                 const variable = collectionsIn[2];
                 if(variables[variable].in(elemento.replace(/^'|'$/g, ''))){
                     variables[varName] = 'True';
@@ -84,19 +92,19 @@ export class NullStructure extends Structure {
                 const operation = collectionsOperations[2];
                 const values = collectionsOperations[3].split(',').map((value: string) => value.trim());
                 const sets = values.map((value: string) => variables[value]);
-                if (collectionOperations[operation]) {
+                if (collectionOperations[operation] && variables[variable] && variables[variable] instanceof Set) {
                     variables[varName] = collectionOperations[operation](variables[variable], ...sets);
                     this.variablesService!.setVariables(this.context, variables);
-                }
-                return { amount: 1, finish: true };
+                    return { amount: 1, finish: true };
+                }  
             }
-
-           let collection = await this.matchCollection(varValue, variables, variableDeclaration[2]);
+            varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
+            let collection = await this.matchCollection(varValue, variables, variableDeclaration[2]);
          
             if (!collection) {
                 variables[varName] = evaluate(varValue);
             } else {
-                variables[varName] = collection
+                variables[varName] = collection;
             }
         }
 
@@ -104,7 +112,7 @@ export class NullStructure extends Structure {
             const variable = collectionSetOperations[1];
             const operator = collectionSetOperations[2];
             const values = collectionSetOperations[3].trim();
-            if(variables[variable]){
+            if(variables[variable] && variables[variable] instanceof Set){
                 collectionSetOps[operator as SetOperator](variables[variable], values.split(',').map((value: string) => value.trim().replace(/^'|'$/g, '')));
             }
             this.variablesService!.setVariables(this.context, variables);
@@ -244,14 +252,18 @@ export class NullStructure extends Structure {
     async matchCollection(varValue: string, variables: any, collectionName: string) {
         let collectionAccess;
         if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
-            const value = collectionAccess[1]
-            const index = collectionAccess[2]
-            const accessIndex = evaluate(await this.applyFunctions(index, variables))
+            const value = collectionAccess[4]? collectionAccess[4] : collectionAccess[2];
+            const index = collectionAccess[5]? collectionAccess[5] : collectionAccess[3];
+            const accessIndex = evaluate(await this.applyFunctions(index, variables));
             //caso en que se indexa un string
             if(typeof(variables[value]) == 'string'){
                 return variables[value][Number(index)]
             }
-            return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+            var valueFromCollection = variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+            if(collectionAccess[1]){
+                return Number(valueFromCollection);
+            }
+            return valueFromCollection;
         }
         const variable = variables[varValue]
         if(variable && variable instanceof Collection){
@@ -279,6 +291,8 @@ export class NullStructure extends Structure {
             }
             return dictionary;
         } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
+            if(varValue == 'set()')
+                return new Set();
             const values = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
             return new Set(values);
         } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
