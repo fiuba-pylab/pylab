@@ -71,10 +71,10 @@
     }, 
     {
         "id": 4,
-        "title": "Duplicados",
+        "title": "Valores duplicados",
         "description": "Identificar si una lista contiene valores duplicados usando un conjunto para almacenar valores únicos.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Dada una lista de valores, determinar si la lista contiene valores duplicados. Para lograrlo, se usa un conjunto que almacena los valores únicos y se compara su longitud con la longitud de la lista original.<br><br><h4>Casos:</h4> 1. Lista con duplicados: '1, 2, 3, 4, 5, 1, 2, 3, 4, 5'.<br>2. Lista sin duplicados: '1, 2, 3, 4, 5, 6, 7, 8, 9, 10'.<br>3. Lista con duplicados: '1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10'.",
+        "introduction": "<h4>Objetivo:</h4> Dada una lista de valores, determinar si la lista contiene valores duplicados. Para lograrlo, se usa un conjunto que almacena los valores únicos y se compara su longitud con la longitud de la lista original.<br><br><h4>Casos:</h4> 1. Lista con duplicados: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]. <br> 2. Lista sin duplicados: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]. <br> 3. Lista con duplicados: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].",
         "inputs": [
             {
                 "name": "lista",
@@ -108,14 +108,15 @@
         "title": "Contador de palabras",
         "description": "Contar la cantidad de veces que aparece cada palabra en un texto usando un diccionario.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un texto para contar las apariciones de cada palabra, utilizando un diccionario para almacenar la frecuencia de cada palabra.",
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un texto para contar las apariciones de cada palabra, utilizando un diccionario para almacenar la frecuencia de cada palabra. <br> <br> <h4>Casos:</h4> 1. Solo una palabra se repite: 'El perro come comida, el gato come pescado'. <br> 2. Dos palabras se repiten: 'Mi perro come carne, el perro de mi vecino come pollo'. <br> 3. Cuatro palabras repetidas: 'Mi perro come carne, el perro de mi vecino come pollo, el gato de mi hermano no come ni carne ni pollo'. <br> 4. Sin palabras repetidas: 'Mi perro come carne'.",
         "inputs": [
             {
                 "name": "texto",
                 "options": [
                     "El perro come comida, el gato come pescado",
-                    "El perro come comida, el gato come pescado, el loro come semillas",
-                    "El perro come comida, el gato come pescado, el loro come semillas, el pez come alimento"
+                    "Mi perro come carne, el perro de mi vecino come pollo",
+                    "Mi perro come carne, el perro de mi vecino come pollo, el gato de mi hermano no come ni carne ni pollo",
+                    "Mi perro come carne"
                 ]
             }
         ]
