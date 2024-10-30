@@ -43,6 +43,8 @@ export class FunctionInfoComponent implements OnInit {
 }
 
   async openPythonDocumentation() {
+    let url = "https://docs.python.org/3/library/functions.html#" + this.functionName; 
+    window.open(url, '_blank');
 
   }
 }
