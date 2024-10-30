@@ -19,7 +19,7 @@ export abstract class Collection{
     }
 
     in(element:any): boolean{
-        return this.values.includes(element)
+        return this.values.includes(element);
     }
 }
 

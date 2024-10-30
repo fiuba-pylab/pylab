@@ -26,7 +26,8 @@ const INDEXING_COLLECTION = /^\w+\[.*\]/;
 const REGEX_DIVISION = /(\d+)\s*\/\/\s*(\d+)/;
 const REGEX_EXPONENT = /(\d+(?:\.\d+)?)\s*\*\*\s*(\d+(?:\.\d+)?)/;
 const REGEX_IN_COLLECTIONS = /^([^ ]+)\s+in\s+(\w+)$/;
-const REGEX_COLLECTION_OPERATIONS = /^(\w+)\.(intersection|difference)\(([^)]+)\)$/;
+const REGEX_BETWEEN_SET_OPERATIONS = /^(\w+)\s*([.&|+\-^])\s*(\w+)$|^(\w+)\.(intersection|difference|union|symmetricDifference)\(([^)]+)\)$/;
+const REGEX_SET_OPERATIONS = /^(\w+)\s*([|&=+-])=\s*{([^}]+)}$/;
 
 const IF = 'if';
 const WHILE = 'while';
@@ -81,7 +82,8 @@ export const REGEX_CONSTS = {
     REGEX_NOT_IN_OPERATION,
     REGEX_COLLECTION_LEN,
     REGEX_IN_COLLECTIONS,
-    REGEX_COLLECTION_OPERATIONS
+    REGEX_BETWEEN_SET_OPERATIONS,
+    REGEX_SET_OPERATIONS
 };
 
 export const STRUCTURES = {

@@ -20,9 +20,19 @@ const operations = {
 const collectionOperations: { [key: string]: (set: Set, ...sets: Set[]) => Set } = {
     intersection: (set, ...sets) => set.intersection(...sets),
     difference: (set, ...sets) => set.difference(...sets),
+    '&': (set, ...sets) => set.intersection(...sets),
+    '-': (set, ...sets) => set.difference(...sets),
+    '|': (set, ...sets) => set.union(...sets),
+    '^': (set, ...sets) => set.symmetric_difference(...sets),
+};
+
+const collectionSetOps = {
+    '-': (set: Set, values: []) => values.forEach((value: string) => set.substract(value)),
+    '|': (set: Set, values: []) => values.forEach((value: string) => set.add(value)),
 };
 
 type Operator = keyof typeof operations;
+type SetOperator = keyof typeof collectionSetOps;
 export class NullStructure extends Structure {
     super() { }
     setScope(code: any) {
@@ -43,12 +53,13 @@ export class NullStructure extends Structure {
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
         const isReturn = this.lines[0].match(REGEX_CONSTS.REGEX_RETURN);
         const collectionIndexing = this.lines[0].match(REGEX_CONSTS.INDEXING_COLLECTION)
+        const collectionSetOperations = this.lines[0].match(REGEX_CONSTS.REGEX_SET_OPERATIONS);
         if (variableDeclaration && !print) {
            const varName = variableDeclaration[1];
            let varValue = await this.applyFunctions(variableDeclaration[2], variables, varName);
            let collectionFunctions = varValue.match(REGEX_CONSTS.REGEX_COLLECTION_LEN);
            let collectionsIn = varValue.match(REGEX_CONSTS.REGEX_IN_COLLECTIONS);
-           let collectionsOperations = varValue.match(REGEX_CONSTS.REGEX_COLLECTION_OPERATIONS);
+           let collectionsOperations = varValue.match(REGEX_CONSTS.REGEX_BETWEEN_SET_OPERATIONS);
            
            if(collectionFunctions){
                variables[varName] = variables[collectionFunctions[1]]?.len();
@@ -59,11 +70,13 @@ export class NullStructure extends Structure {
             if(collectionsIn){
                 const elemento = collectionsIn[1];
                 const variable = collectionsIn[2];
-                if(variables[variable].in(elemento)){
+                if(variables[variable].in(elemento.replace(/^'|'$/g, ''))){
                     variables[varName] = 'True';
-                    this.variablesService!.setVariables(this.context, variables);
-                    return { amount: 1, finish: true };
+                }else{
+                    variables[varName] = 'False';
                 }
+                this.variablesService!.setVariables(this.context, variables);
+                return { amount: 1, finish: true };
             }
 
             if(collectionsOperations){
@@ -85,6 +98,17 @@ export class NullStructure extends Structure {
             } else {
                 variables[varName] = collection
             }
+        }
+
+        if(collectionSetOperations){
+            const variable = collectionSetOperations[1];
+            const operator = collectionSetOperations[2];
+            const values = collectionSetOperations[3].trim();
+            if(variables[variable]){
+                collectionSetOps[operator as SetOperator](variables[variable], values.split(',').map((value: string) => value.trim().replace(/^'|'$/g, '')));
+            }
+            this.variablesService!.setVariables(this.context, variables);
+            return { amount: 1, finish: true };
         }
 
         if (operations) {
