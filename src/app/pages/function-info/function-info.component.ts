@@ -11,6 +11,7 @@ import { Program } from '../../classes/program';
 import { Function } from '../../classes/function';
 import { lastValueFrom } from 'rxjs';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { PYTHON_DOC_URL } from "../../constants";
 
 @Component({
   selector: 'app-function-info',
@@ -43,8 +44,7 @@ export class FunctionInfoComponent implements OnInit {
 }
 
   async openPythonDocumentation() {
-    let url = "https://docs.python.org/3/library/functions.html#" + this.functionName; 
+    let url = PYTHON_DOC_URL + this.functionName; 
     window.open(url, '_blank');
-
   }
 }
