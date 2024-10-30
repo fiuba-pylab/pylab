@@ -21,5 +21,6 @@ export abstract class Collection{
     in(element:any): boolean{
         return this.values.includes(element);
     }
+    abstract clone(): Collection;
 }
 

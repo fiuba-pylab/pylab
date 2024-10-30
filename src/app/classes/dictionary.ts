@@ -19,7 +19,9 @@ export class Dictionary extends Collection{
     }
 
     override insert(index:string, value:any){
-        this.values[index.replace(/^'|'$/g, '')] = value
+        const cleanIndex = typeof index === 'string' ? index.replace(/^'|'$/g, '') : String(index);
+
+        this.values[cleanIndex] = value;
     }
 
     override print(): string {
@@ -34,6 +36,12 @@ export class Dictionary extends Collection{
 
     override in(element:any): boolean{
         return element in this.values;
+    }
+
+    override clone(): Collection {
+        const clone = new Dictionary();
+        clone.values = JSON.parse(JSON.stringify(this.values));
+        return clone;
     }
       
 }

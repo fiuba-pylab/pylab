@@ -92,5 +92,11 @@ export class Set extends Collection{
 
         return result;
     }
+
+    override clone(): Collection {
+        const clone = new Set();
+        clone.values = [...this.values];
+        return clone;
+    }
     
 }
