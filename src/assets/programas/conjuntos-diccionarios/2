@@ -7,7 +7,7 @@ contiene_uba = 'UBA' in palabras
 
 print(f'{contiene_uba}')
 
-palabras['FIUBA'] += 1
+palabras['FIUBA'] = 10
 
 for clave, valor in palabras.items():
-    print(clave, valor)
+    print(f'{clave}: {valor}')

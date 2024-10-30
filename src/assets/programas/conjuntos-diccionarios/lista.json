@@ -33,16 +33,16 @@
             {
                 "name": "A",
                 "options": [
-                    "{1, 2, 3, 4, 5}"
+                    "1, 2, 3, 4, 5"
                 ]
             },
             {
                 "name": "B",
                 "options": [
-                    "{4, 5, 6, 7, 8}",
-                    "{6, 7, 8, 9, 10}",
-                    "{1, 2, 3, 4, 5}",
-                    "{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}"
+                    "4, 5, 6, 7, 8",
+                    "6, 7, 8, 9, 10",
+                    "1, 2, 3, 4, 5",
+                    "1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
                 ]
             }
         ]
@@ -66,7 +66,17 @@
         "title": "Operaciones con conjuntos 2",
         "description": "Palabras en comun y únicas entre 2 conjuntos.",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> A partir de una lista de palabras que se guardan en un set, obtenemos las palabras únicas, es decir, las que están en un conjunto pero no en el otro, y aquellas que no están en ninguno. <br><br> <h4>Casos:</h4>"
+        "introduction": "<h4>Objetivo:</h4> A partir de una lista de palabras que se guardan en un set, obtenemos las palabras únicas, es decir, las que están en un conjunto pero no en el otro, y aquellas que no están en ninguno. <br><br> <h4>Casos:</h4>",
+        "inputs":[
+            {
+                "name": "frutas",
+                "options": [
+                    "manzana, ciruela, pera, naranja, uva",
+                    "manzana, banana, pera, kiwi, uva",
+                    "manzana, pera, kiwi, uva, naranja"
+                ]
+            }
+        ]
     },
     {
         "id": 7,

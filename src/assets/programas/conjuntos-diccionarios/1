@@ -9,4 +9,4 @@ for fruta in frutas:
     else:
         dict[nombre] = cantidad
 
-print(dict)
+print(f'{dict}')
