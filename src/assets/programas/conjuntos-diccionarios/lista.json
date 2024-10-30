@@ -21,7 +21,29 @@
         "title": "Contiene palabras",
         "description": "Agregamos palabras a un diccionario para luego iterarlo.",
         "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4> Crear un diccionario llamado palabras para almacenar pares clave-valor, donde las claves son palabras y los valores son números asociados a cada palabra. Primero, asigna el valor 1 a la clave 'FIUBA' y 5 a la clave 'UBA'. Luego, usa la expresión 'UBA' in palabras para verificar si la clave 'UBA' existe en el diccionario, guardando el resultado (True o False) en la variable contieneFiuba. Posteriormente, incrementa el valor asociado a 'FIUBA' en 1, cambiándolo de 1 a 2. Finalmente, un bucle for recorre cada clave y valor del diccionario, imprimiendo ambos. En la salida, se muestra si 'UBA' está en el diccionario (True) y luego las claves y sus valores actualizados: 'FIUBA' 2 y 'UBA' 5."
+        "introduction": "<h4>Objetivo:</h4> Crear un diccionario llamado palabras para almacenar pares clave-valor, donde las claves son palabras y los valores son números asociados a cada palabra. Primero, asigna el valor 1 a la clave 'FIUBA' y 5 a la clave 'UBA'. Luego, usa la expresión 'UBA' in palabras para verificar si la clave 'UBA' existe en el diccionario, guardando el resultado (True o False) en la variable contieneFiuba. Posteriormente, incrementa el valor asociado a 'FIUBA' en 1, cambiándolo de 1 a 2. Finalmente, un bucle for recorre cada clave y valor del diccionario, imprimiendo ambos. En la salida, se muestra si 'UBA' está en el diccionario (True) y luego las claves y sus valores actualizados: 'FIUBA' 2 y 'UBA' 5.",
+        "inputs": [
+            {
+                "name": "clave",
+                "options": [
+                    "FIUBA",
+                    "UBA",
+                    "FADU",
+                    "FDUBA",
+                    "BASTA"
+                ]
+            },
+            {
+                "name": "valor",
+                "options": [
+                    "1",
+                    "5",
+                    "3",
+                    "7",
+                    "10"
+                ]
+            }
+        ]
     },
     {
         "id": 3,

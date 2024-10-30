@@ -1,13 +1,13 @@
 palabras = {}
 
-palabras['FIUBA'] = 1
-palabras['UBA'] = 5
+clave = input("Ingresa la palabra que deseas agregar: ")
+valor = input("Ingresa el valor asociado a la palabra: ")
+while clave != "BASTA":
+    palabras[clave] = valor
+    print(f'Se ha agregado "{clave}": {valor}')
+    clave = input("Ingresa la palabra que deseas agregar: ")
+    valor = input("Ingresa el valor asociado a la palabra: ")
 
-contiene_uba = 'UBA' in palabras
-
-print(f'{contiene_uba}')
-
-palabras['FIUBA'] = 10
-
-for clave, valor in palabras.items():
-    print(f'{clave}: {valor}')
+clave = input("Ingresa la palabra que deseas buscar: ")
+contiene = clave in palabras
+print(f'¿"{clave}" está en el diccionario? {contiene}')
