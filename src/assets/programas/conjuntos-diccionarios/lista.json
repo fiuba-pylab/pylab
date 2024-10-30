@@ -71,13 +71,6 @@
     }, 
     {
         "id": 4,
-        "title": "Ventas de un negocio",
-        "description": "",
-        "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4>"
-    }, 
-    {
-        "id": 5,
         "title": "Duplicados",
         "description": "",
         "difficulty": 3,
@@ -94,7 +87,7 @@
         ]
     }, 
     {
-        "id": 6,
+        "id": 5,
         "title": "Operaciones con conjuntos 2",
         "description": "Palabras en comun y únicas entre 2 conjuntos.",
         "difficulty": 3,
@@ -111,7 +104,7 @@
         ]
     },
     {
-        "id": 7,
+        "id": 6,
         "title": "Contador de palabras",
         "description": "Contar la cantidad de veces que aparece cada palabra en un texto.",
         "difficulty": 3,
@@ -128,7 +121,7 @@
         ]
     },
     {
-        "id": 8,
+        "id": 7,
         "title": "Fibonacci con memorización",
         "description": "Calcular el n-ésimo término de la sucesión de Fibonacci con memorización.",
         "difficulty": 4,
@@ -146,7 +139,7 @@
         ]
     },
     {
-        "id": 9,
+        "id": 8,
         "title": "Secuencia Collatz",
         "description": "Calcular la secuencia de Collatz para un número dado.",
         "difficulty": 3,

@@ -1,16 +1,11 @@
-def fibonacci(n, memo = {}):
-    in_memo = n in memo
-    if in_memo:
-        valor = memo[n]
-        return valor
-    if n <= 1:
-        return n
-    fibo1 = fibonacci(n-1, memo)
-    fibo2 = fibonacci(n-2, memo)
-    memo[n] = fibo1 + fibo2
-    valor = memo[n]
-    return valor
+n = input('Ingrese numero para la secuencia collatz')
+secuencia = set()
+while n != 1:
+    secuencia.add(n)
+    if n % 2 == 0: 
+        n = n // 2 
+    else:
+        n = 3 * n + 1
+secuencia.add(1)
 
-n = input('Ingrese número para realizar la sucesión de Fibonacci')
-fibo = fibonacci(n)
-print(f'El número de Fibonacci de {n} es: {fibo}')
+print(f'{secuencia}')

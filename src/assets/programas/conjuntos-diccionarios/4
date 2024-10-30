@@ -1,10 +1,17 @@
-le_gusta_plantas = {6, 12, 15, 18, 23, 24}
-le_gusta_ecologia = {1, 4, 5, 10, 15, 18, 19, 20, 21, 25}
-le_gusta_genetica = {3, 4, 6, 19, 22}
-solo_le_gusta_genetica = le_gusta_genetica.difference(le_gusta_plantas, le_gusta_ecologia)
- 
-print(f'{solo_le_gusta_genetica}')
+def tiene_duplicados(lista):
+    valores_unicos = set()
+    for valor in lista:
+        valores_unicos.add(valor)
+    len_lista = len(lista)
+    len_valores_unicos = len(valores_unicos)
+    if len_lista == len_valores_unicos:
+        return False
+    else:
+        return True
 
-le_gusta_todo = le_gusta_genetica.intersection(le_gusta_plantas, le_gusta_ecologia)
- 
-print(f'{le_gusta_todo}')
+lista = [input('Ingrese la lista: ')] 
+duplicados = tiene_duplicados(lista)
+if duplicados:
+    print(f'{lista} tiene valores duplicados')
+else:
+    print(f'{lista} no tiene valores duplicados')
