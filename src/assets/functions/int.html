@@ -1,0 +1,66 @@
+<div class="container">
+    <h2>Función <code>int()</code> en Python</h2>
+    
+    <div class="section description">
+        <p>La función <code>int()</code> en Python se utiliza para convertir un número o cadena de texto en un número entero. Puede manejar tanto números decimales como cadenas de texto y permite la conversión desde diferentes bases numéricas, como binario, octal y hexadecimal.</p>
+    </div>
+
+    <h2>Sintaxis Básica</h2>
+    <div class="section">
+        <p>La sintaxis de la función <code>int()</code> es la siguiente:</p>
+        <div class="code-block">
+            int(x, base=10)
+        </div>
+        <p>
+            Donde:
+            <ul>
+                <li><code>x</code> (opcional) es el número o cadena a convertir.</li>
+                <li><code>base</code> (opcional) es la base numérica del valor en <code>x</code>, por defecto 10 (decimal).</li>
+            </ul>
+        </p>
+    </div>
+
+    <h2>Ejemplos</h2>
+
+    <div class="section">
+        <h3>Ejemplo 1: Convertir un Número Decimal</h3>
+        <p>En este ejemplo, convertimos el número decimal 10.5 en un entero:</p>
+        <div class="code-block">
+            <code>
+resultado = int(10.5)
+print(resultado) # Salida: 10
+            </code>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Ejemplo 2: Convertir una Cadena de Texto</h3>
+        <p>Convertimos una cadena de texto numérica en un entero:</p>
+        <div class="code-block">
+            <code>
+resultado = int("15")
+print(resultado) # Salida: 15
+            </code>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Ejemplo 3: Usar una Base Numérica Diferente</h3>
+        <p>Convertimos un número en binario especificando la base:</p>
+        <div class="code-block">
+            <code>
+resultado = int("1010", 2)
+print(resultado) # Salida: 10
+            </code>
+        </div>
+    </div>
+
+    <h2>Notas Importantes</h2>
+    <div class="section">
+        <ul>
+            <li>Si <code>x</code> no es un número o una cadena con formato numérico, <code>int()</code> generará un error.</li>
+            <li>Al convertir desde una cadena, asegúrate de que la cadena sea un número válido en la base especificada.</li>
+            <li>Si no se especifica la base, <code>int()</code> asume base 10 (decimal).</li>
+        </ul>
+    </div>
+</div>

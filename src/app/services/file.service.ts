@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Program } from '../classes/program';
+import { Function } from '../classes/function';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { Program } from '../classes/program';
 export class FileService {
 
   private filesUrl = 'assets/programas';
+  private functionInfoUrl = 'assets/functions';
 
   constructor(private http: HttpClient) { }
 
@@ -42,6 +44,17 @@ export class FileService {
               item.introduction,
               item.inputs
           ));
+      })
+    );
+  }
+  
+  getInfo(functionName: string): Observable<string> {
+    const fileUrl = `${this.functionInfoUrl}/${functionName}.html`;
+    return this.http.get(fileUrl, { responseType: 'text' }).pipe(
+      map(data => data), // Ensures data is returned as text
+      catchError(error => {
+          console.error('Error fetching HTML file:', error);
+          return throwError(() => error);
       })
   );
   }
