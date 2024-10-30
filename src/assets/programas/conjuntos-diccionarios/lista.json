@@ -9,9 +9,9 @@
             {
                 "name": "frutas",
                 "options": [
-                    "['manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4']",
-                    "['manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4', 'pera 2']",
-                    "['manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4', 'pera 2', 'manzana 1']"
+                    "'manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4'",
+                    "'manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4', 'pera 2'",
+                    "'manzana 3', 'banana 2', 'manzana 5', 'pera 1', 'banana 4', 'pera 2', 'manzana 1'"
                 ]
             }
         ]

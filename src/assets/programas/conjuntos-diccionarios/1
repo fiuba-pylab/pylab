@@ -1,12 +1,14 @@
 frutas = [input("Ingrese frutas y cantidades: ")]
-dict = {}
+cantidades_frutas = {}
 for fruta in frutas:
-    fruta_split = fruta.split(' ')
+    fruta_split = fruta.split()
     nombre = fruta_split[0]
-    cantidad = fruta_split[1]
-    if nombre in dict:
-        dict[nombre] += cantidad
+    cantidad = int(fruta_split[1])
+    esta_fruta = nombre in cantidades_frutas
+    if esta_fruta:
+        cant_actual = int(cantidades_frutas[nombre])
+        cantidades_frutas[nombre] = cantidad + cant_actual
     else:
-        dict[nombre] = cantidad
+        cantidades_frutas[nombre] = cantidad
 
-print(f'{dict}')
+print(f'{cantidades_frutas}')
