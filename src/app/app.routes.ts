@@ -27,8 +27,8 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/program-display/program-display.component').then((m) => m.ProgramDisplayComponent)
             },
             {
-                path: 'info/:function', 
-                loadComponent: () => import('./pages/function-info/function-info.component').then((m) => m.FunctionInfoComponent)
+                path: 'info/:id', 
+                loadComponent: () => import('./pages/comments/comments.component').then((m) => m.CommentsComponent)
             }
         ]
 
