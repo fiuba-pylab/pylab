@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 interface ResponseForm {
   name:string
@@ -24,7 +25,7 @@ export class ProgramIntroModalComponent implements OnInit{
   forms:ResponseForm[] = []
   data = inject(MAT_DIALOG_DATA);
 
-  constructor(public dialog: MatDialogRef<ProgramIntroModalComponent>){
+  constructor(public dialog: MatDialogRef<ProgramIntroModalComponent>, private router: Router){
 
   }
   ngOnInit(): void {
@@ -36,6 +37,11 @@ export class ProgramIntroModalComponent implements OnInit{
 
   onClose(){
     this.dialog.close(false)
+  }
+
+  goTo(url:string){
+    this.dialog.close(false);
+    this.router.navigate(['/info', url]);
   }
 
 }

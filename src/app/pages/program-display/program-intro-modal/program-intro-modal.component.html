@@ -3,6 +3,11 @@
     <mat-icon (click)="onClose()" class="x-close">close</mat-icon>
 </section>
 <div class="intro-container">
-    
-    <div [innerHTML]="data.program.introduction" class="information"></div>
+    <div class="information">
+    <div [innerHTML]="data.program.introduction" ></div>
+    <h4>Anexos:</h4>
+    @for (comment of data.program.comments; track $index) {
+        <button mat-button (click)="goTo(comment)">{{ comment }}</button>
+    }
+</div>
 </div>

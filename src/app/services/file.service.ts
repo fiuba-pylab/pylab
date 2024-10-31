@@ -35,7 +35,8 @@ export class FileService {
               item.description,
               item.difficulty,
               item.introduction,
-              item.inputs
+              item.inputs,
+              item.comments
           ));
       })
     );
