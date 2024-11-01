@@ -35,7 +35,6 @@ export class Executor{
         this.context = context
 
         this.variables = this.variablesService!.getVariables(this.context);
-        console.log("this.variables", this.variables)
     }
 
     async applyFunctions(variableValue: any, variables: any, varName?: string): Promise<any> {
@@ -266,7 +265,6 @@ export class Executor{
 
     async checkOperations(){
         const operations = this.lines[0].match(REGEX_CONSTS.REGEX_OPERATIONS);
-        console.log("operations", operations)
         if (operations) {
             const variable = operations[1];
             const operator:any = operations[2];

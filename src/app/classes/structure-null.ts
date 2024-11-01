@@ -29,7 +29,6 @@ export class NullStructure extends Structure {
         if (this.lines[0].split(' ')[0] == 'elif') {
             return { amount: 0, finish: true };
         }
-        console.log("this.lines[0]", this.lines[0])
         const executor = new Executor(this.lines, this.codeService, this.variablesService, this.context)
         let ret = null;
         return (ret = await executor.checkVariableDeclaration())?ret: 
