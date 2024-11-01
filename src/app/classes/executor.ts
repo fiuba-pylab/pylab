@@ -19,9 +19,19 @@ const operations = {
 const collectionOperations: { [key: string]: (set: Set, ...sets: Set[]) => Set } = {
     intersection: (set, ...sets) => set.intersection(...sets),
     difference: (set, ...sets) => set.difference(...sets),
+    '&': (set, ...sets) => set.intersection(...sets),
+    '-': (set, ...sets) => set.difference(...sets),
+    '|': (set, ...sets) => set.union(...sets),
+    '^': (set, ...sets) => set.symmetric_difference(...sets),
+};
+
+const collectionSetOps = {
+    '-': (set: Set, values: []) => values.forEach((value: string) => set.substract(value)),
+    '|': (set: Set, values: []) => values.forEach((value: string) => set.add(value)),
 };
 
 type Operator = keyof typeof operations;
+type SetOperator = keyof typeof collectionSetOps;
 export class Executor{
     lines:string[];
     codeService: CodeService | null;
@@ -218,10 +228,18 @@ export class Executor{
         const variableDeclaration = this.lines[0].match(REGEX_CONSTS.REGEX_VARIABLE_DECLARATION);
         if (variableDeclaration) {
             const varName = variableDeclaration[1];
-            let varValue = await this.applyFunctions(variableDeclaration[2], this.variables, varName);
+            let varValue = variableDeclaration[2];
             let collectionFunctions = varValue.match(REGEX_CONSTS.REGEX_COLLECTION_LEN);
             let collectionsIn = varValue.match(REGEX_CONSTS.REGEX_IN_COLLECTIONS);
-            let collectionsOperations = varValue.match(REGEX_CONSTS.REGEX_COLLECTION_OPERATIONS);
+            let collectionsOperations = varValue.match(REGEX_CONSTS.REGEX_BETWEEN_SET_OPERATIONS);
+            let split = varValue.match(REGEX_CONSTS.REGEX_SPLIT);
+ 
+            if(split){
+                 const variable = split[1];
+                 this.variables[varName] = new List(this.variables[variable].replace(/,/g, '').replace(/'/g, '').split(' '));
+                 this.variablesService!.setVariables(this.context, this.variables);
+                 return { amount: 1, finish: true };
+            }
             
             if(collectionFunctions){
                 this.variables[varName] = this.variables[collectionFunctions[1]]?.len();
@@ -230,13 +248,15 @@ export class Executor{
             }
  
              if(collectionsIn){
-                 const elemento = collectionsIn[1];
+                 const elemento = await this.applyFunctions(collectionsIn[1], this.variables);
                  const variable = collectionsIn[2];
-                 if(this.variables[variable].in(elemento)){
+                 if(this.variables[variable].in(elemento.replace(/^'|'$/g, ''))){
                     this.variables[varName] = 'True';
-                     this.variablesService!.setVariables(this.context, this.variables);
-                     return { amount: 1, finish: true };
+                 }else{
+                    this.variables[varName] = 'False';
                  }
+                 this.variablesService!.setVariables(this.context, this.variables);
+                 return { amount: 1, finish: true };
              }
  
              if(collectionsOperations){
@@ -244,23 +264,39 @@ export class Executor{
                  const operation = collectionsOperations[2];
                  const values = collectionsOperations[3].split(',').map((value: string) => value.trim());
                  const sets = values.map((value: string) => this.variables[value]);
-                 if (collectionOperations[operation]) {
-                    this.variables[varName] = collectionOperations[operation](this.variables[variable], ...sets);
+                 if (collectionOperations[operation] && this.variables[variable] && this.variables[variable] instanceof Set) {
+                     this.variables[varName] = collectionOperations[operation](this.variables[variable], ...sets);
                      this.variablesService!.setVariables(this.context, this.variables);
-                 }
-                 return { amount: 1, finish: true };
+                     return { amount: 1, finish: true };
+                 }  
              }
- 
-            let collection = await this.matchCollection(varValue, this.variables, variableDeclaration[2]);
+             varValue = await this.applyFunctions(variableDeclaration[2], this.variables, varName);
+             let collection = await this.matchCollection(varValue, this.variables, variableDeclaration[2]);
           
              if (!collection) {
-                this.variables[varName] = evaluate(varValue);
+                 this.variables[varName] = evaluate(varValue);
              } else {
-                this.variables[varName] = collection
+                 this.variables[varName] = collection;
              }
          }
          this.variablesService!.setVariables(this.context, this.variables);
          return null
+    }
+
+    async checkCollectionSetOperations(){
+        const collectionSetOperations = this.lines[0].match(REGEX_CONSTS.REGEX_SET_OPERATIONS);
+        if(collectionSetOperations){
+            const variable = collectionSetOperations[1];
+            const operator = collectionSetOperations[2];
+            const values:any = collectionSetOperations[3].trim();
+            if(this.variables[variable] && this.variables[variable] instanceof Set){
+                collectionSetOps[operator as SetOperator](this.variables[variable], values.split(',').map((value: string) => value.trim().replace(/^'|'$/g, '')));
+            }
+            this.variablesService!.setVariables(this.context, this.variables);
+            return { amount: 1, finish: true };
+        }
+        this.variablesService!.setVariables(this.context, this.variables);
+        return null
     }
 
     async checkOperations(){

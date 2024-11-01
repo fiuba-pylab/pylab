@@ -31,18 +31,17 @@ export class NullStructure extends Structure {
         }
         const executor = new Executor(this.lines, this.codeService, this.variablesService, this.context)
         let ret = null;
-        return (ret = await executor.checkVariableDeclaration())?ret: 
+        return (ret = await executor.checkVariableDeclaration())?ret:
+        (ret = await executor.checkCollectionSetOperations())?ret: 
         (ret = await executor.checkOperations())?ret:
+        (ret = await executor.checkPrint())?ret:
         (ret = await executor.checkCollectionAdd())?ret:
         (ret = await executor.checkCollectionSubstract())?ret:
-        (ret = await executor.checkPrint())?ret:
-        (ret = await executor.checkReturn())?ret:
         (ret = await executor.checkCollectionIndexing())?ret:
+        (ret = await executor.checkReturn())?ret:
         { amount: 1, finish: true }
         
     }
-
-    
 
     override clone(codeService: CodeService | null, variablesService: VariablesService | null): Structure {
         return new NullStructure(this.level, this.condition, codeService, variablesService, this.context);
