@@ -6,15 +6,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FileService } from '../../services/file.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VariableViewComponent } from '../../components/variable-view/variable-view.component';
-import { CommentsViewComponent } from '../../components/comments-view/comments-view.component';
 import { ProgramIntroModalComponent } from './program-intro-modal/program-intro-modal.component';
 import { Program } from '../../classes/program';
 import { MatDialog } from '@angular/material/dialog';
+import { OutputViewComponent } from '../../components/output-view/output-view.component';
 
 @Component({
   selector: 'app-program-display',
   standalone: true,
-  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent, CommentsViewComponent],
+  imports: [CommonModule, MatIconModule, CodeViewComponent, MatSnackBarModule, VariableViewComponent, OutputViewComponent],
   templateUrl: './program-display.component.html',
   styleUrl: './program-display.component.scss'
 })
