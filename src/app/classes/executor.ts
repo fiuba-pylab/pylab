@@ -98,14 +98,18 @@ export class Executor{
     async matchCollection(varValue: string, variables: any, collectionName: string) {
         let collectionAccess;
         if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
-            const value = collectionAccess[1]
-            const index = collectionAccess[2]
-            const accessIndex = evaluate(await this.applyFunctions(index, variables))
+            const value = collectionAccess[4]? collectionAccess[4] : collectionAccess[2];
+            const index = collectionAccess[5]? collectionAccess[5] : collectionAccess[3];
+            const accessIndex = evaluate(await this.applyFunctions(index, variables));
             //caso en que se indexa un string
             if(typeof(variables[value]) == 'string'){
                 return variables[value][Number(index)]
             }
-            return variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+            var valueFromCollection = variables[value].access(accessIndex) ? variables[value].access(accessIndex) : 'None' 
+            if(collectionAccess[1]){
+                return Number(valueFromCollection);
+            }
+            return valueFromCollection;
         }
         const variable = variables[varValue]
         if(variable && variable instanceof Collection){
@@ -133,6 +137,8 @@ export class Executor{
             }
             return dictionary;
         } else if (varValue.match(REGEX_CONSTS.REGGEX_SET)) {
+            if(varValue == 'set()')
+                return new Set();
             const values = varValue.slice(1, varValue.length - 1).replace(/\, /g, ',').split(',');
             return new Set(values);
         } else if (varValue.match(REGEX_CONSTS.REGGEX_TUPLE)) {
