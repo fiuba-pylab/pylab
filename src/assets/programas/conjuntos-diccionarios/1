@@ -1,13 +1,22 @@
 frutas = [input("Ingrese frutas y cantidades: ")]
 cantidades_frutas = {}
 for fruta in frutas:
+
+    """ Se utiliza la función split para separar cada fruta en su nombre y cantidad """
     fruta_split = fruta.split()
+
+    """ Se accede al nombre """
     nombre = fruta_split[0]
+
+    """ Se accede a la cantidad """
     cantidad = int(fruta_split[1])
     esta_fruta = nombre in cantidades_frutas
+
+    """ Si existe la fruta en el diccionario, se actualiza el valor """
     if esta_fruta:
         cant_actual = int(cantidades_frutas[nombre])
         cantidades_frutas[nombre] = cantidad + cant_actual
+        """ Si no, se crea el registro """
     else:
         cantidades_frutas[nombre] = cantidad
 

@@ -11,6 +11,7 @@ c = float(cadena_c)
 determinante = b ** 2
 determinante = determinante - 4 * a * c
 
+""" Las raíces están dadas por los dos resultados de la fórmula cuadrática """
 raiz_1 = (- b + math.sqrt(determinante)) / (2.0 * a)
 raiz_2 = (- b - math.sqrt(determinante)) / (2.0 * a)
 

@@ -3,18 +3,24 @@ poli2 = [input("Seleccione el segundo polinomio:")]
 
 resultado = []
 
+""" Se utiliza la funcion range() para obetener los indices de los elementos de las listas """
 for index1 in range(poli1):
     for index2 in range(poli2):
+
+        """ Se accede a los indices de cada uno de los polinomios """  
         value1 = poli1[index1]
         value2 = poli2[index2]
         total_values = value1 * value2
         element_result = resultado[index1 + index2]
+        """ Si el indice no existe en el polinomio resultante, se crea el registro """
         if element_result is None:
             resultado[index1 + index2] = total_values
+            """ Si existe, se actualiza el valor """
         else:
             element_result += total_values
             resultado[index1 + index2] = element_result
             aux2 = resultado[index1 + index2]      
-    
+|
+""" Se usa una variable auxiliar para recorrer l polinomio resultante    """ 
 for aux in resultado:
     print(f"{aux}")

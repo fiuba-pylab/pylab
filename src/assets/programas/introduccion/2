@@ -4,7 +4,8 @@ cateto2 = float(input('Introduce el valor del cateto 2: '))
 
 cateto1_cuadrado = (cateto1) ** 2
 cateto2_cuadrado = (cateto2) ** 2
-    
+
+""" La hipotenusa es la raíz de la suma de los cuadrados de los catetos """    
 suma_cuadrados = cateto1_cuadrado + cateto2_cuadrado
 hipotenusa = math.sqrt(suma_cuadrados)
     

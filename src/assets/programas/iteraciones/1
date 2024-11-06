@@ -3,6 +3,7 @@ binario = ""
 if n == 0:
     print("0")
 while n > 0:
+    """ Si el n es par, se agrega un 0 al binario. Si es impar, se agrega un 1"""
     binario = str(n % 2) + binario
     if n % 2:
         n -= 1

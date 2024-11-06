@@ -3,6 +3,8 @@ import math
 p1 = (input("Seleccione el primer punto:"))
 p2 = (input("Seleccione el segundo punto:"))
 
+""" Se desestructura las coordenadas de cada punto """
+
 x1 = p1[0]
 y1 = p1[1]
 

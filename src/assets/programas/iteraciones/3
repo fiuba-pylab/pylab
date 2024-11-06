@@ -2,6 +2,7 @@ tope = int(input("Ingrese el tope de la serie de Fibonacci: "))
 anteultimo = 0
 ultimo = 1
 print("Sucesión de Fibonacci con tope {tope}: ", end=' ')
+""" Se repite el proceso hasta que se llegue al tope seleccionado """
 while ultimo < tope:
     actual = anteultimo + ultimo
     print(f'{actual}', end=' ')

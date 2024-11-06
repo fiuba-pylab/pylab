@@ -1,5 +1,8 @@
 import math
 
+""" Se define la funcion que calcula la distancia del ejercicio anterior """
+
+
 def calculate_distance(punto1, punto2):
     print(f'{punto1}')
     x2 = punto2[0]

@@ -1,6 +1,10 @@
 lista_numeros = [input("ingrese la lista de números:")]
+
+""" Se utiliza la funcion len() para obtener el tamanio de la lista """
 tamanio = len(lista_numeros)
 sum = 0
+
+""" Se recorre la lista para sumar sus valores """
 for element in lista_numeros:
     element_number = int(element)
     sum += element_number

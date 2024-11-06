@@ -5,6 +5,7 @@ limit = 0
 
 while iterator < n:
     iterator += 1
+    """ Si el iterador divide al numero, es divisor """
     if n % iterator == 0:
         multiples.append(iterator)
 

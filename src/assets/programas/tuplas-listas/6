@@ -5,11 +5,14 @@ persona4 = (input("Seleccione una persona"))
 persona5 = (input("Seleccione una persona"))
 persona6 = (input("Seleccione una persona"))
 
+""" Se crea una lista con todas las personas seleccionadas """
 personas = [persona1, persona2, persona3, persona4, persona5, persona6]
 adolescentes = ('adolescentes')
 jovenes = ('jovenes')
 adultos = ('adultos')
 ancianos = ('ancianos')
+
+""" Se itera la lista para contar cuantas personas entran en cada categoría """
 
 for persona in personas:
     edad = persona[1]
