@@ -14,7 +14,7 @@ import { Executor } from "./executor";
 
 
 
-export class NullStructure extends Structure {
+export class CodeInstruction extends Structure {
     super() { }
     setScope(code: any) {
         const lines: any[] = code.split('\n');
@@ -44,7 +44,7 @@ export class NullStructure extends Structure {
     }
 
     override clone(codeService: CodeService | null, variablesService: VariablesService | null): Structure {
-        return new NullStructure(this.level, this.condition, codeService, variablesService, this.context);
+        return new CodeInstruction(this.level, this.condition, codeService, variablesService, this.context);
     }
 
     
