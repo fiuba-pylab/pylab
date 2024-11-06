@@ -5,7 +5,8 @@ elif numero % 2 == 0:
     resultado = 'No es primo (su menor divisor es 2)'
 else:
     divisor_tope = int(numero  ** 0.5)
-    divisor_posible = 3         
+    divisor_posible = 3 
+    """ Mientras no tenga un divisor posible, va a ser primo """        
     while divisor_posible <= divisor_tope and numero % divisor_posible != 0:
         divisor_posible += 2
     if divisor_posible > divisor_tope:

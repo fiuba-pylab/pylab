@@ -4,9 +4,11 @@ decena = (numero // 10) % 10
 centena = (numero // 100) % 10
 unidad_mil = numero // 1000
 
+""" Los primeros 3 digitos de la unidad se leen como concatenaciones de I """
 if unidad < 4:
     ur = unidad*'I'
 elif 4 < unidad and unidad < 9:
+    """ De 4 a 9 se leen como concatenaciones de V y I"""
     multiply_factor = (unidad-5)*'I'
     ur = 'V' + multiply_factor
 elif unidad == 4:
@@ -14,9 +16,11 @@ elif unidad == 4:
 else:
     ur = 'IX'
 
+""" Los primeros 3 digitos de la decena se leen como concatenaciones de X """
 if decena < 4:
     dr = decena*'X'
 elif 4 < decena and decena < 9:
+    """ De 4 a 9 se leen como concatenaciones de L y X"""
     multiply_factor = (decena-5)*'X'
     dr = 'L' + multiply_factor
 elif decena == 4:
@@ -24,9 +28,11 @@ elif decena == 4:
 else:
     dr = 'XC'
 
+""" Los primeros 3 digitos de la centena se leen como concatenaciones de C """
 if centena < 4:
     cr = centena*'C'
 elif 4 < centena and centena < 9:
+    """ De 4 a 9 se leen como concatenaciones de C y D"""
     multiply_factor = (centena-5)*'C'
     cr = 'D' + multiply_factor
 elif centena == 4:

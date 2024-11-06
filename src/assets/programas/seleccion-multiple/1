@@ -1,6 +1,7 @@
 angulo1 = int(input("Ingrese el primer ángulo: "))
 angulo2 = int(input("Ingrese el segundo ángulo: "))
 angulo3 =  int(input("Ingrese el tercer ángulo: "))
+""" Se verifica si los ángulos son menores, iguales o mayores a 90 para determinar el tipo de triángulo """
 if angulo1 <= 0 or angulo2 <= 0 or angulo3 <= 0:
     print("Ángulos no válidos")
 elif angulo1 + angulo2 + angulo3 != 180:
