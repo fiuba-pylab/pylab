@@ -5,9 +5,12 @@
 <div class="intro-container">
     <div class="information">
     <div [innerHTML]="data.program.introduction" ></div>
+    <br>
     <h4>Anexos:</h4>
-    @for (comment of data.program.comments; track $index) {
-        <button mat-button (click)="goTo(comment)">{{ comment }}</button>
-    }
+    <mat-chip-set>
+        @for (comment of data.program.comments; track $index) {
+            <mat-chip mat-button (click)="goTo(comment)">{{ comment }}</mat-chip>
+        }
+    </mat-chip-set>
 </div>
 </div>
