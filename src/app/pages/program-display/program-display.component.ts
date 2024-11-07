@@ -52,7 +52,7 @@ export class ProgramDisplayComponent implements OnInit {
 
   ngAfterViewInit() {
     window.scrollTo(0, 0);
-    this.openDialog(this.program);
+    //this.openDialog(this.program);
   }
 
   openDialog(program:Program) {
