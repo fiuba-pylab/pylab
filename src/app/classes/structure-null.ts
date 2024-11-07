@@ -354,7 +354,11 @@ export class NullStructure extends Structure {
     replaceVariablesInPrint(template: string, valores: { [clave: string]: any }): string {
         return Object.entries(valores).reduce((resultado, [clave, valor]) => {
             if(valor instanceof Collection){
-                valor = valor.values
+                if(valor instanceof Dictionary){
+                    valor = Object.values(valor.values)
+                } else {
+                    valor = valor.values
+                }
             }
             const regex = new RegExp(`\\{\\b${this.printVarRegex(clave)}\\b\\}`, 'g');
             return resultado.replace(regex, valor);
