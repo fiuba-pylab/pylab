@@ -166,7 +166,11 @@ export function cleanPrintValue(value: string): string {
 export function replaceVariablesInPrint(template: string, valores: { [clave: string]: any }): string {
     return Object.entries(valores).reduce((resultado, [clave, valor]) => {
         if(valor instanceof Collection){
-            valor = valor.values
+            if(valor instanceof Dictionary){
+                valor = Object.values(valor.values)
+            } else {
+                valor = valor.values
+            }
         }
         const regex = new RegExp(`\\{\\b${printVarRegex(clave)}\\b\\}`, 'g');
         return resultado.replace(regex, valor);
