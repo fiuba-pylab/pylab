@@ -55,3 +55,9 @@
 .mat-mdc-menu-item {
   min-height: 31px !important;
 }
+
+@media (max-width: 650px) {
+  #editor-container {
+    height: 40vh;
+  }
+}
