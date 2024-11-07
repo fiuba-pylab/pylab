@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { MatChip, MatChipsModule } from '@angular/material/chips';
 
 interface ResponseForm {
   name:string
@@ -16,7 +17,7 @@ interface ResponseForm {
 @Component({
   selector: 'app-program-intro-modal',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIconModule],
+  imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, CommonModule, MatIconModule, MatChipsModule],
   templateUrl: './program-intro-modal.component.html',
   styleUrl: './program-intro-modal.component.css'
 })
