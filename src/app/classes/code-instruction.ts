@@ -10,10 +10,6 @@ import { Collection } from "./collection";
 import { Set } from "./set";
 import { Executor } from "./executor";
 
-
-
-
-
 export class CodeInstruction extends Structure {
     super() { }
     setScope(code: any) {

@@ -26,10 +26,6 @@ const collectionSetOps = {
 
 type SetOperator = keyof typeof collectionSetOps;
 
-
-
-
-
 export class Executor{
     lines:string[];
     codeService: CodeService | null;
