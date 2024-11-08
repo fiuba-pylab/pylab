@@ -45,14 +45,6 @@ export class Executor{
         this.variables = this.variablesService!.getVariables(this.context);
     }
 
-    async manageInput(evalArgs:string){
-        let input_params = evalArgs?.split('~~')
-        if(input_params[0]  == '/INPUT/'){
-            return await this.codeService!.getInput(input_params[1], input_params[2] ?? '');
-        }
-        return evalArgs
-    } 
-
     async checkPrint(){
         
         const print = this.lines[0].match(REGEX_CONSTS.REGEX_PRINT);
@@ -62,7 +54,7 @@ export class Executor{
                 value = print[2]
             }
             let printValue = replaceVariablesInPrint(value, this.variables);
-            printValue = await evaluateExpression(printValue);
+            printValue = await evaluateExpression(printValue, this.codeService!);
             printValue = cleanPrintValue(printValue);
 
             const end = printValue.match(REGEX_CONSTS.REGEX_PRINT_END);
@@ -101,7 +93,7 @@ export class Executor{
             }
  
              if(collectionsIn){
-                 const elemento = await this.manageInput(await applyFunctions(collectionsIn[1], this.variables));
+                 const elemento = await applyFunctions(collectionsIn[1], this.variables, this.codeService!);
                  const variable = collectionsIn[2];
                  if(this.variables[variable].in(elemento.replace(/^'|'$/g, ''))){
                     this.variables[varName] = 'True';
@@ -123,8 +115,9 @@ export class Executor{
                      return { amount: 1, finish: true };
                  }  
              }
-             varValue = await this.manageInput(await applyFunctions(variableDeclaration[2], this.variables, varName));
-             let collection = await matchCollection(varValue, this.variables, variableDeclaration[2]);
+             varValue = await  applyFunctions(variableDeclaration[2], this.variables, this.codeService!,varName);
+             console.log("varValue", varValue)
+             let collection = await matchCollection(varValue, this.variables, variableDeclaration[2], this.codeService!);
           
              if (!collection) {
                  this.variables[varName] = evaluate(varValue);
@@ -158,7 +151,7 @@ export class Executor{
             const variable = operations[1];
             const operator:any = operations[2];
             let value = operations[3];
-            value = await this.manageInput(await applyFunctions(value, this.variables));
+            value = await applyFunctions(value, this.variables, this.codeService!);
             this.variables[variable] = applyOperation(Number(replaceVariables(variable, this.variables)), operator, Number(evaluate(value)));
         }
         this.variablesService!.setVariables(this.context, this.variables);
@@ -172,7 +165,7 @@ export class Executor{
             const operator = collectionAdd[2];
             const value = collectionAdd[3];
             if (VALID_OPERATORS.validAddOperators.includes(operator)) {
-                this.variables[variable].add(await this.manageInput(await applyFunctions(value, this.variables, variable)))
+                this.variables[variable].add(await applyFunctions(value, this.variables, this.codeService!,variable))
             } else if (collectionAdd[5] == '+') {
                 let tuple;
                 let values = []
@@ -197,7 +190,7 @@ export class Executor{
             const operator = collectionSubstract[2];
             const value = collectionSubstract[3];
             if (VALID_OPERATORS.validSubstractOperators.includes(operator)) {
-                this.variables[variable].substract(await this.manageInput(await applyFunctions(value, this.variables, variable)))
+                this.variables[variable].substract(await applyFunctions(value, this.variables, this.codeService!,variable))
             }
         }
         this.variablesService!.setVariables(this.context, this.variables);
@@ -210,7 +203,7 @@ export class Executor{
             let values = isReturn[1].split(',').map((value: string) => value.trim());
             if (values) {
                 for (let i = 0; i < values.length; i++) {
-                    let value = await this.manageInput(await applyFunctions(values[i], this.variables))
+                    let value = await applyFunctions(values[i], this.variables, this.codeService!)
                     values[i] = evaluate(value);
                 }
                 this.context.setReturnValue(values);
@@ -228,9 +221,9 @@ export class Executor{
             let collection:Collection
             if(collection = this.variables[varnName]){
                 const values = this.lines[0].split('=')[1]
-                let varValue = evaluate(await this.manageInput(await applyFunctions(values, this.variables)));
+                let varValue = evaluate(await  applyFunctions(values, this.variables, this.codeService!));
                 const index_values = collection_index.split('[')[1].slice(0, -2)
-                const evaluate_index = evaluate(await this.manageInput(await applyFunctions(index_values, this.variables)))
+                const evaluate_index = evaluate(await applyFunctions(index_values, this.variables, this.codeService!))
                 collection.insert(evaluate_index, varValue)
             }
         }

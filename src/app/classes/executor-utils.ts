@@ -1,4 +1,5 @@
 import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "../constants";
+import { CodeService } from "../services/code.service";
 import { evaluate, replaceVariables } from "../utils";
 import { Collection } from "./collection";
 import { Dictionary } from "./dictionary";
@@ -15,31 +16,31 @@ const operations = {
 type Operator = keyof typeof operations;
 
 
-export async function evaluateExpression(expression: string, varName?: string): Promise<string> {
+export async function evaluateExpression(expression: string, codeService:CodeService,varName?: string): Promise<string> {
     let previousExpression;
     let currentExpression = expression;
 
     do {
         previousExpression = currentExpression;
         currentExpression = await replaceAsync(currentExpression, REGEX_CONSTS.REGEX_FUNCTIONS, async (match, funcName, args) => {
-            let evaluatedArgs = await Promise.all(args.split(',').map(async (arg: string) => await evaluateExpression(arg.trim(), varName)));
-            return await evaluateFunction(funcName, evaluatedArgs.join(','), varName);
+            let evaluatedArgs = await Promise.all(args.split(',').map(async (arg: string) => await evaluateExpression(arg.trim(), codeService,varName)));
+            return await evaluateFunction(funcName, evaluatedArgs.join(','), codeService, varName);
         });
     } while (currentExpression !== previousExpression);
 
     return currentExpression;
 }
 
-export async function applyFunctions(variableValue: any, variables: any ,varName?: string): Promise<any> {
+export async function applyFunctions(variableValue: any, variables: any ,codeService:CodeService,varName?: string): Promise<any> {
     let result = variableValue;
     result = replaceVariables(result, variables);
-    result = await evaluateExpression(result ,varName);
+    result = await evaluateExpression(result, codeService,varName);
     result = result.replace(/False/g, 'false').replace(/True/g, 'true')
     return result;
 }
 
 
-async function evaluateFunction(funcName: string, args: string ,varName?: string): Promise<string> {
+async function evaluateFunction(funcName: string, args: string, codeService:CodeService ,varName?: string): Promise<string> {
     let evalArgs = evaluate(args);
     switch (funcName) {
         case NATIVE_FUNCTIONS.FLOAT:
@@ -71,7 +72,7 @@ async function evaluateFunction(funcName: string, args: string ,varName?: string
         case NATIVE_FUNCTIONS.LEN:
             return String((evalArgs as string).length);
         case NATIVE_FUNCTIONS.INPUT:
-            return "/INPUT/~~" + evalArgs + '~~' + varName;
+            return codeService.getInput(evalArgs, varName?? '');
         case NATIVE_FUNCTIONS.ABS:
             return (Math.abs(Number(evalArgs))).toString();
         default:
@@ -79,12 +80,12 @@ async function evaluateFunction(funcName: string, args: string ,varName?: string
     }
 }
 
-export async function matchCollection(varValue: string, variables: any, collectionName: string) {
+export async function matchCollection(varValue: string, variables: any, collectionName: string, codeService:CodeService) {
     let collectionAccess;
     if (collectionAccess = collectionName.match(REGEX_CONSTS.REGEX_COLLECTION_ACCESS)) {
         const value = collectionAccess[4]? collectionAccess[4] : collectionAccess[2];
         const index = collectionAccess[5]? collectionAccess[5] : collectionAccess[3];
-        const accessIndex = evaluate(await applyFunctions(index, variables));
+        const accessIndex = evaluate(await applyFunctions(index, variables, codeService));
         //caso en que se indexa un string
         if(typeof(variables[value]) == 'string'){
             return variables[value][Number(index)]
