@@ -15,11 +15,11 @@ export class IntroComponent {
   authors = [
     {
       name: "Aguilar Pedro",
-      github: "https://github.com/pedroaguilar"
+      github: "https://github.com/PedroAguilar98"
     },
     {
       name: "Flynn Pedro",
-      github: "https://github.com/pedroaguilar"
+      github: "https://github.com/LordOfThePing"
     },
     {
       name: 'Fraccaro Agustina',
