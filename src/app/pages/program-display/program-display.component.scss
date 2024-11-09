@@ -19,7 +19,7 @@
 }
 
 
-.program-container {
+#program-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
@@ -43,7 +43,7 @@
         font-size: 1em;
     }
 
-    .program-container {
+    #program-container {
         grid-template-columns: 1fr;
     }
 }

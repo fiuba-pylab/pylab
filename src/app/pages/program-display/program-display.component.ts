@@ -52,7 +52,7 @@ export class ProgramDisplayComponent implements OnInit {
 
   ngAfterViewInit() {
     window.scrollTo(0, 0);
-    //this.openDialog(this.program);
+    this.openDialog(this.program);
   }
 
   openDialog(program:Program) {
@@ -61,6 +61,10 @@ export class ProgramDisplayComponent implements OnInit {
         program
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      document.getElementById('program-container')?.scrollIntoView({behavior: 'smooth'});
+    } );
   }
 
   openSnackBar(text: string, success = true) {
