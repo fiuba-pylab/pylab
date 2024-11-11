@@ -14,6 +14,13 @@
                     "'pera 2', 'anana 2', 'manzana 5', 'naranja 1', 'banana 4', 'pera 2', 'manzana 3', 'uva 2', 'anana 1', 'mandarina 5'"
                 ]
             }
+        ],
+        "comments": [
+            "listas",
+            "nativas",
+            "if",
+            "diccionarios",
+            "for"
         ]
     },
     {
@@ -43,6 +50,11 @@
                     "10"
                 ]
             }
+        ],
+        "comments": [
+            "while",
+            "nativas",
+            "diccionarios"
         ]
     },
     {
@@ -67,6 +79,10 @@
                     "1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
                 ]
             }
+        ],
+        "comments": [
+            "nativas",
+            "conjuntos"
         ]
     }, 
     {
@@ -84,6 +100,14 @@
                     "1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10"
                 ]
             }
+        ],
+        "comments": [
+            "def",
+            "listas",
+            "if",
+            "nativas",
+            "conjuntos",
+            "for"
         ]
     }, 
     {
@@ -101,6 +125,10 @@
                     "manzana, pera, kiwi, uva, naranja"
                 ]
             }
+        ],
+        "comments": [
+            "conjuntos",
+            "nativas"
         ]
     },    
     {
@@ -119,6 +147,12 @@
                     "Mi perro come carne"
                 ]
             }
+        ],
+        "comments": [
+            "diccionarios",
+            "if",
+            "nativas",
+            "for"
         ]
     },     
     {
@@ -137,6 +171,12 @@
                     "20"
                 ]
             }
+        ],
+        "comments": [
+            "if",
+            "def",
+            "diccionarios",
+            "nativas"
         ]
     },     
     {
@@ -155,6 +195,12 @@
                     "20"
                 ]
             }
+        ],
+        "comments": [
+            "nativas",
+            "while",
+            "if",
+            "conjuntos"
         ]
     }    
 

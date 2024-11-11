@@ -55,6 +55,8 @@ const ABS = 'abs';
 const validAddOperators = ['append', 'add'];
 const validSubstractOperators = ['remove', 'discard'];
 
+export const PYTHON_DOC_URL = "https://docs.python.org/es/3.13/library/functions.html#"
+
 export const REGEX_CONSTS = {
     REGEX_DEF, 
     REGEX_RETURN, 

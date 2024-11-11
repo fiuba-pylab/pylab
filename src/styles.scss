@@ -82,6 +82,14 @@ button:hover {
 	}
 }
 
+ul {
+	padding-left: 20px;
+	list-style-type: circle;
+	li{
+		padding-top: 1.5px
+	}
+}
+
 /* For Firefox */
 @supports (-moz-appearance:none) {
 	* {
