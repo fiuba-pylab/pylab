@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentsViewComponent } from './comments-view.component';
+import { OutputViewComponent } from './output-view.component';
 
-describe('CommentsViewComponent', () => {
-  let component: CommentsViewComponent;
-  let fixture: ComponentFixture<CommentsViewComponent>;
+describe('OutputViewComponent', () => {
+  let component: OutputViewComponent;
+  let fixture: ComponentFixture<OutputViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommentsViewComponent]
+      imports: [OutputViewComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CommentsViewComponent);
+    fixture = TestBed.createComponent(OutputViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
