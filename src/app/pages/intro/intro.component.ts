@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatChip } from '@angular/material/chips';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intro',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatChip],
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.scss'
 })

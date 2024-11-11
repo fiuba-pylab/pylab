@@ -4,11 +4,11 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-helpDialog',
-  templateUrl: './helpDialog.component.html',
-  styleUrls: ['./helpDialog.component.css'],
+  selector: 'app-help-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatIcon]
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatIcon],
+  templateUrl: './help-dialog.component.html',
+  styleUrl: './help-dialog.component.css'
 })
 export class HelpDialogComponent {
 
