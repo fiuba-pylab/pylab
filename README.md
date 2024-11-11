@@ -29,8 +29,15 @@ Here's the modified README template tailored for the PyLab project:
 - **Accesibilidad**: aplicación de fácil acceso orientada a estudiantes de programación, especialmente diseñada para el curso de "Pensamiento Computacional" en la Facultad de Ingeniería de la Universidad de Buenos Aires.
 
 ## Colaboradores
+## Colaboradores
 
-PyLab fue creado por los estudiantes de Ingeniería en Informática: Agustina Schmidt, Agustina Fraccaro, Pedro Flynn y Pedro Aguilar, bajo la supervisión del Profesor Arturo Servetto. El desarrollo se realizó en un entorno colaborativo usando GitHub Projects para la organización de tareas y revisión de código en equipo.
+PyLab fue creado por los estudiantes de Ingeniería en Informática, bajo la supervisión del Profesor Arturo Servetto. El desarrollo se realizó en un entorno colaborativo usando GitHub Projects para la organización de tareas y revisión de código en equipo.
+
+- **[Agustina Schmidt](https://github.com/agusschmidt)** – [LinkedIn](https://www.linkedin.com/in/agustina-schmidt/)
+- **[Agustina Fraccaro](https://github.com/agusfraccaro)** – [LinkedIn](https://www.linkedin.com/in/agustina-fraccaro-b306b5213/)
+- **[Pedro Flynn](https://github.com/LordOfThePing)** – [LinkedIn](https://www.linkedin.com/in/pedro-flynn/)
+- **[Pedro Aguilar](https://github.com/PedroAguilar98)** – [LinkedIn](https://www.linkedin.com/in/pedro-aguilar-527001223/)
+- **Supervisor: [Arturo Servetto]**
 
 ## Despliegue
 
@@ -41,8 +48,10 @@ Para desplegar tu propia instancia de PyLab, simplemente clona este repositorio 
 Para ejecutar PyLab en tu máquina local, asegúrate de tener configuradas las variables de entorno y sigue estos pasos:
 
 1. Instala Angular CLI (si no lo tienes): `npm install -g @angular/cli`
-2. Clona este repositorio y navega a la carpeta del proyecto.
-3. Ejecuta la aplicación con el siguiente comando:
+2. Instala dependencias del proyecto : `npm install --force` 
+    (`--force` ya que la dependencia _monacoeditor_ está desactualizada)
+3. Clona este repositorio y navega a la carpeta del proyecto.
+4. Ejecuta la aplicación con el siguiente comando:
 
 ```bash
 ng serve --open
@@ -52,10 +61,14 @@ La aplicación se abrirá en tu navegador predeterminado y estará disponible en
 
 ### Pruebas
 
-Para ejecutar las pruebas de componentes específicos, usa el siguiente comando:
+Para ejecutar todas las pruebas, usa el siguiente comando:
+
+```bash
+npx tests
+```
+
+Para ejecutar las pruebas de componentes específicos (dictionary|list|set|tuple), usa el siguiente comando:
 
 ```bash
 npx tests [nombre-del-componente]
 ```
-
-Este comando ejecutará las pruebas para el componente especificado, permitiéndote verificar la funcionalidad de cada sección de la aplicación de forma individual.
