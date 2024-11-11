@@ -3,7 +3,7 @@
         "id":1,
         "title":"Promedio",
         "difficulty": 2,
-        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de números, se calcula la media aritmética entre ellos.<br> <br><h4>Casos:</h4>1. [1, 2, 3, 4, 5, 6] <br> 2. [10, 12, 30, 54, 87, 91] <br> 3. [50, 50, 50, 50, 50, 1]",
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de números, se calcula la media aritmética entre ellos. La media aritmética de una lista de números es la suma de todos dividido la cantidad, también conocida como promedio.<br> <br><h4>Casos:</h4>1. [1, 2, 3, 4, 5, 6] <br> 2. [10, 12, 30, 54, 87, 91] <br> 3. [50, 50, 50, 50, 50, 1]",
         "inputs":[
             {
                 "name":"lista_numeros",
