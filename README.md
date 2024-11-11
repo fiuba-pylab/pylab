@@ -37,7 +37,7 @@ PyLab fue creado por los estudiantes de Ingeniería en Informática, bajo la sup
 - **[Agustina Fraccaro](https://github.com/agusfraccaro)** – [LinkedIn](https://www.linkedin.com/in/agustina-fraccaro-b306b5213/)
 - **[Pedro Flynn](https://github.com/LordOfThePing)** – [LinkedIn](https://www.linkedin.com/in/pedro-flynn/)
 - **[Pedro Aguilar](https://github.com/PedroAguilar98)** – [LinkedIn](https://www.linkedin.com/in/pedro-aguilar-527001223/)
-- **Supervisor: [Arturo Servetto]**
+- **Supervisor:** Arturo Servetto
 
 ## Despliegue
 
