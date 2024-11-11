@@ -32,7 +32,6 @@ export class FileService {
           return data.map(item => new Program(
               item.id,
               item.title,
-              item.description,
               item.difficulty,
               item.introduction,
               item.inputs,
