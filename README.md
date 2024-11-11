@@ -25,7 +25,6 @@
 - **Accesibilidad**: aplicación de fácil acceso orientada a estudiantes de programación, especialmente diseñada para el curso de "Pensamiento Computacional" en la Facultad de Ingeniería de la Universidad de Buenos Aires.
 
 ## Colaboradores
-## Colaboradores
 
 PyLab fue creado por los estudiantes de Ingeniería en Informática, bajo la supervisión del Profesor Arturo Servetto. El desarrollo se realizó en un entorno colaborativo usando GitHub Projects para la organización de tareas y revisión de código en equipo.
 
