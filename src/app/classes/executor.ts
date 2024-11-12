@@ -112,7 +112,6 @@ export class Executor{
                  }  
              }
              varValue = await  applyFunctions(variableDeclaration[2], this.variables, this.codeService!,varName);
-             console.log("varValue", varValue)
              let collection = await matchCollection(varValue, this.variables, variableDeclaration[2], this.codeService!);
           
              if (!collection) {
