@@ -1,4 +1,4 @@
-import math
+from math import sqrt
 
 p1 = (input("Seleccione el primer punto:"))
 p2 = (input("Seleccione el segundo punto:"))
@@ -14,7 +14,7 @@ y_difference = y2 - y1
 
 squares_sum = (x_difference) ** 2 + (y_difference) ** 2
 
-distance = math.sqrt(squares_sum)
+distance = sqrt(squares_sum)
 
 m = y_difference/x_difference
 b = y1 - m * x1
