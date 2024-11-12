@@ -1,6 +1,6 @@
+<img alt="Aplicación interactiva PyLab para aprendizaje de Algoritmos y Programación." src="src/assets/logo-fiuba.png" align="center">
 <a href="https://fiuba-pylab.github.io/pylab-deploy/intro">
-  <img alt="Aplicación interactiva PyLab para aprendizaje de Algoritmos y Programación." src="src/assets/logo.png">
-  <h1 align="center">PyLab</h1>
+  <h1 align="center"><img alt="Aplicación interactiva PyLab para aprendizaje de Algoritmos y Programación." src="src/assets/logo.png" width="100">PyLab</h1>
 </a>
 
 <p align="center">
