@@ -1,0 +1,277 @@
+[
+    {
+        "id":1,
+        "title":"Promedio",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de números, se calcula la media aritmética entre ellos. La media aritmética de una lista de números es la suma de todos dividido la cantidad, también conocida como promedio.<br> <br><h4>Casos:</h4>1. [1, 2, 3, 4, 5, 6] <br> 2. [10, 12, 30, 54, 87, 91] <br> 3. [50, 50, 50, 50, 50, 1]",
+        "inputs":[
+            {
+                "name":"lista_numeros",
+                "options":[
+                    "1, 2, 3, 4, 5, 6",
+                    "10, 12, 30, 54, 87, 91",
+                    "50, 50, 50, 50, 50, 1"
+                ]
+            }
+        ],
+        "comments": [
+            "nativas",
+            "listas",
+            "if",
+            "for"
+        ]
+    },
+    {
+        "id":2,
+        "title":"Multiplicación de polinomios",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario dos polinomios, se los multiplica factor por factor.<br> <br><h4>Casos:</h4>1. [1, 2, 3, 4] <br> 2. [2, 2, 2, 2] <br> 3. [5, 1, 3, 4] <br> 4. [8, 7, 6, 5]",
+        "inputs":[
+            {
+                "name":"poli1",
+                "options":[
+                    "1, 2, 3, 4", 
+                    "2, 2, 2, 2" ,
+                    "5, 1, 3, 4",
+                    "8, 7, 6, 5"
+                ]
+            },
+            {
+                "name":"poli2",
+                "options":[
+                    "1, 2, 3, 4", 
+                    "2, 2, 2, 2" ,
+                    "5, 1, 3, 4",
+                    "8, 7, 6, 5"
+                ]
+            }
+        ],
+        "comments":[
+            "nativas",
+            "listas",
+            "if",
+            "for"
+        ]
+    },
+    {
+        "id":3,
+        "title":"Distancia",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario dos puntos en el plano caracterizados por sus coordenadas, se calcula la distancia entre ellos y los datos de la recta que une a ambos.<br> <br><h4>Casos:</h4>(5, 8), (-3, 10), (-2, -7), (1, -1), (6, 6), (-21, 11), (0, -3), (0, 0)",
+        "inputs":[
+            {
+                "name":"p1",
+                "options":[
+                    "5, 8",
+                    "-3, 10",
+                    "-2, -7",
+                    "1, -1"
+                ]
+            },
+            {
+                "name":"p2",
+                "options":[
+                    "6, 6",
+                    "-21, 11",
+                    "0, -3",
+                    "0, 0"
+                ]
+            }
+        ],
+        "comments":[
+            "nativas",
+            "tuplas"
+        ]
+    },
+    {
+        "id":4,
+        "title":"Lista de distancias",
+        "difficulty": 4,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de números, se calcula la media aritmética entre ellos. <br> <br><h4>Casos:</h4>(3, 7), (-2, 10),(-5, -5),(-1, 1),(2, -9),(0, 0),(0, 15),(-2, 12),(-6, 0)",
+        "inputs":[
+            {
+                "name":"p1",
+                "options":[
+                    "3, 7",
+                    "-2, 10",
+                    "-5, -5"
+                ]
+            },
+            {
+                "name":"p2",
+                "options":[
+                    "-1, 1",
+                    "2, -9",
+                    "0, 0"
+                ]
+            },
+            {
+                "name":"p3",
+                "options":[
+                    "0, 15",
+                    "-2, 12",
+                    "-6, 0"
+                ]
+            }
+        ],
+        "comments": [
+            "nativas",
+            "tuplas",
+            "listas",
+            "if",
+            "def",
+            "for"
+        ]
+    },
+    {
+        "id":5,
+        "title":"Divisores",
+        "difficulty": 1,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario un número y se agrega a una lista todos los divisores del mismo.<h4>Casos:</h4>24, 17, 30, 8",
+        "inputs":[
+            {
+                "name":"n",
+                "options":[
+                    "24",
+                    "17",
+                    "30",
+                    "8"
+                ]
+            }
+        ],
+        "comments": [
+            "nativas",
+            "listas",
+            "if",
+            "while"        
+        ]
+    },
+    {
+        "id":6,
+        "title":"Grupo etario",
+        "difficulty": 2,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de personas, cada una con sun nombre y edad, y se las separa según edad. <br> <br> <h4> Casos: </h4> 1. [Alejandro",
+        "inputs":[
+            {
+                "name":"persona1",
+                "options":[
+                    "Alejandro, 34",
+                    "Laura, 16",
+                    "Manuel, 42",
+                    "Carmen, 77",
+                    "Iván, 25",
+                    "Rocío, 18",
+                    "Felipe, 47",
+                    "Andrea, 20",
+                    "Javier, 68",
+                    "Marta, 26"
+                ]
+            },
+            {
+                "name":"persona2",
+                "options":[
+                    "Pedro, 45",
+                    "Silvia, 30",
+                    "Guillermo, 22",
+                    "Raquel, 79",
+                    "Diego, 39",
+                    "Natalia, 17",
+                    "Fernando, 70",
+                    "Sara, 27",
+                    "Marcos, 48",
+                    "Clara, 19"
+                ]
+            },
+            {
+                "name":"persona3",
+                "options":[
+                    "Luis, 50",
+                    "Patricia, 32",
+                    "Mario, 25",
+                    "Pilar, 29",
+                    "Alberto, 40",
+                    "Verónica, 15",
+                    "Ricardo, 80",
+                    "Alicia, 21",
+                    "Pablo, 38",
+                    "Miriam, 26"
+                ]
+            },
+            {
+                "name":"persona4",
+                "options":[
+                    "Juan, 41",
+                    "Isabel, 36",
+                    "Daniel, 24",
+                    "Teresa, 45",
+                    "Antonio, 28",
+                    "Sonia, 31",
+                    "Víctor, 22",
+                    "Ana, 76",
+                    "Rafael, 37",
+                    "Carla, 17"
+                ]
+            },
+            {
+                "name":"persona5",
+                "options":[
+                    "Gabriel, 30",
+                    "Mónica, 43",
+                    "Francisco, 51",
+                    "Belén, 35",
+                    "Samuel, 27",
+                    "Julia, 73",
+                    "Roberto, 15",
+                    "Alba, 25",
+                    "Eduardo, 40",
+                    "Beatriz, 78"
+                ]
+            },
+            {
+                "name":"persona6",
+                "options":[
+                    "Sergio, 26",
+                    "Yolanda, 49",
+                    "Óscar, 31",
+                    "Helena, 23",
+                    "Andrés, 44",
+                    "Vanessa, 39",
+                    "Adrián, 32",
+                    "Nuria, 19",
+                    "Jorge, 35",
+                    "Cristina, 80"
+                ]
+            }
+        ],
+        "comments":[
+            "nativas",
+            "listas",
+            "tuplas",
+            "if",
+            "for"
+        ]
+    },
+    {
+        "id":7,
+        "title":"Mayor par",
+        "difficulty": 3,
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de números, si filtra por paridad y se calcula el mayor de ellos.<h4>Casos:</h4><br>1. [2, 18, 24, 36, 50, 64, 72, 88, 7, 15]<br>2. [4, 12, 28, 46, 60, 5, 19, 33, 51, 77]<br>3. [8, 22, 40, 3, 17, 29, 55, 73, 81, 95]<br>4. [6, 18, 13, 27, 35, 53, 67, 75, 83, 97]",
+        "inputs":[
+            {
+                "name":"numeros",
+                "options":[
+                    "2, 24, 36, 50, 64, 72, 88, 7, 15, 18",
+                    "77, 28, 46, 60, 5, 12, 19, 33, 51, 4",
+                    "8, 40, 3, 17, 29, 55, 73, 22, 81, 95",
+                    "13, 27, 35, 6, 53, 67, 75, 83, 18, 97"
+                ]
+            }
+        ],
+        "comments":[
+            "def",
+            "listas",
+            "if",
+            "for"
+        ]
+    }
+]

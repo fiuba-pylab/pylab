@@ -1,0 +1,18 @@
+def calcula_mayor(numeros):
+    mayor = 0
+    for numero in numeros:
+        if numero > mayor:
+            mayor = numero
+    return mayor
+
+
+numeros = [input("Seleccione una lista de números positivos")]
+
+pares = []
+for numero in numeros:
+    if (numero % 2 == 0):
+        pares.append(int(numero))
+resultado = calcula_mayor(pares)
+
+print(f"{resultado}")
+

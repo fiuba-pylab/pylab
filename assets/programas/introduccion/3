@@ -1,0 +1,13 @@
+from math import pow, sqrt, log10
+a = float(input('Introduce el valor de a: '))
+b = float(input('Introduce el valor de b: '))
+c = float(input('Introduce el valor de c: '))
+
+d = pow(a, 2)
+e = pow(b, 2)
+
+sqrt_term = sqrt(d + e)
+log_term = log10(c)
+resultado = sqrt_term + log_term
+
+print(f'El resultado es: {resultado}')
