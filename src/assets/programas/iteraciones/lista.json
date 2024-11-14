@@ -136,7 +136,7 @@
         "id": 7,
         "title": "Triangulares",
         "difficulty": 3,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y muestra la sucesión de números triangulares hasta ese número, usando fórmula triangular. <br> <br> <h4>Casos:</h4> 1. n = 0 <br> 2. n = 5 <br> 3. n = 10 <br> 4. n = 20",
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario un número y mostrar la sucesión de números triangulares hasta ese número, usando fórmula triangular. <br> <br> <h4>Casos:</h4> 1. n = 0 <br> 2. n = 5 <br> 3. n = 10 <br> 4. n = 20",
         "inputs": [
             {
                 "name": "nt_final",

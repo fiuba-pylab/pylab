@@ -150,7 +150,7 @@
         "id":6,
         "title":"Grupo etario",
         "difficulty": 2,
-        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de personas, cada una con sun nombre y edad, y se las separa según edad.",
+        "introduction": "<h4>Objetivo:</h4>Solicitar al usuario una lista de personas, cada una con sun nombre y edad, y se las separa según edad. <br> <br> <h4> Casos: </h4> 1. [Alejandro",
         "inputs":[
             {
                 "name":"persona1",

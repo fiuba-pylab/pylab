@@ -26,7 +26,7 @@
         "id": 2,
         "title": "Contiene palabras",
         "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario clave y valor para agregar al diccionario, hasta que el usuario ingrese 'BASTA'. Luego, se solicita al usuario otra clave y se le indica por pantalla si la misma pertenece o no al diccionario. <br> ",
+        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario clave y valor para agregar al diccionario, hasta que el usuario ingrese 'BASTA'. Luego, se solicita al usuario otra clave y se le indica por pantalla si la misma pertenece o no al diccionario. <br> <br> <h4>Casos:</h4> 1. Ingresar 'FIUBA' y '1', 'UBA' y '5', 'FADU' y '3', 'FDUBA' y '7', 'BASTA'. Luego, ingresar 'UBA'. <br> 2. Ingresar 'FIUBA' y '1', 'UBA' y '5', 'FADU' y '3', 'FDUBA' y '7', 'BASTA'. Luego, ingresar 'FADU'. <br> 3. Ingresar 'FIUBA' y '1', 'UBA' y '5', 'FADU' y '3', 'FDUBA' y '7', 'BASTA'. Luego, ingresar 'BASTA'.",
          "inputs": [
             {
                 "name": "clave",

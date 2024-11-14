@@ -3,7 +3,7 @@
         "id":1,
         "title":"Clasificación triángulo",
         "difficulty": 1,
-        "introduction": "<h4>Objetivo: </h4> Solicitar al usuario los valores de tres ángulos de un triángulo y determinar si es acutángulo, rectángulo o obtusángulo. <br> <br><h4>Casos:</h4>1. Ángulos inválidos: alguno de ellos es menor o igual a 0. <br> 2. No es un triángulo: la suma de los ángulos no da 180. <br> 3. Acutángulo: todos los ángulos son mayores a 90. <br> 4. Rectángulo: uno de los ángulos es igual a 90. <br> 5. Obtusángulo: uno de los ángulos es mayor a 90.",
+        "introduction": "<h4>Objetivo: </h4> Solicitar al usuario los valores de tres ángulos de un triángulo y determinar si es acutángulo, rectángulo u obtusángulo. <br> <br><h4>Casos:</h4>1. Ángulos inválidos: alguno de ellos es menor o igual a 0. <br> 2. No es un triángulo: la suma de los ángulos no da 180. <br> 3. Acutángulo: todos los ángulos son mayores a 90. <br> 4. Rectángulo: uno de los ángulos es igual a 90. <br> 5. Obtusángulo: uno de los ángulos es mayor a 90.",
         "inputs":[
             {
                 "name": "angulo1",

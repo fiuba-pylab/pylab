@@ -4,11 +4,11 @@ def primo(n):
        return True
     if n % 2 == 0:
        return False
-    posibleDivisor = 3
-    while posibleDivisor <= tope:
-        if n % posibleDivisor == 0:
+    posible_divisor = 3
+    while posible_divisor <= tope:
+        if n % posible_divisor == 0:
                return False
-        posibleDivisor += 2 
+        posible_divisor += 2 
     return True
 
 numero = int(input('Ingrese un entero positivo mayor que 1 para saber si es primo o no: '))
