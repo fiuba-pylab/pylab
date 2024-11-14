@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-help-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatIcon],
+  imports: [MatButtonModule, MatIcon],
   templateUrl: './help-dialog.component.html',
   styleUrl: './help-dialog.component.css'
 })
@@ -22,7 +22,8 @@ export class HelpDialogComponent {
   }
 
   navigateToHome() {
-    this.router.navigate(['/pylab-deploy/home']);
+    this.dialogRef.close();
+    this.router.navigate(['/home']);
   }
 
 

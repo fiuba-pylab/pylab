@@ -33,6 +33,6 @@ export class HeaderComponent {
   }
 
   navigateToHome() {
-    this.router.navigate(['/pylab-deploy/home']);
+    this.router.navigate(['/home']);
   }
 }
