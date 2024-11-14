@@ -1,29 +1,32 @@
-name: Push to Public Deploy Repo
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
-    types:
-      - closed
+    branches: [ "main" ]
 
 jobs:
-  push-to-public:
+  build:
     runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: main
 
-      - name: Push to Deploy Repo
-        env:
-          PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install --force
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Build
+        run: ng build --configuration=production --base-href /pylab/
+
+      - name: Configure Git
         run: |
-          git remote add public https://fiuba-pylab:${{ secrets.PUSH_TOKEN }}@github.com/fiuba-pylab/pylab-deploy.git
-          git push public main
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+          git config --global user.name "${{ secrets.GH_NAME }}"
+      - name: Deploy to GitHub Pages
+        run: npx angular-cli-ghpages --dir=dist/pylab-deploy --no-silent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
