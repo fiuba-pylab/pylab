@@ -1,4 +1,4 @@
-import math
+from math import round
 precio_por_unidad = float(input("Ingrese el precio por unidad: "))
 cantidad = int(input("Ingrese la cantidad: "))
 metodo_pago = input("Ingrese el metodo de pago: ")
@@ -16,5 +16,5 @@ elif metodo_pago == 'qr':
 else:
     costo_total = costo_base
 
-costo_total = math.round(costo_total, 2)
+costo_total = round(costo_total, 2)
 print(f'El costo total es: {costo_total}')

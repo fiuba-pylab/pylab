@@ -1,5 +1,4 @@
-import math
-
+from math import sqrt
 
 def calculate_distance(punto1, punto2):
     print(f'{punto1}')
@@ -12,7 +11,7 @@ def calculate_distance(punto1, punto2):
     squares_sum = x_difference ** 2 + y_difference ** 2
     if squares_sum < 0:
         squares_sum = squares_sum * -1
-    result = math.sqrt(squares_sum)
+    result = sqrt(squares_sum)
     return result
 
 

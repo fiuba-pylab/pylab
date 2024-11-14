@@ -18,4 +18,10 @@ export class Tuple extends Collection{
         return '('+this.values+')';
 
     }
+
+    override clone(): Collection {
+        const clone = new Tuple();
+        clone.values = JSON.parse(JSON.stringify(this.values));
+        return clone;
+    }
 }

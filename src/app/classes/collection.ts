@@ -8,7 +8,7 @@ export abstract class Collection{
 
     abstract substract(element?:any):void
 
-    abstract access(index:string):void
+    abstract access(index:string):any
 
     abstract insert(index: number | string, value:any):void
 
@@ -19,7 +19,8 @@ export abstract class Collection{
     }
 
     in(element:any): boolean{
-        return this.values.includes(element)
+        return this.values.includes(element);
     }
+    abstract clone(): Collection;
 }
 

@@ -15,7 +15,7 @@ export class List extends Collection{
     }
 
     override insert(index:number, value:any){
-        this.values[index] = value
+        this.values.splice(index, 0, value);
     }
     
     override print(): string {
@@ -30,4 +30,9 @@ export class List extends Collection{
         return '['+values_aux+']';
     }
 
+    override clone(): Collection {
+        const clone = new List();
+        clone.values = JSON.parse(JSON.stringify(this.values));
+        return clone;
+    }
 }
