@@ -13,8 +13,8 @@
         "id": "while",
         "body":{
             "title": "While",
-            "grid_1": "El uso del while nos permite ejecutar una sección de código repetidas veces. El código se ejecutará mientras una condición determinada se cumpla, o sea, mientras que se evalúe como True. Cuando se deje de cumplir, se saldrá del bucle y se continuará la ejecución normal. Llamaremos iteración a una ejecución completa del bloque de código dentro del while.",
-            "grid_2": "Cabe destacar que existen dos tipos de bucles, los que tienen un número de iteraciones no definidas, y los que tienen un número de iteraciones definidas. El while estaría dentro del primer tipo. <br> <br>Hay que tener cuidado al pensar las condiciones de los while, ya que un mal uso del mismo puede dar lugar a bucles infinitos y problemas. Si por ejemplo iteramos hasta que cierta variable llegue a un valor, pero nunca actualizamos el valor de esa variable, nunca saldremos del while.",
+            "grid_1": "El uso del while nos permite ejecutar una sección de código repetidas veces. El código se ejecutará mientras una condición determinada se cumpla, o sea, mientras que se evalúe como True. Cuando se deje de cumplir, se saldrá del bucle y se continuará la ejecución normal. Llamaremos iteración a una ejecución completa del bloque de código dentro del while. Cabe destacar que existen dos tipos de bucles, los que tienen un número de iteraciones no definidas, y los que tienen un número de iteraciones definidas. El while estaría dentro del primer tipo. <br> <br>Hay que tener cuidado al pensar las condiciones de los while, ya que un mal uso del mismo puede dar lugar a bucles infinitos y problemas. Si por ejemplo iteramos hasta que cierta variable llegue a un valor, pero si nunca actualizamos el valor de esa variable, nunca saldremos del while.",
+            "grid_2": "",
             "grid_3": "",
             "grid_4": ""
         }
