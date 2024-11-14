@@ -1,26 +1,5 @@
 [
     {
-        "id":1,
-        "title":"Zeller",
-        "difficulty": 1,
-        "introduction": "<h4>Objetivo:</h4> Solicitar al usuario una fecha expresada en 8 dígitos decimales aaaammdd, e informe el día de semana correspondiente a esa fecha con palabras usando la congruencia de Zeller. <br> <br> <h4>Casos:</h4> 1. Fecha: 20200422: miércoles. <br> 2. Fecha: 20200501: viernes. <br> 3. Fecha: 20200531: domingo. <br> 4. Fecha: 20200630: martes.",
-        "inputs":[
-            {
-                "name":"fecha",
-                "options":[
-                    "20200422",
-                    "20200501",
-                    "20200531",
-                    "20200630"
-                ]
-            }
-        ],
-        "comments": [
-            "if",
-            "nativas"
-        ]
-    },
-    {
         "id": 2,
         "title": "Clasificación temperatura",
         "difficulty": 2,
@@ -91,7 +70,7 @@
         "id": 5,
         "title": "Cálculo de antigüedad laboral",
         "difficulty": 2,
-        "introduction":"<h4>Objetivo:</h4> Solicitar al usuario año y mes de inicio laboral y año y mes para el cual calcular la antigüedad. Calcula años y meses de antigüedad en un trabajo. Se calcula a mesa completo, por lo que se contempla hasta el mes previo al del cálculo final por convención. <br> <br> <h4> Casos: </h4> 1. Mes de inicio menor al mes de cálculo: 1988902 a 202303. <br> 2. Mes de inicio mayor o igual al mes de cálculo: 197810 a 202303.",
+        "introduction":"<h4>Objetivo:</h4> Solicitar al usuario año y mes de inicio laboral y año y mes para el cual calcular la antigüedad. Calcula años y meses de antigüedad en un trabajo. Se calcula a mes completo, por lo que se contempla hasta el mes previo al del cálculo final por convención. <br> <br> <h4> Casos: </h4> 1. Mes de inicio menor al mes de cálculo: 1988902 a 202303. <br> 2. Mes de inicio mayor o igual al mes de cálculo: 197810 a 202303.",
         "inputs": [
             {
                 "name": "inicio",

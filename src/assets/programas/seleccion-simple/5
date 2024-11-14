@@ -1,4 +1,4 @@
-inicio = int(input('\nIngrese año y mes de inicio laboral como un número aaaamm: ')) 
+inicio = int(input('Ingrese año y mes de inicio laboral como un número aaaamm: ')) 
 fin = int(input('Ingrese año y mes de cese laboral como un número aaaamm: '))
 
 anio_i = inicio // 100 
