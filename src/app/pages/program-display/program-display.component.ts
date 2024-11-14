@@ -44,7 +44,7 @@ export class ProgramDisplayComponent implements OnInit {
         console.error('Error loading code:', error)
         const snackbarRef = this.snackBar.open('Error loading code', 'Close', { duration: 3000, panelClass: ['red-snackbar'] });
         snackbarRef.onAction().subscribe(() => {
-          this.router.navigate(['/list', this.type]);  // La ruta a la que quieres navegar
+          this.router.navigate(['/list', this.type]);  
         });
       }
     );

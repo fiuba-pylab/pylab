@@ -31,4 +31,8 @@ export class HeaderComponent {
   goBack(): void {
     this.navigationService.goBack();
   }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
 }

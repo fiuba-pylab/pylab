@@ -2,7 +2,7 @@
     <button mat-icon-button [hidden]="isHomePage" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <img src="assets/logo-blanco.png" alt="Pylab" class="logo"><img>
+    <img src="assets/logo-blanco.png" alt="Pylab" class="logo" (click)="navigateToHome()"><img>
     <span class="spacer"></span>
     <button mat-icon-button (click)="openHelpDialog()">
 			<mat-icon>help</mat-icon>
