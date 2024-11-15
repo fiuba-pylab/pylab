@@ -1,5 +1,5 @@
 {
-  "name": "pylab-project",
+  "name": "pylab",
   "version": "0.0.0",
   "scripts": {
     "predeploy":"npm run start", 
