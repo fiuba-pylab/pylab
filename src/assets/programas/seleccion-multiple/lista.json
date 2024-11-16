@@ -85,7 +85,7 @@
                 "name": "metodo_pago",
                 "options": [
                     "efectivo",
-                    "qr",
+                    "QR",
                     "tarjeta"
                 ]
             },
