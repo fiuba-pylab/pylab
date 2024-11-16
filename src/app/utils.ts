@@ -45,12 +45,6 @@ export function evaluate(code: any): any {
     }
 
     code = code.replace(NATIVE_FUNCTIONS.NONE, "'None'")
-    
-    code = code.replace(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS, (match: any, expr: string, letter: string) => {
-        const number = eval(expr.trim());
-        return `'${letter.repeat(number)}'`;
-    });
-    
 
     while (REGEX_CONSTS.REGEX_IN_OPERATION.test(code)) {
         code = code.replace(REGEX_CONSTS.REGEX_IN_OPERATION, (match: any, number: string, collection: any) => {

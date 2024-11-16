@@ -17,7 +17,7 @@ const REGEX_COLLECTION_ACCESS = /^(int\((\w+)\[(.+?)\])|(\w+)\[(.+?)\]$/;
 const REGEX_FOR = /[a-zA-Z_]\w*\s+in\s+[a-zA-Z_]\w*/;
 const IMAGINARY = /[-+]? ?\d*\.?\d+i/;
 const REAL = /[-+]? ?\d*\.?\d+ ?[-+]/;
-const REGEX_MULTIPLY_LETTERS = /(\([\w\s+-/*]+\))\*['"]([a-zA-Z])['"]/g;
+const REGEX_MULTIPLY_LETTERS = /\(?([\w\s+\-/*]+)\)?\*['"]([a-zA-Z])['"]/;
 const REGEX_IN_OPERATION = /^(\d+)\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}$/;
 const REGEX_NOT_IN_OPERATION = /(\d+)\s+not\s+in\s+\{(\s*\d+\s*(,\s*\d+\s*)*)\}/;
 const REGEX_PRINT_END = /,\s*end=\s*(['"][^'"]*['"]|['"]?)/g;
