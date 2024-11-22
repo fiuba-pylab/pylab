@@ -5,6 +5,7 @@ import { Collection } from "./collection";
 import { Dictionary } from "./dictionary";
 import { List } from "./list";
 import { Tuple } from "./tuple";
+import { Set } from "./set";
 
 const operations = {
     '+=': (a: number, b: number) => a + b,
