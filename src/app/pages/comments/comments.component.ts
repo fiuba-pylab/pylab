@@ -14,9 +14,9 @@ import { Comment } from '../../classes/comment';
 @Component({
   selector: 'app-comments',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule, SpinnerComponent],
+  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css'],
+  styleUrls: ['./comments.component.scss'],
 })
 export class CommentsComponent implements OnInit {
   comment: Comment = new Comment("", "", "", "", "");
@@ -39,5 +39,9 @@ export class CommentsComponent implements OnInit {
     } finally {
         this.loadingInfo = false;
     }
+  }
+
+  isGrid1Only() {
+    return this.comment.grid_1 != "" && this.comment.grid_2 == "" && this.comment.grid_3 == "" && this.comment.grid_4 == "";
   }
 }

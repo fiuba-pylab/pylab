@@ -40,9 +40,9 @@ export class ProgramIntroModalComponent implements OnInit{
     this.dialog.close(false)
   }
 
-  goTo(url:string){
+  goTo(url: string) {
     this.dialog.close(false);
-    this.router.navigate(['/info', url]);
+    window.open(`/info/${url}`, '_blank');
   }
 
 }
