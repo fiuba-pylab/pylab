@@ -1,5 +1,6 @@
 import { Collection } from "./classes/collection";
 import { NATIVE_FUNCTIONS, REGEX_CONSTS } from "./constants";
+import DOMPurify from 'dompurify';
 
 export function replaceVariables(template: string, valores: { [clave: string]: any[] }): string {
 
@@ -37,8 +38,9 @@ export function replaceOperators(template: string): string {
             .replace(/True/g, 'true');
 }
 
-export function evaluate(code: any): any {
-    // TODO: Sanitize input
+export function evaluate(input: any): any {
+    let code = DOMPurify.sanitize(input);
+    
     const match_multiply = code.match(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS)
     if(match_multiply){
         return match_multiply[2].repeat(Number(eval(match_multiply[1])))

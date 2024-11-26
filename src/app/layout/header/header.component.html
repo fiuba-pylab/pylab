@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button [hidden]="isHomePage" (click)="goBack()">
+    <button mat-icon-button [hidden]="!showBackButton" (click)="goBack()">
         <mat-icon>arrow_back</mat-icon>
     </button>
     <img src="assets/logo-blanco.png" alt="Pylab" class="logo" (click)="navigateToHome()"><img>
