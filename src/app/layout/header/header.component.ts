@@ -4,7 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationService } from '../../services/navigation.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { HelpDialogComponent } from '../../components/help-dialog/help-dialog.component';
 @Component({
   selector: 'app-header',
@@ -15,12 +15,15 @@ import { HelpDialogComponent } from '../../components/help-dialog/help-dialog.co
 })
 export class HeaderComponent {
   @Output() sidebarEvent = new EventEmitter<any>();
-  isHomePage: boolean = true;
+  showBackButton: boolean = false;
 
   constructor(public dialog: MatDialog, private navigationService: NavigationService, private router: Router){
     this.navigationService.startSaveHistory();
-    this.navigationService.isHome.subscribe((value) => {
-      this.isHomePage = value;
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showBackButton = !event.url.startsWith('/info/') && !event.url.startsWith('/intro');     
+      }
     });
   }
 
