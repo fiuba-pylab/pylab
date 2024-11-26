@@ -14,7 +14,7 @@ import { Comment } from '../../classes/comment';
 @Component({
   selector: 'app-comments',
   standalone: true,
-  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule, SpinnerComponent],
+  imports: [MatPaginatorModule, CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css'],
 })
