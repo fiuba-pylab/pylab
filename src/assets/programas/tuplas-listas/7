@@ -5,7 +5,6 @@ def calcula_mayor(numeros):
             mayor = numero
     return mayor
 
-
 numeros = [input("Seleccione una lista de números positivos")]
 
 pares = []
