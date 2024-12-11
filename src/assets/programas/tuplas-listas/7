@@ -14,4 +14,3 @@ for numero in numeros:
 resultado = calcula_mayor(pares)
 
 print(f"{resultado}")
-
