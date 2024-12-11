@@ -11,13 +11,18 @@ export function replaceVariables(template: string, valores: { [clave: string]: a
         if(valor instanceof Collection){
             return resultado;
         }
-        if(typeof valor === 'string'){
-            if(`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)){
-                replacement = 'None'
+        if (typeof valor === 'string') {
+            const numericValue = Number(valor);
+            if (!Number.isNaN(numericValue)) {
+                replacement = valor;
             } else {
-                replacement = `'${valor}'`
+                if (`'${valor}'`.match(NATIVE_FUNCTIONS.NONE)) {
+                    replacement = 'None';
+                } else {
+                    replacement = `'${valor}'`;
+                }
             }
-        }else{
+        } else {
             replacement = valor;
         }
        
@@ -38,9 +43,7 @@ export function replaceOperators(template: string): string {
             .replace(/True/g, 'true');
 }
 
-export function evaluate(input: any): any {
-    let code = DOMPurify.sanitize(input);
-    
+export function evaluate(code: any): any {
     const match_multiply = code.match(REGEX_CONSTS.REGEX_MULTIPLY_LETTERS)
     if(match_multiply){
         return match_multiply[2].repeat(Number(eval(match_multiply[1])))

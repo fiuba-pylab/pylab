@@ -9,16 +9,16 @@ y1 = p1[1]
 x2 = p2[0]
 y2 = p2[1]
 
-x_difference = x2 - x1
-y_difference = y2 - y1
+diferencia_x = x2 - x1
+diferencia_y = y2 - y1
 
-squares_sum = (x_difference) ** 2 + (y_difference) ** 2
+suma_cuadrados = (diferencia_x) ** 2 + (diferencia_y) ** 2
 
-distance = sqrt(squares_sum)
+distancia = sqrt(suma_cuadrados)
 
-m = y_difference/x_difference
+m = diferencia_y/diferencia_x
 b = y1 - m * x1
 
-print(f'la distancia es {distance}')
-print(f'la pendiente es {m}')
-print(f'la ordenada al origen es {b}')
+print(f'La distancia es {distancia}')
+print(f'La pendiente es {m}')
+print(f'La ordenada al origen es {b}')

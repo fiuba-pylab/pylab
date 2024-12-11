@@ -6,12 +6,12 @@ def calculate_distance(punto1, punto2):
     x1 = punto1[0]
     y2 = punto2[1]
     y1 = punto1[1]
-    x_difference = x2 - x1
-    y_difference = y2 - y1
-    squares_sum = x_difference ** 2 + y_difference ** 2
-    if squares_sum < 0:
-        squares_sum = squares_sum * -1
-    result = sqrt(squares_sum)
+    diferencia_x = x2 - x1
+    diferencia_y = y2 - y1
+    suma_cuadrados = diferencia_x ** 2 + diferencia_y ** 2
+    if suma_cuadrados < 0:
+        suma_cuadrados = suma_cuadrados * -1
+    result = sqrt(suma_cuadrados)
     return result
 
 
@@ -19,17 +19,17 @@ p1 = (input("Solicitar primer punto:"))
 p2 = (input("Solicitar segundo punto:"))
 p3 = (input("Solicitar tercer punto:"))
 
-points = [p1, p2, p3]
-distances = []
+puntos = [p1, p2, p3]
+distancias = []
 
-for point1 in points:
-    for point2 in points:
-        p1x = point1[0]
-        p2x = point2[0]
-        p1y = point1[1]
-        p2y = point2[1]
+for punto1 in puntos:
+    for punto2 in puntos:
+        p1x = punto1[0]
+        p2x = punto2[0]
+        p1y = punto1[1]
+        p2y = punto2[1]
         if p1x != p2x or p1y != p2y:
-            distance = calculate_distance(point1, point2)
-            distances.append(distance)
+            distance = calculate_distance(punto1, punto2)
+            distancias.append(distance)
     
-print(f'{distances}')
+print(f'{distancias}')

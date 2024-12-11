@@ -22,7 +22,7 @@ for persona in personas:
     if edad > 60:
         ancianos + persona
 
-print(f'{adolescentes}')
-print(f'{jovenes}')
-print(f'{adultos}')
-print(f'{ancianos}')
+print(f'Adolescentes: {adolescentes}')
+print(f'Jóvenes: {jovenes}')
+print(f'Adultos: {adultos}')
+print(f'Ancianos: {ancianos}')
