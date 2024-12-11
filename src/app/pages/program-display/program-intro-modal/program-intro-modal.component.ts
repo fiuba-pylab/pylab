@@ -41,7 +41,6 @@ export class ProgramIntroModalComponent implements OnInit{
   }
 
   goTo(url: string) {
-    this.dialog.close(false);
     const baseHref = this.document.getElementsByTagName('base')[0]?.href || '/';
     window.open(`${baseHref}info/${url}`, '_blank');
   }
